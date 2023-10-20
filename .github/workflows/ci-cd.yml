@@ -6,17 +6,48 @@ on:
       - main
 
 jobs:
-  ci:
+  frontend:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
 
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.OS }}-node-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+
       - name: Test Frontend with Vitest
-        run: cd frontend && npm install && npx vitest run
+        run: |
+          cd frontend
+          npm install
+          npx vitest run
 
       - name: Build Frontend so that Backend can host it
-        run: cd frontend && npx vite build --outDir ../backend/src/main/resources/static
+        run: |
+          cd frontend
+          npx vite build --outDir ../backend/src/main/resources/static
+
+  backend:
+    needs: frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.OS }}-gradle-${{ hashFiles('backend/**.gradle*', 'backend/**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.OS }}-gradle-
 
       - name: Install JDK
         uses: actions/setup-java@v3
