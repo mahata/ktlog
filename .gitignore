@@ -1,3 +1,7 @@
+# General
 .idea
 .DS_Store
 node_modules
+
+# Secrets
+.gh_actions_secrets
