@@ -9,12 +9,14 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-
       - name: Check out repository code
         uses: actions/checkout@v3
 
-      - run: cd frontend && npm install && npx vitest run
+      - name: Test Frontend with Vitest
+        run: cd frontend && npm install && npx vitest run
+
+      - name: Build Frontend so that Backend can host it
+        run: cd frontend && npx vite build --outDir ../backend/src/main/resources/static
 
       - name: Install JDK
         uses: actions/setup-java@v3
