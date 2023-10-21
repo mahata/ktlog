@@ -68,4 +68,4 @@ jobs:
         with:
           context: backend
           push: true
-          tags: mahata/render-sample:latest
+          tags: mahata/render-sample:${{ format('date: %Y-%m-%d', github.event.head_commit.timestamp) }}-${{ github.sha }}
