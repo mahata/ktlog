@@ -63,10 +63,15 @@ jobs:
           username: mahata
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Calculate Docker Image tag
+        run: |
+          DATE=$(date -u +'%Y-%m-%d')
+          DOCKER_IMAGE_TAG="mahata/render-sample:${DATE}-${GITHUB_SHA}"
+          echo "DOCKER_IMAGE_TAG=${DOCKER_IMAGE_TAG}" >> $GITHUB_ENV
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: backend
           push: true
-          tags: |
-            mahata/render-sample:${{ format('date: %Y-%m-%d', github.event.head_commit.timestamp) }}-${{ github.sha }}mahata/render-sample:${{ format('date: %Y-%m-%d', github.event.head_commit.timestamp) }}-${{ github.sha }}
+          tags: ${{ env.DOCKER_IMAGE_TAG }}
