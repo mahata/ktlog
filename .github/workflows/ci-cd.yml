@@ -75,3 +75,7 @@ jobs:
           context: backend
           push: true
           tags: ${{ env.DOCKER_IMAGE_TAG }}
+
+      - name: Deploy to Render
+        run: |
+          curl ${{ secrets.RENDER_DEPLOY_HOOK_URL}}?key=${{ secrets.RENDER_DEPLOY_HOOK_KEY }}&imgURL=${{ env.DOCKER_IMAGE_TAG }}
