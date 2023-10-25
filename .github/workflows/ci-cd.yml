@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: vite-build-result
-          path: ./dist/*
+          path: ./frontend/dist/*
 
   backend:
     needs: frontend
