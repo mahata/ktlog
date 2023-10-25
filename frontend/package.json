@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build-watch": "tsc && vite build --watch --outDir ../backend/src/main/resources/static",
+    "build-watch": "tsc && vite build --watch --emptyOutDir --outDir ../backend/src/main/resources/static",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest run"
@@ -12,7 +12,8 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.17.0"
+    "react-router-dom": "^6.17.0",
+    "reset-css": "^5.0.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.17.0",

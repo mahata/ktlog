@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This is an implementation of a blog platform, crafted using Spring Boot with Kotlin, and React with TypeScript.
+This is an implementation of a blog platform, crafted using Spring Boot with Kotlin, and React with TypeScript. It's still under heavy development (meaning it's almost unusable right now).
 
 ## Prerequisites
 

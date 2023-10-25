@@ -29,7 +29,13 @@ jobs:
       - name: Build Frontend so that Backend can host it
         run: |
           cd frontend
-          npx vite build --outDir ../backend/src/main/resources/static
+          npx vite build --outDir dist
+
+      - name: Upload Artifact for Frontend
+        uses: actions/upload-artifact@v3
+        with:
+          name: vite-build-result
+          path: ./dist/*
 
   backend:
     needs: frontend
@@ -37,7 +43,6 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
-
 
       - name: Cache Gradle packages
         uses: actions/cache@v3
@@ -55,7 +60,14 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - run: cd backend && ./gradlew test
+      - name: Run Spring Boot tests
+        run: cd backend && ./gradlew test
+
+      - name: Download Artifact for Frontend
+        uses: actions/download-artifact@v3
+        with:
+          name: vite-build-result
+          path: ./backend/src/main/resources/static
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
