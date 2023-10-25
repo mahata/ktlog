@@ -69,7 +69,7 @@ jobs:
         with:
           context: backend
           push: true
-          tags: latest,${{ env.DOCKER_IMAGE_TAG }}
+          tags: mahata/render-sample:latest,${{ env.DOCKER_IMAGE_TAG }}
 
       - name: Deploy to Render
         run: |
