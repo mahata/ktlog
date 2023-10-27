@@ -5,21 +5,18 @@ import { MemoryRouter } from "react-router-dom";
 
 describe("App", () => {
   it("shows 'login' link", () => {
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
-    );
+    render(<App />, { wrapper: MemoryRouter });
 
-    expect(screen.getByText("Login")).toBeInTheDocument();
+    const loginLink = screen.getByRole("link", {
+      name: "Login",
+    }) as HTMLAnchorElement;
+
+    expect(loginLink).toBeInTheDocument();
+    expect(loginLink.href).toMatch(/\/login$/);
   });
 
   it("shows 'Posts' header", () => {
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>,
-    );
+    render(<App />, { wrapper: MemoryRouter });
 
     expect(screen.getByText("Posts")).toBeInTheDocument();
   });

@@ -8,10 +8,19 @@ This is an implementation of a blog platform, crafted using Spring Boot with Kot
 
 * Java 17 or higher
 * Node 20 or higher
+* Docker
 
 ## Local Development Instructions
 
-This repository includes both frontend and backend implementations. Due to the backend using the artifact generated from the `frontend/` directory, the following commands are essential to run the entire service locally:
+To streamline the setup process and ensure consistency across platforms, we utilize Docker for our development environment. This contains all the necessary third-party software required for this project.
+
+Run the following command in the project's root directory:
+
+```
+$ docker compose up
+```
+
+Also, this repository includes both frontend and backend implementations. Due to the backend using the artifact generated from the `frontend/` directory, the following commands are essential to run the entire service locally:
 
 ### Frontend Instructions
 
