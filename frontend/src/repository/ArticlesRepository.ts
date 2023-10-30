@@ -11,14 +11,16 @@ export interface ArticlesRepository {
 export class NetworkArticlesRepository implements ArticlesRepository {
   async getAll() {
     const response = await fetch("/api/v1/articles", { method: "GET" });
-    const articles: any[] = await response.json();
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
 
-    return Promise.resolve(
-      articles.map((article) => ({
-        id: article.id,
-        title: article.title,
-        content: article.content,
-      })),
-    );
+    const articles: Article[] = await response.json();
+
+    return articles.map((article) => ({
+      id: article.id,
+      title: article.title,
+      content: article.content,
+    }));
   }
 }
