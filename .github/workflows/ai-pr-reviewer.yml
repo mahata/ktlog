@@ -24,6 +24,6 @@ jobs:
         with:
           debug: false
           review_simple_changes: true
-          review_comment_lgtm: true
+          review_comment_lgtm: false
           openai_light_model: gpt-3.5-turbo
           openai_heavy_model: gpt-4
