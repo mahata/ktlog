@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import { NetworkArticlesRepository } from "./ArticlesRepository.ts";
+import { NetworkArticlesRepository } from "./ArticlesRepository";
 
 const originalFetch = global.fetch;
 

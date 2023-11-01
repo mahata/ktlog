@@ -1,7 +1,7 @@
 import "./App.scss";
-import Posts from "./Posts.tsx";
-import { ArticlesRepository } from "./repository/ArticlesRepository.ts";
-import Header from "./Header.tsx";
+import Posts from "./Posts";
+import { ArticlesRepository } from "./repository/ArticlesRepository";
+import Header from "./Header";
 
 type Props = {
   articlesRepository: ArticlesRepository;

@@ -11,7 +11,12 @@ type Props = {
 export default function Posts({ articlesRepository }: Props) {
   const [articles, setArticles] = useState<Article[]>([]);
   useEffect(() => {
-    articlesRepository.getAll().then((articles) => setArticles(articles));
+    articlesRepository
+      .getAll()
+      .then((articles) => setArticles(articles))
+      .catch((error) => {
+        console.error("Failed to fetch articles:", error);
+      });
   }, [articlesRepository]);
 
   return (

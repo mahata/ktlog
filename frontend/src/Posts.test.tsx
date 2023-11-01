@@ -1,8 +1,8 @@
 import { expect, it } from "vitest";
 import { act, render, screen } from "@testing-library/react";
 import { vi } from "vitest";
-import Posts from "./Posts.tsx";
-import { ArticlesRepository } from "./repository/ArticlesRepository.ts";
+import Posts from "./Posts";
+import { ArticlesRepository } from "./repository/ArticlesRepository";
 
 class StubArticlesRepository implements ArticlesRepository {
   getAll = vi.fn();

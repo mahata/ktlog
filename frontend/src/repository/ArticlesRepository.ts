@@ -12,7 +12,8 @@ export class NetworkArticlesRepository implements ArticlesRepository {
   async getAll() {
     const response = await fetch("/api/v1/articles", { method: "GET" });
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const text = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
     }
 
     const articles: Article[] = await response.json();
