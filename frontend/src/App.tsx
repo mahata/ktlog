@@ -1,13 +1,17 @@
-import { Link } from "react-router-dom";
 import "./App.scss";
+import Posts from "./Posts";
+import { ArticlesRepository } from "./repository/ArticlesRepository";
+import Header from "./Header";
 
-export default function App() {
+type Props = {
+  articlesRepository: ArticlesRepository;
+};
+
+export default function App({ articlesRepository }: Props) {
   return (
     <div>
-      <div>
-        <Link to="/login">Login</Link>
-      </div>
-      <div>Posts</div>
+      <Header />
+      <Posts articlesRepository={articlesRepository} />
     </div>
   );
 }

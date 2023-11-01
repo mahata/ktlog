@@ -1,11 +1,11 @@
-import { expect, describe, it } from "vitest";
+import { describe } from "vitest";
 import { render, screen } from "@testing-library/react";
-import App from "./App";
+import Header from "./Header";
 import { MemoryRouter } from "react-router-dom";
 
-describe("App", () => {
+describe("Header", () => {
   it("shows 'login' link", () => {
-    render(<App />, { wrapper: MemoryRouter });
+    render(<Header />, { wrapper: MemoryRouter });
 
     const loginLink = screen.getByRole("link", {
       name: "Login",
@@ -13,11 +13,5 @@ describe("App", () => {
 
     expect(loginLink).toBeInTheDocument();
     expect(loginLink.href).toMatch(/\/login$/);
-  });
-
-  it("shows 'Posts' header", () => {
-    render(<App />, { wrapper: MemoryRouter });
-
-    expect(screen.getByText("Posts")).toBeInTheDocument();
   });
 });
