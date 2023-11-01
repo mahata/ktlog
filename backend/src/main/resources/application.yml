@@ -1,9 +1,8 @@
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:15432/render-local
-    username: "render"
-    password: "password"
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:15432}/${POSTGRES_DB:ktlog}
+    username: ${POSTGRES_USER:ktlog}
+    password: ${POSTGRES_PASSWORD:password}
 
   jpa:
     show-sql: true
