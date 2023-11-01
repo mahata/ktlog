@@ -1,4 +1,4 @@
-package org.mahata.render.demo
+package org.mahata.ktlog
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping

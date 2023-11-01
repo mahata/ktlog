@@ -1,4 +1,4 @@
-package org.mahata.render.demo
+package org.mahata.ktlog
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

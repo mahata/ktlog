@@ -1,4 +1,4 @@
-package org.mahata.render.demo
+package org.mahata.ktlog
 
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

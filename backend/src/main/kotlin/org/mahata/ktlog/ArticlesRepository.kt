@@ -1,4 +1,4 @@
-package org.mahata.render.demo
+package org.mahata.ktlog
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id

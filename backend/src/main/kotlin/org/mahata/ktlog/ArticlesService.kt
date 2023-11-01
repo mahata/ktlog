@@ -1,4 +1,4 @@
-package org.mahata.render.demo
+package org.mahata.ktlog
 
 import org.springframework.stereotype.Service
 import java.util.*

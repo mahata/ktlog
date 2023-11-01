@@ -1,4 +1,4 @@
-package org.mahata.render.demo
+package org.mahata.ktlog
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
