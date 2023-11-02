@@ -1,7 +1,4 @@
-import {
-  Article,
-  ArticlesRepository,
-} from "./repository/ArticlesRepository.ts";
+import { Article, ArticlesRepository } from "./repository/ArticlesRepository";
 import { useEffect, useState } from "react";
 
 type Props = {
