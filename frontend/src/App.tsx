@@ -1,4 +1,4 @@
-import "./App.scss";
+import "./App.module.scss";
 import Posts from "./Posts";
 import { ArticlesRepository } from "./repository/ArticlesRepository";
 import Header from "./Header";
