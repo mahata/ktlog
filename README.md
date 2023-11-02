@@ -1,3 +1,5 @@
+![CI/CD Status](https://github.com/mahata/ktlog/actions/workflows/ci-cd.yml/badge.svg)
+
 # ktlog
 
 ## Project Overview
