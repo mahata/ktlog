@@ -1,8 +1,11 @@
 .headerContainer {
-  display: flex;
   width: 100%;
-  justify-content: space-between;
   background-color: lightgray;
+}
+
+.navContainer {
+  display: flex;
+  justify-content: space-between;
 }
 
 .headerLogo {
