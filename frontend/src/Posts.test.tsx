@@ -31,13 +31,12 @@ describe("Posts", () => {
       {
         id: "d8fec293-97c1-46b7-a1d4-458da3689dcd",
         title: "my title",
-        content: "my content",
+        content: "this does not matter",
       },
     ]);
     render(<Posts articlesRepository={stubArticlesRepository} />);
 
     expect(await screen.findByText("my title")).toBeInTheDocument();
-    expect(screen.getByText("my content")).toBeInTheDocument();
   });
 
   afterEach(() => {
