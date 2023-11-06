@@ -1,0 +1,18 @@
+@use "variables.module";
+@use "colors.module";
+
+$default-typography-color: colors.$dark-gray;
+
+@mixin default($color) {
+  font-family: variables.$default-font;
+  font-style: normal;
+  color: $color;
+}
+
+@mixin heading-h2($color: $default-typography-color) {
+  @include default($color);
+
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 20px;
+}

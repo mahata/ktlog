@@ -1,6 +1,10 @@
+@use 'styles/colors.module' as *;
+@use 'styles/typographies';
+
 .headerContainer {
   width: 100%;
-  background-color: lightgray;
+  background-color: $light-gray;
+  border-bottom: 1px solid $dark-gray;
 }
 
 .navContainer {

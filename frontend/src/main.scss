@@ -1,0 +1,9 @@
+html {
+  font-family: $default-font;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
