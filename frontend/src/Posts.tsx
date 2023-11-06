@@ -1,5 +1,6 @@
 import { Article, ArticlesRepository } from "./repository/ArticlesRepository";
 import { useEffect, useState } from "react";
+import styles from "./Posts.module.scss";
 
 type Props = {
   articlesRepository: ArticlesRepository;
@@ -17,18 +18,17 @@ export default function Posts({ articlesRepository }: Props) {
   }, [articlesRepository]);
 
   return (
-    <>
-      <h2>Posts</h2>
-      <div>
+    <div className={styles.postsContainer}>
+      <h2 className={styles.postsHeader}>Posts</h2>
+      <div className={styles.articlesContainer}>
         {articles.map((article) => {
           return (
-            <div key={article.id}>
+            <div className={styles.articleTitleContainer} key={article.id}>
               <h2>{article.title}</h2>
-              <article>{article.content}</article>
             </div>
           );
         })}
       </div>
-    </>
+    </div>
   );
 }

@@ -1,0 +1,23 @@
+@use 'styles/colors.module' as *;
+@use 'styles/typographies';
+
+.postsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.postsHeader {
+  @include typographies.heading-h2($color: $black);
+}
+
+.articlesContainer {
+  width: 80%;
+}
+
+.articleTitleContainer {
+  @include typographies.heading-h2($color: $black);
+
+  justify-content: left;
+  margin: 16px 0;
+}

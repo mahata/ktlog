@@ -6,6 +6,7 @@
   "scripts": {
     "build-watch": "tsc && vite build --watch --emptyOutDir --outDir ../backend/src/main/resources/static",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint-fix": "eslint --ext .js,.jsx,.ts,.tsx src/ --fix && stylelint --fix src/**/*.scss && prettier --write src/**/*.ts src/**/*.tsx src/**/*.scss",
     "preview": "vite preview",
     "test": "vitest run"
   },
