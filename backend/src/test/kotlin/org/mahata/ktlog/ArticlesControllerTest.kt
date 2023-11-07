@@ -39,4 +39,37 @@ class ArticlesControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].content").value("content"))
         }
     }
+
+    @Nested
+    @DisplayName("GET /api/v1/articles/{id}")
+    inner class GetApiV1ArticlesId {
+        @Test
+        fun `It returns an article specified by ID that exists`() {
+            val uuid = UUID.randomUUID()
+            every {
+                stubArticlesService.getArticle(uuid)
+            } returns Article(uuid, "title", "content")
+
+            val mockMvc = MockMvcBuilders.standaloneSetup(ArticlesController(stubArticlesService)).build()
+
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/articles/$uuid"))
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(uuid.toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("title"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content").value("content"))
+        }
+
+        @Test
+        fun `It returns 404 if the article specified by ID doesn't exist`() {
+            val uuid = UUID.randomUUID()
+            every {
+                stubArticlesService.getArticle(uuid)
+            } returns null
+
+            val mockMvc = MockMvcBuilders.standaloneSetup(ArticlesController(stubArticlesService)).build()
+
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/articles/$uuid"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound)
+        }
+    }
 }

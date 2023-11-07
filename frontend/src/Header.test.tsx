@@ -14,4 +14,12 @@ describe("Header", () => {
     expect(loginLink).toBeInTheDocument();
     expect(loginLink.href).toMatch(/\/login$/);
   });
+
+  it("shows a service logo", () => {
+    render(<Header />, { wrapper: MemoryRouter });
+
+    const logo = screen.getByRole("img", { name: "logo" });
+
+    expect(logo).toBeInTheDocument();
+  });
 });

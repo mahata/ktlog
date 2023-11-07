@@ -40,5 +40,6 @@ out/
 src/main/resources/static/favicon.ico
 src/main/resources/static/index.html
 src/main/resources/static/profile.webp
+src/main/resources/static/ktlog.webp
 src/main/resources/static/assets/index-*.js
 src/main/resources/static/assets/index-*.css

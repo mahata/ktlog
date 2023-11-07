@@ -1,17 +1,17 @@
 @use 'styles/colors.module' as *;
 @use 'styles/typographies';
 
-.postsContainer {
+.articlesContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.postsHeader {
+.articlesHeader {
   @include typographies.heading-h2($color: $black);
 }
 
-.articlesContainer {
+.articleContainer {
   width: 80%;
 }
 
