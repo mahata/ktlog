@@ -11,7 +11,7 @@ import java.util.UUID
 @RestController
 @RequestMapping("/api/v1/articles")
 class ArticlesController(
-    private val articlesService: ArticlesService,
+    private val articlesService: ArticlesService
 ) {
     @GetMapping
     fun getAll(): List<Article> {
