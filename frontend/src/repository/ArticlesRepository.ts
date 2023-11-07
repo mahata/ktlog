@@ -33,6 +33,6 @@ export class NetworkArticlesRepository implements ArticlesRepository {
       throw new Error(`HTTP error! status: ${response.status}, body: ${text}`);
     }
 
-    return await response.json();
+    return response.json();
   }
 }
