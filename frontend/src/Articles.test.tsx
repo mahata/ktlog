@@ -37,8 +37,8 @@ describe("Articles", () => {
     })) as HTMLAnchorElement;
 
     expect(articleLink).toBeInTheDocument();
-    expect(articleLink.href).toMatch(
-      /\/articles\/d8fec293-97c1-46b7-a1d4-458da3689dcd$/,
+    expect(articleLink.href).toBe(
+      window.location.origin + "/articles/d8fec293-97c1-46b7-a1d4-458da3689dcd",
     );
   });
 });
