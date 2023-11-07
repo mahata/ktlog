@@ -23,10 +23,7 @@ describe("ArticlesRepository", () => {
     expect(mockedFetch).toHaveBeenCalledWith("/api/v1/articles", {
       method: "GET",
     });
-    expect(response.length).toBe(1);
-    expect(response[0].id).toBe("9994b37d-1247-4aef-a95d-dfd6a856fbec");
-    expect(response[0].title).toBe("my title");
-    expect(response[0].content).toBe("my content");
+    expect(response).toEqual(stubResponse);
   });
 
   it("get(uuid) returns data of Article", async () => {
@@ -42,9 +39,7 @@ describe("ArticlesRepository", () => {
     expect(mockedFetch).toHaveBeenCalledWith(`/api/v1/articles/${article.id}`, {
       method: "GET",
     });
-    expect(response.id).toBe("9994b37d-1247-4aef-a95d-dfd6a856fbec");
-    expect(response.title).toBe("my title");
-    expect(response.content).toBe("my content");
+    expect(response).toEqual(stubResponse);
   });
 
   afterEach(() => {

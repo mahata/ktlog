@@ -65,7 +65,7 @@ class ArticlesServiceImplTest {
             val uuid = UUID.randomUUID()
             every {
                 stubArticleServiceRepository.findById(uuid)
-            } returns Optional.ofNullable(null)
+            } returns Optional.empty()
 
             val service = ArticlesServiceImpl(stubArticleServiceRepository)
             val result = service.getArticle(uuid)

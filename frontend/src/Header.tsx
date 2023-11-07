@@ -9,7 +9,7 @@ export default function Header() {
           <img
             className={styles.headerLogoImage}
             src="/ktlog.webp"
-            alt="logo"
+            alt="Site Logo"
           />
         </div>
         <div className={styles.headerLinkContainer}>
