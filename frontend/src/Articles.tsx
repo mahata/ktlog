@@ -1,12 +1,12 @@
 import { Article, ArticlesRepository } from "./repository/ArticlesRepository";
 import { useEffect, useState } from "react";
-import styles from "./Posts.module.scss";
+import styles from "./Articles.module.scss";
 
 type Props = {
   articlesRepository: ArticlesRepository;
 };
 
-export default function Posts({ articlesRepository }: Props) {
+export default function Articles({ articlesRepository }: Props) {
   const [articles, setArticles] = useState<Article[]>([]);
   useEffect(() => {
     articlesRepository
@@ -18,9 +18,9 @@ export default function Posts({ articlesRepository }: Props) {
   }, [articlesRepository]);
 
   return (
-    <div className={styles.postsContainer}>
-      <h2 className={styles.postsHeader}>Posts</h2>
-      <div className={styles.articlesContainer}>
+    <div className={styles.articlesContainer}>
+      <h2 className={styles.articlesHeader}>Articles</h2>
+      <div className={styles.articleContainer}>
         {articles.map((article) => {
           return (
             <div className={styles.articleTitleContainer} key={article.id}>

@@ -10,10 +10,15 @@
 .navContainer {
   display: flex;
   justify-content: space-between;
+  height: 40px;
 }
 
 .headerLogo {
-  padding: 10px;
+  padding: 5px 10px;
+}
+
+.headerLogoImage {
+  height: 30px;
 }
 
 .headerLinkContainer {

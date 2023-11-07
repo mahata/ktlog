@@ -1,5 +1,5 @@
 import "./App.module.scss";
-import Posts from "./Posts";
+import Articles from "./Articles";
 import { ArticlesRepository } from "./repository/ArticlesRepository";
 import Header from "./Header";
 import EyeCatch from "./EyeCatch";
@@ -13,7 +13,7 @@ export default function App({ articlesRepository }: Props) {
     <div>
       <Header />
       <EyeCatch />
-      <Posts articlesRepository={articlesRepository} />
+      <Articles articlesRepository={articlesRepository} />
     </div>
   );
 }
