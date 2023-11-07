@@ -1,11 +1,8 @@
 import { expect, it } from "vitest";
 import { act, render, screen } from "@testing-library/react";
-import { vi } from "vitest";
 import Articles from "./Articles";
 import { StubArticlesRepository } from "./StubRepos";
 import { MemoryRouter } from "react-router-dom";
-
-const originalFetch = global.fetch;
 
 describe("Articles", () => {
   it("shows 'Articles' header", async () => {
@@ -43,11 +40,5 @@ describe("Articles", () => {
     expect(articleLink.href).toMatch(
       /\/articles\/d8fec293-97c1-46b7-a1d4-458da3689dcd$/,
     );
-  });
-
-  afterEach(() => {
-    if (vi.isMockFunction(global.fetch)) {
-      global.fetch = originalFetch;
-    }
   });
 });
