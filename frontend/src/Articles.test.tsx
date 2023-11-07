@@ -3,6 +3,7 @@ import { act, render, screen } from "@testing-library/react";
 import { vi } from "vitest";
 import Articles from "./Articles";
 import { StubArticlesRepository } from "./StubRepos";
+import { MemoryRouter } from "react-router-dom";
 
 const originalFetch = global.fetch;
 
@@ -10,7 +11,9 @@ describe("Articles", () => {
   it("shows 'Articles' header", async () => {
     const stubArticlesRepository = new StubArticlesRepository();
     stubArticlesRepository.getAll.mockResolvedValue([]);
-    render(<Articles articlesRepository={stubArticlesRepository} />);
+    render(<Articles articlesRepository={stubArticlesRepository} />, {
+      wrapper: MemoryRouter,
+    });
 
     await act(async () => {
       await stubArticlesRepository.getAll();
@@ -28,9 +31,18 @@ describe("Articles", () => {
         content: "this does not matter",
       },
     ]);
-    render(<Articles articlesRepository={stubArticlesRepository} />);
+    render(<Articles articlesRepository={stubArticlesRepository} />, {
+      wrapper: MemoryRouter,
+    });
 
-    expect(await screen.findByText("my title")).toBeInTheDocument();
+    const articleLink = (await screen.findByRole("link", {
+      name: "my title",
+    })) as HTMLAnchorElement;
+
+    expect(articleLink).toBeInTheDocument();
+    expect(articleLink.href).toMatch(
+      /\/articles\/d8fec293-97c1-46b7-a1d4-458da3689dcd$/,
+    );
   });
 
   afterEach(() => {

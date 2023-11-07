@@ -18,7 +18,7 @@ describe("Header", () => {
   it("shows a service logo", () => {
     render(<Header />, { wrapper: MemoryRouter });
 
-    const logo = screen.getByRole("img", { name: "logo" });
+    const logo = screen.getByRole("img", { name: "Site Logo" });
 
     expect(logo).toBeInTheDocument();
   });

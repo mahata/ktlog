@@ -1,6 +1,7 @@
 import { Article, ArticlesRepository } from "./repository/ArticlesRepository";
 import { useEffect, useState } from "react";
 import styles from "./Articles.module.scss";
+import { Link } from "react-router-dom";
 
 type Props = {
   articlesRepository: ArticlesRepository;
@@ -24,7 +25,9 @@ export default function Articles({ articlesRepository }: Props) {
         {articles.map((article) => {
           return (
             <div className={styles.articleTitleContainer} key={article.id}>
-              <h2>{article.title}</h2>
+              <h2>
+                <Link to={`/articles/${article.id}`}>{article.title}</Link>
+              </h2>
             </div>
           );
         })}
