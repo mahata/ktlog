@@ -12,5 +12,11 @@ spring:
     baseline-version: 0
     enabled: true
 
+  cache:
+    type: caffeine
+    cache-names: getArticles,getArticle
+    caffeine:
+      spec: expireAfterWrite=4h,maximumSize=100
+
 server:
   port: 18080
