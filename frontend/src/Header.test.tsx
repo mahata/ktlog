@@ -12,14 +12,27 @@ describe("Header", () => {
     }) as HTMLAnchorElement;
 
     expect(loginLink).toBeInTheDocument();
-    expect(loginLink.href).toMatch(/\/login$/);
+    expect(loginLink.href).toBe(window.location.origin + "/login");
   });
 
-  it("shows a service logo", () => {
-    render(<Header />, { wrapper: MemoryRouter });
+  describe("Service Logo", () => {
+    it("is in the header", () => {
+      render(<Header />, { wrapper: MemoryRouter });
 
-    const logo = screen.getByRole("img", { name: "Site Logo" });
+      const logo = screen.getByRole("img", { name: "Site Logo" });
 
-    expect(logo).toBeInTheDocument();
+      expect(logo).toBeInTheDocument();
+    });
+
+    it("is linked to '/'", () => {
+      render(<Header />, { wrapper: MemoryRouter });
+
+      const logoLink = screen.getByRole("link", {
+        name: "Site Logo",
+      }) as HTMLAnchorElement;
+
+      expect(logoLink).toBeInTheDocument();
+      expect(logoLink.href).toBe(window.location.origin + "/");
+    });
   });
 });

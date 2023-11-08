@@ -6,11 +6,13 @@ export default function Header() {
     <header className={styles.headerContainer}>
       <nav className={styles.navContainer}>
         <div className={styles.headerLogo}>
-          <img
-            className={styles.headerLogoImage}
-            src="/ktlog.webp"
-            alt="Site Logo"
-          />
+          <Link to="/">
+            <img
+              className={styles.headerLogoImage}
+              src="/ktlog.webp"
+              alt="Site Logo"
+            />
+          </Link>
         </div>
         <div className={styles.headerLinkContainer}>
           <Link to="/login">Login</Link>
