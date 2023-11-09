@@ -9,4 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping
-        run: curl https://render-spring-sample.onrender.com/
+        run: curl https://ktlog.mahata.org/
