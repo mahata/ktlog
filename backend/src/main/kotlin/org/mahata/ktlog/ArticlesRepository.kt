@@ -8,11 +8,11 @@ import java.util.UUID
 
 @Entity
 @Table(name = "articles")
-class ArticleEntity(
+class ArticlesEntity(
     @Id
     var id: UUID,
     var title: String,
     var content: String
 )
 
-interface ArticlesRepository : CrudRepository<ArticleEntity, UUID>
+interface ArticlesRepository : CrudRepository<ArticlesEntity, UUID>

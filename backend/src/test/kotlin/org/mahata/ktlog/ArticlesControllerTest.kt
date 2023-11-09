@@ -1,13 +1,16 @@
 package org.mahata.ktlog
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.verify
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
@@ -73,6 +76,32 @@ class ArticlesControllerTest {
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/articles/$uuid"))
                 .andExpect(MockMvcResultMatchers.status().isNotFound)
+        }
+    }
+
+    @Nested
+    @DisplayName("POST /api/v1/articles")
+    inner class PostApiV1Articles {
+        @Test
+        fun `It saves a given article`() {
+            val mockArticle = ArticlesRequest("my title", "my content")
+
+            every {
+                stubArticlesService.saveArticle(ArticlesRequest(mockArticle.title, mockArticle.content))
+            } returns Unit
+
+            val objectMapper = ObjectMapper()
+            val jsonBody = objectMapper.writeValueAsString(mockArticle)
+
+            mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/v1/articles")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(jsonBody)
+            ).andExpect(MockMvcResultMatchers.status().isCreated)
+
+            verify(exactly = 1) {
+                stubArticlesService.saveArticle(ArticlesRequest(mockArticle.title, mockArticle.content))
+            }
         }
     }
 }
