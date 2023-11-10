@@ -3,6 +3,7 @@ package org.mahata.ktlog
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.DisplayName
@@ -26,7 +27,7 @@ class ArticlesServiceImplTest {
             every {
                 stubArticleServiceRepository.findAll()
             } returns listOf(
-                ArticleEntity(uuid, "title", "content")
+                ArticlesEntity(uuid, "title", "content")
             )
 
             val service = ArticlesServiceImpl(stubArticleServiceRepository)
@@ -49,7 +50,7 @@ class ArticlesServiceImplTest {
             val uuid = UUID.randomUUID()
             every {
                 stubArticleServiceRepository.findById(uuid)
-            } returns Optional.of(ArticleEntity(uuid, "title", "content"))
+            } returns Optional.of(ArticlesEntity(uuid, "title", "content"))
 
             val service = ArticlesServiceImpl(stubArticleServiceRepository)
             val result = service.getArticle(uuid)
@@ -71,6 +72,28 @@ class ArticlesServiceImplTest {
             val result = service.getArticle(uuid)
 
             assertNull(result)
+        }
+    }
+
+    @Nested
+    @DisplayName("saveArticle(request)")
+    inner class SaveArticleRequest {
+        @Test
+        fun `saveArticle(request) saves an article`() {
+            val articlesRequest = ArticlesRequest("my title", "my content")
+            every { stubArticleServiceRepository.save(any()) } answers { callOriginal() }
+
+            val service = ArticlesServiceImpl(stubArticleServiceRepository)
+            service.saveArticle(articlesRequest)
+
+            verify {
+                stubArticleServiceRepository.save(
+                    withArg {
+                        assertEquals("my title", it.title)
+                        assertEquals("my content", it.content)
+                    }
+                )
+            }
         }
     }
 }

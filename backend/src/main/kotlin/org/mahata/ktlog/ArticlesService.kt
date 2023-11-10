@@ -13,20 +13,25 @@ data class Article(
 interface ArticlesService {
     fun getArticles(): List<Article>
     fun getArticle(id: UUID): Article?
+    fun saveArticle(article: ArticlesRequest)
 }
 
 @Service
 class ArticlesServiceImpl(
-    private val articlesRepo: ArticlesRepository
+    private val articlesRepository: ArticlesRepository
 ) : ArticlesService {
     @Cacheable("getArticles")
     override fun getArticles(): List<Article> {
-        return articlesRepo.findAll().map { Article(it.id, it.title, it.content) }
+        return articlesRepository.findAll().map { Article(it.id!!, it.title, it.content) }
     }
 
     @Cacheable("getArticle")
     override fun getArticle(id: UUID): Article? {
-        val articleEntity = articlesRepo.findById(id)
-        return articleEntity.map { Article(it.id, it.title, it.content) }.orElse(null)
+        val articleEntity = articlesRepository.findById(id)
+        return articleEntity.map { Article(it.id!!, it.title, it.content) }.orElse(null)
+    }
+
+    override fun saveArticle(article: ArticlesRequest) {
+        articlesRepository.save(ArticlesEntity(title = article.title, content = article.content))
     }
 }
