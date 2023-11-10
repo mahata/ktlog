@@ -1,0 +1,6 @@
+spring:
+  cache:
+    type: caffeine
+    cache-names: getArticles,getArticle
+    caffeine:
+      spec: expireAfterWrite=1h,maximumSize=100

@@ -1,13 +1,16 @@
 import styles from "./EyeCatch.module.scss";
+import { Link } from "react-router-dom";
 
 export default function EyeCatch() {
   return (
     <div className={styles.eyeCatchContainer}>
-      <img
-        className={styles.eyeCatchLogo}
-        src="/profile.webp"
-        alt="eye-catch-logo"
-      />
+      <Link to="/">
+        <img
+          className={styles.eyeCatchLogo}
+          src="/profile.webp"
+          alt="Eye Catch Logo"
+        />
+      </Link>
     </div>
   );
 }

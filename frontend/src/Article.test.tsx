@@ -13,7 +13,6 @@ vi.mock("react-router-dom", () => ({
 describe("Article", () => {
   it("shows an article", async () => {
     const stubArticleRepository = new StubArticlesRepository();
-
     stubArticleRepository.get.mockResolvedValue({
       id: "03bcd1f0-34b1-4bb9-93cb-b945e217184b",
       title: "my title",

@@ -3,10 +3,7 @@ package org.mahata.ktlog
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
-import io.mockk.mockkStatic
-import io.mockk.unmockkStatic
 import io.mockk.verify
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.DisplayName
@@ -83,10 +80,6 @@ class ArticlesServiceImplTest {
     inner class SaveArticleRequest {
         @Test
         fun `saveArticle(request) saves an article`() {
-            mockkStatic(UUID::class)
-            val fixedUUID = UUID.fromString("123e4567-e89b-12d3-a456-426614174000")
-            every { UUID.randomUUID() } returns fixedUUID
-
             val articlesRequest = ArticlesRequest("my title", "my content")
             every { stubArticleServiceRepository.save(any()) } answers { callOriginal() }
 
@@ -96,17 +89,11 @@ class ArticlesServiceImplTest {
             verify {
                 stubArticleServiceRepository.save(
                     withArg {
-                        assertEquals(fixedUUID, it.id)
                         assertEquals("my title", it.title)
                         assertEquals("my content", it.content)
                     }
                 )
             }
-        }
-
-        @AfterEach
-        fun tearDown() {
-            unmockkStatic(UUID::class)
         }
     }
 }

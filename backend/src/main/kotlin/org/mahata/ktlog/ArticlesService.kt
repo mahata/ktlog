@@ -22,17 +22,16 @@ class ArticlesServiceImpl(
 ) : ArticlesService {
     @Cacheable("getArticles")
     override fun getArticles(): List<Article> {
-        return articlesRepository.findAll().map { Article(it.id, it.title, it.content) }
+        return articlesRepository.findAll().map { Article(it.id!!, it.title, it.content) }
     }
 
     @Cacheable("getArticle")
     override fun getArticle(id: UUID): Article? {
         val articleEntity = articlesRepository.findById(id)
-        return articleEntity.map { Article(it.id, it.title, it.content) }.orElse(null)
+        return articleEntity.map { Article(it.id!!, it.title, it.content) }.orElse(null)
     }
 
     override fun saveArticle(article: ArticlesRequest) {
-        val uuid = UUID.randomUUID()
-        articlesRepository.save(ArticlesEntity(uuid, article.title, article.content))
+        articlesRepository.save(ArticlesEntity(title = article.title, content = article.content))
     }
 }
