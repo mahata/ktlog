@@ -87,7 +87,7 @@ class ArticlesControllerTest {
             val mockArticle = ArticlesRequest("my title", "my content")
 
             every {
-                stubArticlesService.saveArticle(ArticlesRequest(mockArticle.title, mockArticle.content))
+                stubArticlesService.saveArticle(mockArticle)
             } returns Unit
 
             val objectMapper = ObjectMapper()
