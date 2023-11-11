@@ -5,12 +5,20 @@ import Header from "./Header";
 import EyeCatch from "./EyeCatch";
 import { Route, Routes } from "react-router-dom";
 import Article from "./Article";
+import { useEffect } from "react";
 
 type Props = {
+  ktlogDomain: string;
   articlesRepository: ArticlesRepository;
 };
 
-export default function App({ articlesRepository }: Props) {
+export default function App({ ktlogDomain, articlesRepository }: Props) {
+  useEffect(() => {
+    if (["localhost", "127.0.0.1"].includes(ktlogDomain)) {
+      document.title = `dev|${document.title}`;
+    }
+  }, [ktlogDomain]);
+
   return (
     <div>
       <Header />

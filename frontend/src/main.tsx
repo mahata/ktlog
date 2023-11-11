@@ -10,7 +10,10 @@ const networkArticlesRepo = new NetworkArticlesRepository();
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App articlesRepository={networkArticlesRepo} />
+      <App
+        ktlogDomain={window.location.hostname}
+        articlesRepository={networkArticlesRepo}
+      />
     </BrowserRouter>
   </React.StrictMode>,
 );
