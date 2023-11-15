@@ -15,5 +15,17 @@ spring:
   cache:
     type: none
 
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: "${GITHUB_CLIENT_ID}"
+            client-secret: "${GITHUB_CLIENT_SECRET}"
+            authorization-grant-type: authorization_code
+            scope:
+              - user:email
+              - read:user
+
 server:
   port: 18080

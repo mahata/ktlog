@@ -4,3 +4,14 @@ spring:
 
   cache:
     type: none
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: dummy
+            client-secret: dummy
+            scope:
+              - user:email
+              - read:user
