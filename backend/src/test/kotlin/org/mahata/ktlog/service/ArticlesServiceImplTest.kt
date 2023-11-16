@@ -1,4 +1,4 @@
-package org.mahata.ktlog
+package org.mahata.ktlog.service
 
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -10,6 +10,9 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mahata.ktlog.controller.ArticlesRequest
+import org.mahata.ktlog.repository.ArticlesEntity
+import org.mahata.ktlog.repository.ArticlesRepository
 import java.util.Optional
 import java.util.UUID
 

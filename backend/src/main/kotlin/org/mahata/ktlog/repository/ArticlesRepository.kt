@@ -1,4 +1,4 @@
-package org.mahata.ktlog
+package org.mahata.ktlog.repository
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue

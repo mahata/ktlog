@@ -15,7 +15,7 @@ export default function Header() {
           </Link>
         </div>
         <div className={styles.headerLinkContainer}>
-          <Link to="/login">Login</Link>
+          <a href="/oauth2/authorization/github">Login</a>
         </div>
       </nav>
     </header>

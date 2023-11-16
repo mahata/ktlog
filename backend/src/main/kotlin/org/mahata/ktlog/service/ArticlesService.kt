@@ -1,5 +1,8 @@
-package org.mahata.ktlog
+package org.mahata.ktlog.service
 
+import org.mahata.ktlog.controller.ArticlesRequest
+import org.mahata.ktlog.repository.ArticlesEntity
+import org.mahata.ktlog.repository.ArticlesRepository
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import java.util.*

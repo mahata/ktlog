@@ -12,7 +12,9 @@ describe("Header", () => {
     }) as HTMLAnchorElement;
 
     expect(loginLink).toBeInTheDocument();
-    expect(loginLink.href).toBe(window.location.origin + "/login");
+    expect(loginLink.href).toBe(
+      window.location.origin + "/oauth2/authorization/github",
+    );
   });
 
   describe("Service Logo", () => {

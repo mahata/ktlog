@@ -1,4 +1,4 @@
-package org.mahata.ktlog
+package org.mahata.ktlog.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.mockk.every
@@ -10,6 +10,8 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mahata.ktlog.service.Article
+import org.mahata.ktlog.service.ArticlesService
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders

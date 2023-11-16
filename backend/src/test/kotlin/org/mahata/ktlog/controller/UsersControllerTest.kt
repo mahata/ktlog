@@ -1,4 +1,4 @@
-package org.mahata.ktlog
+package org.mahata.ktlog.controller
 
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
