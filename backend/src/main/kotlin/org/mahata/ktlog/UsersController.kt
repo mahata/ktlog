@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 data class UserResponse(
-    val name: String,
-    val email: String
+    val name: String? = null,
+    val email: String? = null
 )
 
 @RestController
@@ -16,10 +16,10 @@ data class UserResponse(
 class UsersController {
 
     @GetMapping("/me")
-    fun me(@AuthenticationPrincipal user: OAuth2User): UserResponse {
+    fun me(@AuthenticationPrincipal user: OAuth2User?): UserResponse {
         return UserResponse(
-            name = user.attributes.getOrDefault("name", "NO_NAME") as String,
-            email = user.attributes.getOrDefault("email", "NO_EMAIL") as String
+            name = user?.attributes?.get("name") as? String,
+            email = user?.attributes?.get("email") as? String
         )
     }
 }
