@@ -1,4 +1,4 @@
-package org.mahata.ktlog
+package org.mahata.ktlog.controller
 
 import io.mockk.junit5.MockKExtension
 import org.junit.jupiter.api.BeforeEach

@@ -1,5 +1,7 @@
-package org.mahata.ktlog
+package org.mahata.ktlog.controller
 
+import org.mahata.ktlog.service.Article
+import org.mahata.ktlog.service.ArticlesService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

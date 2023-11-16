@@ -1,4 +1,4 @@
-package org.mahata.ktlog
+package org.mahata.ktlog.config
 
 import org.springframework.cache.CacheManager
 import org.springframework.cache.caffeine.CaffeineCacheManager
