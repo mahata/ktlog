@@ -16,6 +16,7 @@ concurrency:
 jobs:
   review:
     runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]' && github.actor != 'dependabot-preview[bot]'
     steps:
       - uses: coderabbitai/ai-pr-reviewer@1.16.2
         env:
