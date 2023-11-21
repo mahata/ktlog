@@ -14,7 +14,7 @@ export default function Header({ usersRepository }: Props) {
     usersRepository.getMe().then((user) => {
       setUsername(user.name ? user.name : "");
     });
-  });
+  }, [usersRepository]);
 
   return (
     <header className={styles.headerContainer}>
