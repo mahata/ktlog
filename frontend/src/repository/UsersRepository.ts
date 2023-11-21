@@ -1,6 +1,6 @@
 export type User = {
-  name: string;
-  email: string;
+  name: string | null;
+  email: string | null;
 };
 
 export interface UsersRepository {

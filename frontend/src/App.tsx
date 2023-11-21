@@ -6,13 +6,19 @@ import EyeCatch from "./EyeCatch";
 import { Route, Routes } from "react-router-dom";
 import Article from "./Article";
 import { useEffect } from "react";
+import { UsersRepository } from "./repository/UsersRepository";
 
 type Props = {
   ktlogDomain: string;
   articlesRepository: ArticlesRepository;
+  usersRepository: UsersRepository;
 };
 
-export default function App({ ktlogDomain, articlesRepository }: Props) {
+export default function App({
+  ktlogDomain,
+  articlesRepository,
+  usersRepository,
+}: Props) {
   useEffect(() => {
     if (["localhost", "127.0.0.1"].includes(ktlogDomain)) {
       document.title = `dev|${document.title}`;
@@ -21,7 +27,7 @@ export default function App({ ktlogDomain, articlesRepository }: Props) {
 
   return (
     <div>
-      <Header />
+      <Header usersRepository={usersRepository} />
       <EyeCatch />
       <Routes>
         <Route

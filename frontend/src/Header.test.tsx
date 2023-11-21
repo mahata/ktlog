@@ -1,33 +1,72 @@
 import { describe } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import Header from "./Header";
 import { MemoryRouter } from "react-router-dom";
+import { StubUsersRepository } from "./StubRepos";
 
 describe("Header", () => {
-  it("shows 'login' link", () => {
-    render(<Header />, { wrapper: MemoryRouter });
+  const stubUsersRepository = new StubUsersRepository();
 
-    const loginLink = screen.getByRole("link", {
-      name: "Login",
-    }) as HTMLAnchorElement;
+  beforeEach(() => {
+    stubUsersRepository.getMe.mockResolvedValue({
+      name: "Yasunori MAHATA",
+      email: "mahata777@gmail.com",
+    });
+  });
 
-    expect(loginLink).toBeInTheDocument();
-    expect(loginLink.href).toBe(
-      window.location.origin + "/oauth2/authorization/github",
-    );
+  describe("Login", () => {
+    it("shows 'login' link when the user isn't logged in", () => {
+      stubUsersRepository.getMe.mockResolvedValue({
+        name: null,
+        email: null,
+      });
+
+      render(<Header usersRepository={stubUsersRepository} />, {
+        wrapper: MemoryRouter,
+      });
+
+      const loginLink = screen.getByRole("link", {
+        name: "Login",
+      }) as HTMLAnchorElement;
+
+      expect(loginLink).toBeInTheDocument();
+      expect(loginLink.href).toBe(
+        window.location.origin + "/oauth2/authorization/github",
+      );
+    });
+
+    it("shows a username when the user is logged in", async () => {
+      stubUsersRepository.getMe.mockResolvedValue({
+        name: "Yasunori MAHATA",
+        email: "mahata777@gmail.com",
+      });
+      render(<Header usersRepository={stubUsersRepository} />, {
+        wrapper: MemoryRouter,
+      });
+
+      expect(await screen.findByText("Yasunori MAHATA")).toBeInTheDocument();
+    });
   });
 
   describe("Service Logo", () => {
-    it("is in the header", () => {
-      render(<Header />, { wrapper: MemoryRouter });
+    it("is in the header", async () => {
+      await act(async () => {
+        render(<Header usersRepository={stubUsersRepository} />, {
+          wrapper: MemoryRouter,
+        });
+      });
 
       const logo = screen.getByRole("img", { name: "Site Logo" });
 
       expect(logo).toBeInTheDocument();
     });
 
-    it("is linked to '/'", () => {
-      render(<Header />, { wrapper: MemoryRouter });
+    it("is linked to '/'", async () => {
+      await act(async () => {
+        render(<Header usersRepository={stubUsersRepository} />, {
+          wrapper: MemoryRouter,
+        });
+      });
 
       const logoLink = screen.getByRole("link", {
         name: "Site Logo",
