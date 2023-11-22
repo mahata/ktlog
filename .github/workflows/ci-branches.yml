@@ -1,9 +1,9 @@
-name: Dependabot Check
+name: Unit Tests
 
 on:
   push:
-    branches:
-      - dependabot/**
+    branches-ignore:
+      - main
 
 jobs:
   frontend:
