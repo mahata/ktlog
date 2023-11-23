@@ -3,14 +3,14 @@ updates:
   - package-ecosystem: "docker"
     directory: "/backend/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
 
   - package-ecosystem: "gradle"
     directory: "/backend/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
 
   - package-ecosystem: "npm"
     directory: "/frontend/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
