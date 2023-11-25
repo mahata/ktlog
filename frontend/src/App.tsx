@@ -5,8 +5,9 @@ import Header from "./Header";
 import EyeCatch from "./EyeCatch";
 import { Route, Routes } from "react-router-dom";
 import Article from "./Article";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { UsersRepository } from "./repository/UsersRepository";
+import Modal from "./Modal";
 
 type Props = {
   ktlogDomain: string;
@@ -19,6 +20,8 @@ export default function App({
   articlesRepository,
   usersRepository,
 }: Props) {
+  const [showModal] = useState(false);
+
   useEffect(() => {
     if (["localhost", "127.0.0.1"].includes(ktlogDomain)) {
       document.title = `dev|${document.title}`;
@@ -39,6 +42,7 @@ export default function App({
           element={<Article articlesRepository={articlesRepository} />}
         />
       </Routes>
+      {showModal && <Modal />}
     </div>
   );
 }
