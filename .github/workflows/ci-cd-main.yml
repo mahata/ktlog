@@ -40,6 +40,12 @@ jobs:
   backend:
     needs: frontend
     runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:24.0.7-dind
+        options: --privileged
+        ports:
+          - 2376:2376
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
