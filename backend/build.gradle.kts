@@ -39,6 +39,8 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql:42.7.0")
     runtimeOnly("com.h2database:h2:2.2.224")
     testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("org.testcontainers:junit-jupiter:1.19.3")
+    testImplementation("org.testcontainers:postgresql:1.19.3")
 }
 
 tasks.withType<KotlinCompile> {
