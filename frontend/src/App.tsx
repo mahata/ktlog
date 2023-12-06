@@ -5,9 +5,11 @@ import Header from "./Header";
 import EyeCatch from "./EyeCatch";
 import { Route, Routes } from "react-router-dom";
 import Article from "./Article";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { UsersRepository } from "./repository/UsersRepository";
 import Modal from "./Modal";
+import { useAtom } from "jotai";
+import { modalAtom } from "./Modal.atoms";
 
 type Props = {
   ktlogDomain: string;
@@ -20,7 +22,7 @@ export default function App({
   articlesRepository,
   usersRepository,
 }: Props) {
-  const [showModal] = useState(false);
+  const [showModal] = useAtom(modalAtom);
 
   useEffect(() => {
     if (["localhost", "127.0.0.1"].includes(ktlogDomain)) {
