@@ -29,9 +29,10 @@ class ArticlesServiceImplTest {
             val uuid = UUID.randomUUID()
             every {
                 stubArticleServiceRepository.findAll()
-            } returns listOf(
-                ArticlesEntity(uuid, "title", "content")
-            )
+            } returns
+                listOf(
+                    ArticlesEntity(uuid, "title", "content"),
+                )
 
             val service = ArticlesServiceImpl(stubArticleServiceRepository)
             val result = service.getArticles()
@@ -40,7 +41,7 @@ class ArticlesServiceImplTest {
 
             assertEquals(
                 Article(uuid, "title", "content"),
-                result[0]
+                result[0],
             )
         }
     }
@@ -60,7 +61,7 @@ class ArticlesServiceImplTest {
 
             assertEquals(
                 Article(uuid, "title", "content"),
-                result
+                result,
             )
         }
 
@@ -94,7 +95,7 @@ class ArticlesServiceImplTest {
                     withArg {
                         assertEquals("my title", it.title)
                         assertEquals("my content", it.content)
-                    }
+                    },
                 )
             }
         }

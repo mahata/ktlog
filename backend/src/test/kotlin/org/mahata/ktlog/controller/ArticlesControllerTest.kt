@@ -21,7 +21,6 @@ import java.util.UUID
 
 @ExtendWith(MockKExtension::class)
 class ArticlesControllerTest {
-
     @MockK
     private lateinit var stubArticlesService: ArticlesService
 
@@ -98,7 +97,7 @@ class ArticlesControllerTest {
             mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/v1/articles")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(jsonBody)
+                    .content(jsonBody),
             ).andExpect(MockMvcResultMatchers.status().isCreated)
 
             verify(exactly = 1) {

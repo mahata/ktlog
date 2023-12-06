@@ -44,11 +44,12 @@ dependencies {
 }
 
 tasks.withType<KotlinCompile> {
-    val lintOption: String = if (System.getenv("GITHUB_WORKFLOW") == null) {
-        "ktlintFormat"
-    } else {
-        "ktlintCheck"
-    }
+    val lintOption: String =
+        if (System.getenv("GITHUB_WORKFLOW") == null) {
+            "ktlintFormat"
+        } else {
+            "ktlintCheck"
+        }
     dependsOn(lintOption)
 
     kotlinOptions {

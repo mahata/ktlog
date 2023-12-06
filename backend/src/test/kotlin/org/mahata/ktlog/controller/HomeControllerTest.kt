@@ -9,11 +9,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import java.util.*
+import java.util.UUID
 
 @ExtendWith(MockKExtension::class)
 class HomeControllerTest {
-
     private lateinit var mockMvc: MockMvc
 
     @BeforeEach

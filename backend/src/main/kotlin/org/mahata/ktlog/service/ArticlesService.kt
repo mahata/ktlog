@@ -5,23 +5,25 @@ import org.mahata.ktlog.repository.ArticlesEntity
 import org.mahata.ktlog.repository.ArticlesRepository
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
-import java.util.*
+import java.util.UUID
 
 data class Article(
     val id: UUID,
     val title: String,
-    val content: String
+    val content: String,
 )
 
 interface ArticlesService {
     fun getArticles(): List<Article>
+
     fun getArticle(id: UUID): Article?
+
     fun saveArticle(article: ArticlesRequest)
 }
 
 @Service
 class ArticlesServiceImpl(
-    private val articlesRepository: ArticlesRepository
+    private val articlesRepository: ArticlesRepository,
 ) : ArticlesService {
     @Cacheable("getArticles")
     override fun getArticles(): List<Article> {

@@ -15,7 +15,7 @@ class ArticlesEntity(
     @GeneratedValue(strategy = GenerationType.UUID)
     var id: UUID? = null,
     var title: String,
-    var content: String
+    var content: String,
 )
 
 interface ArticlesRepository : CrudRepository<ArticlesEntity, UUID>
