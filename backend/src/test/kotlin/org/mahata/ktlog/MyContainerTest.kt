@@ -12,11 +12,11 @@ import org.testcontainers.utility.DockerImageName
 
 @Testcontainers
 class MyContainerTest {
-
     companion object {
         @Container
-        private val postgreSQLContainer = PostgreSQLContainer(DockerImageName.parse("postgres:15.4-alpine3.18"))
-            .waitingFor(Wait.forListeningPort())
+        private val postgreSQLContainer =
+            PostgreSQLContainer(DockerImageName.parse("postgres:15.4-alpine3.18"))
+                .waitingFor(Wait.forListeningPort())
     }
 
     @BeforeEach

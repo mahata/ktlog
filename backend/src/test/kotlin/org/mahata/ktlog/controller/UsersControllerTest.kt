@@ -26,15 +26,16 @@ class UsersControllerTest {
 
     @Test
     fun `When the user is authorized, it returns the user info`() {
-        val user = DefaultOAuth2User(
-            emptyList(),
-            mapOf("name" to "Yasunori", "email" to "mahata777@gmail.com"),
-            "name"
-        )
+        val user =
+            DefaultOAuth2User(
+                emptyList(),
+                mapOf("name" to "Yasunori", "email" to "mahata777@gmail.com"),
+                "name",
+            )
 
         mockMvc.perform(
             MockMvcRequestBuilders.get("/api/v1/users/me")
-                .with(SecurityMockMvcRequestPostProcessors.oauth2Login().oauth2User(user))
+                .with(SecurityMockMvcRequestPostProcessors.oauth2Login().oauth2User(user)),
         )
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Yasunori"))

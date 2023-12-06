@@ -15,13 +15,13 @@ import java.util.UUID
 
 data class ArticlesRequest(
     val title: String,
-    val content: String
+    val content: String,
 )
 
 @RestController
 @RequestMapping("/api/v1/articles")
 class ArticlesController(
-    private val articlesService: ArticlesService
+    private val articlesService: ArticlesService,
 ) {
     @GetMapping
     fun getAll(): List<Article> {
@@ -29,13 +29,17 @@ class ArticlesController(
     }
 
     @GetMapping("/{id}")
-    fun get(@PathVariable id: UUID): Article? {
+    fun get(
+        @PathVariable id: UUID,
+    ): Article? {
         return articlesService.getArticle(id) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun save(@RequestBody request: ArticlesRequest) {
+    fun save(
+        @RequestBody request: ArticlesRequest,
+    ) {
         articlesService.saveArticle(request)
     }
 }
