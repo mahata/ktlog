@@ -1,7 +1,8 @@
 import App from "./App";
-import { act, render, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import { StubArticlesRepository, StubUsersRepository } from "./StubRepos";
 import { MemoryRouter } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
 
 const originalTitle = document.title;
 
@@ -46,6 +47,28 @@ describe("App", () => {
     });
 
     expect(document.title).toBe(originalTitle);
+  });
+
+  it("shows a modal when the 'login' button is clicked", async () => {
+    await act(async () => {
+      render(
+        <App
+          ktlogDomain="example.com"
+          articlesRepository={stubArticleRepository}
+          usersRepository={stubUsersRepository}
+        />,
+        {
+          wrapper: MemoryRouter,
+        },
+      );
+    });
+
+    const loginButton = screen.getByRole("button", {
+      name: "Login",
+    }) as HTMLButtonElement;
+
+    await userEvent.click(loginButton);
+    expect(await screen.findByText("login modal")).toBeInTheDocument();
   });
 
   afterEach(() => {

@@ -2,12 +2,15 @@ import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 import { useEffect, useState } from "react";
 import { UsersRepository } from "./repository/UsersRepository";
+import { useAtom } from "jotai";
+import { modalAtom } from "./Modal.atoms";
 
 type Props = {
   usersRepository: UsersRepository;
 };
 
 export default function Header({ usersRepository }: Props) {
+  const [, setShowModal] = useAtom(modalAtom);
   const [username, setUsername] = useState<string>("");
 
   useEffect(() => {
@@ -32,7 +35,7 @@ export default function Header({ usersRepository }: Props) {
           {username ? (
             username
           ) : (
-            <a href="/oauth2/authorization/github">Login</a>
+            <button onClick={() => setShowModal(true)}>Login</button>
           )}
         </div>
       </nav>

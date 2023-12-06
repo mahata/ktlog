@@ -15,7 +15,7 @@ describe("Header", () => {
   });
 
   describe("Login", () => {
-    it("shows 'login' link when the user isn't logged in", () => {
+    it("shows 'login' button when the user isn't logged in", () => {
       stubUsersRepository.getMe.mockResolvedValue({
         name: null,
         email: null,
@@ -25,14 +25,11 @@ describe("Header", () => {
         wrapper: MemoryRouter,
       });
 
-      const loginLink = screen.getByRole("link", {
+      const loginButton = screen.getByRole("button", {
         name: "Login",
       }) as HTMLAnchorElement;
 
-      expect(loginLink).toBeInTheDocument();
-      expect(loginLink.href).toBe(
-        window.location.origin + "/oauth2/authorization/github",
-      );
+      expect(loginButton).toBeInTheDocument();
     });
 
     it("shows a username when the user is logged in", async () => {

@@ -2,7 +2,11 @@ import { useEffect } from "react";
 import { useAtom } from "jotai";
 import { modalAtom } from "./Modal.atoms";
 
-export default function Modal() {
+type Props = {
+  title: string;
+};
+
+export default function Modal({ title }: Props) {
   const [, setShowModal] = useAtom(modalAtom);
 
   useEffect(() => {
@@ -15,7 +19,7 @@ export default function Modal() {
 
   return (
     <>
-      <h1>This is going to be a modal window</h1>
+      <h1>{title}</h1>
       <button onClick={() => setShowModal(false)}>Click me to close</button>
     </>
   );

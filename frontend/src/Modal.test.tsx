@@ -5,13 +5,13 @@ describe("Modal", () => {
   it("restricts page scrolling when it's active", () => {
     expect(window.document.body.style.overflowY).not.toBe("hidden");
 
-    render(<Modal />);
+    render(<Modal title="DOES NOT MATTER" />);
 
     expect(window.document.body.style.overflowY).toBe("hidden");
   });
 
   it("allows page scrolling when it's inactive", () => {
-    const { unmount } = render(<Modal />);
+    const { unmount } = render(<Modal title="DOES NOT MATTER" />);
 
     unmount();
 
