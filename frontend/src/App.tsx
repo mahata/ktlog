@@ -44,7 +44,7 @@ export default function App({
           element={<Article articlesRepository={articlesRepository} />}
         />
       </Routes>
-      {showModal && <Modal title="login modal" />}
+      {showModal && <Modal title="Social Login" />}
     </div>
   );
 }

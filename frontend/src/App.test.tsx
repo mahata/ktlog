@@ -68,7 +68,7 @@ describe("App", () => {
     }) as HTMLButtonElement;
 
     await userEvent.click(loginButton);
-    expect(await screen.findByText("login modal")).toBeInTheDocument();
+    expect(await screen.findByText("Social Login")).toBeInTheDocument();
   });
 
   afterEach(() => {

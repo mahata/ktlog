@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useAtom } from "jotai";
 import { modalAtom } from "./Modal.atoms";
+import styles from "./Modal.module.scss";
+import { X } from "lucide-react";
 
 type Props = {
   title: string;
@@ -18,9 +20,17 @@ export default function Modal({ title }: Props) {
   }, []);
 
   return (
-    <>
-      <h1>{title}</h1>
-      <button onClick={() => setShowModal(false)}>Click me to close</button>
-    </>
+    <div className={styles.container}>
+      <div className={styles.background} />
+      <div className={styles.modal}>
+        <div className={styles.header}>
+          <div className={styles.title}>{title}</div>
+          <X size={24} onClick={() => setShowModal(false)} />
+        </div>
+        <div className={styles.body}>
+          <a href="/oauth2/authorization/github">Login with GitHub</a>
+        </div>
+      </div>
+    </div>
   );
 }
