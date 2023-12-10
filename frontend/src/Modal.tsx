@@ -28,7 +28,19 @@ export default function Modal({ title }: Props) {
           <X size={24} onClick={() => setShowModal(false)} />
         </div>
         <div className={styles.body}>
-          <a href="/oauth2/authorization/github">Login with GitHub</a>
+          <div className={styles.socialLogin}>
+            <a
+              className={styles.socialLoginLink}
+              href="/oauth2/authorization/github"
+            >
+              <img
+                className={styles.socialLoginIcon}
+                src="/github.webp"
+                alt="GitHub Logo"
+              />
+              <div className={styles.socialLoginText}>Login with GitHub</div>
+            </a>
+          </div>
         </div>
       </div>
     </div>

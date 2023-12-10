@@ -17,12 +17,12 @@
 }
 
 .modal {
-  background: $white;
+  background-color: $white;
   width: 80%;
   z-index: 2;
   border-radius: 10px;
   padding: 10px;
-  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 10px 10px 5px 0 rgba(0, 0, 0, 0.25);
 }
 
 .header {
@@ -30,9 +30,25 @@
   justify-content: space-between;
 }
 
-.title {
+.title {}
+
+.body {}
+
+.socialLogin {
+  background-color: $light-gray;
+  padding: 10px;
+  border-radius: 10px;
 }
 
-.body {
-
+.socialLoginLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
+
+.socialLoginIcon {
+  width: 32px;
+  height: 32px;
+}
+
+.socialLoginText {}
