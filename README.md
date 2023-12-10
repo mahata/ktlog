@@ -1,4 +1,4 @@
-[![CI/CD Status](https://github.com/mahata/ktlog/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/mahata/ktlog/actions/workflows/ci-cd.yml)
+[![CI/CD Status](https://github.com/mahata/ktlog/actions/workflows/ci-cd-main.yml/badge.svg)](https://github.com/mahata/ktlog/actions/workflows/ci-cd-main.yml)
 
 # ktlog
 
