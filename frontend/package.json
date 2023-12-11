@@ -29,7 +29,7 @@
     "@vitejs/plugin-react": "^4.2.0",
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.4",
+    "eslint-plugin-react-refresh": "^0.4.5",
     "jest-extended": "^4.0.2",
     "jsdom": "^23.0.0",
     "prettier": "^3.1.0",
