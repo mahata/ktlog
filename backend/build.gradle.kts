@@ -36,7 +36,7 @@ dependencies {
     implementation("org.flywaydb:flyway-core:9.22.3")
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
 
-    runtimeOnly("org.postgresql:postgresql:42.7.0")
+    runtimeOnly("org.postgresql:postgresql:42.7.1")
     runtimeOnly("com.h2database:h2:2.2.224")
     testImplementation("io.mockk:mockk:1.13.8")
     testImplementation("org.testcontainers:junit-jupiter:1.19.3")
