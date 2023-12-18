@@ -5,10 +5,10 @@ import { MemoryRouter } from "react-router-dom";
 import { StubUsersRepository } from "./StubRepos";
 
 describe("Header", () => {
-  const stubUsersRepository = new StubUsersRepository();
+  const stubUserRepository = new StubUsersRepository();
 
   beforeEach(() => {
-    stubUsersRepository.getMe.mockResolvedValue({
+    stubUserRepository.getMe.mockResolvedValue({
       name: "Yasunori MAHATA",
       email: "mahata777@gmail.com",
     });
@@ -16,12 +16,12 @@ describe("Header", () => {
 
   describe("Login", () => {
     it("shows 'login' button when the user isn't logged in", () => {
-      stubUsersRepository.getMe.mockResolvedValue({
+      stubUserRepository.getMe.mockResolvedValue({
         name: null,
         email: null,
       });
 
-      render(<Header usersRepository={stubUsersRepository} />, {
+      render(<Header userRepository={stubUserRepository} />, {
         wrapper: MemoryRouter,
       });
 
@@ -33,11 +33,11 @@ describe("Header", () => {
     });
 
     it("shows a username when the user is logged in", async () => {
-      stubUsersRepository.getMe.mockResolvedValue({
+      stubUserRepository.getMe.mockResolvedValue({
         name: "Yasunori MAHATA",
         email: "mahata777@gmail.com",
       });
-      render(<Header usersRepository={stubUsersRepository} />, {
+      render(<Header userRepository={stubUserRepository} />, {
         wrapper: MemoryRouter,
       });
 
@@ -48,7 +48,7 @@ describe("Header", () => {
   describe("Service Logo", () => {
     it("is in the header", async () => {
       await act(async () => {
-        render(<Header usersRepository={stubUsersRepository} />, {
+        render(<Header userRepository={stubUserRepository} />, {
           wrapper: MemoryRouter,
         });
       });
@@ -60,7 +60,7 @@ describe("Header", () => {
 
     it("is linked to '/'", async () => {
       await act(async () => {
-        render(<Header usersRepository={stubUsersRepository} />, {
+        render(<Header userRepository={stubUserRepository} />, {
           wrapper: MemoryRouter,
         });
       });

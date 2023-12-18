@@ -1,21 +1,21 @@
-import { ArticlesRepository } from "./repository/ArticlesRepository";
+import { ArticleRepository } from "./repository/ArticleRepository";
 import { Mock, vi } from "vitest";
-import { UsersRepository } from "./repository/UsersRepository";
+import { UserRepository } from "./repository/UserRepository";
 
-export class StubArticlesRepository implements ArticlesRepository {
+export class StubArticlesRepository implements ArticleRepository {
   getAll: Mock<
-    Parameters<ArticlesRepository["getAll"]>,
-    ReturnType<ArticlesRepository["getAll"]>
+    Parameters<ArticleRepository["getAll"]>,
+    ReturnType<ArticleRepository["getAll"]>
   > = vi.fn();
   get: Mock<
-    Parameters<ArticlesRepository["get"]>,
-    ReturnType<ArticlesRepository["get"]>
+    Parameters<ArticleRepository["get"]>,
+    ReturnType<ArticleRepository["get"]>
   > = vi.fn();
 }
 
-export class StubUsersRepository implements UsersRepository {
+export class StubUsersRepository implements UserRepository {
   getMe: Mock<
-    Parameters<UsersRepository["getMe"]>,
-    ReturnType<UsersRepository["getMe"]>
+    Parameters<UserRepository["getMe"]>,
+    ReturnType<UserRepository["getMe"]>
   > = vi.fn();
 }

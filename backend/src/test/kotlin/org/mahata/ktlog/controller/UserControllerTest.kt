@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class UsersControllerTest {
+class UserControllerTest {
     @Autowired
     lateinit var mockMvc: MockMvc
 

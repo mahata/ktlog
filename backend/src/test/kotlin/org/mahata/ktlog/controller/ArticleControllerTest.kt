@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mahata.ktlog.service.Article
-import org.mahata.ktlog.service.ArticlesService
+import org.mahata.ktlog.service.ArticleService
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
@@ -20,15 +20,15 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import java.util.UUID
 
 @ExtendWith(MockKExtension::class)
-class ArticlesControllerTest {
+class ArticleControllerTest {
     @MockK
-    private lateinit var stubArticlesService: ArticlesService
+    private lateinit var stubArticlesService: ArticleService
 
     private lateinit var mockMvc: MockMvc
 
     @BeforeEach
     fun setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(ArticlesController(stubArticlesService)).build()
+        mockMvc = MockMvcBuilders.standaloneSetup(ArticleController(stubArticlesService)).build()
     }
 
     @Nested
@@ -85,7 +85,7 @@ class ArticlesControllerTest {
     inner class PostApiV1Articles {
         @Test
         fun `It saves a given article`() {
-            val mockArticle = ArticlesRequest("my title", "my content")
+            val mockArticle = ArticleRequest("my title", "my content")
 
             every {
                 stubArticlesService.saveArticle(mockArticle)
@@ -101,7 +101,7 @@ class ArticlesControllerTest {
             ).andExpect(MockMvcResultMatchers.status().isCreated)
 
             verify(exactly = 1) {
-                stubArticlesService.saveArticle(ArticlesRequest(mockArticle.title, mockArticle.content))
+                stubArticlesService.saveArticle(ArticleRequest(mockArticle.title, mockArticle.content))
             }
         }
     }

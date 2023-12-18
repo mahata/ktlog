@@ -3,11 +3,11 @@ export type User = {
   email: string | null;
 };
 
-export interface UsersRepository {
+export interface UserRepository {
   getMe(): Promise<User>;
 }
 
-export class NetworkUsersRepository implements UsersRepository {
+export class NetworkUserRepository implements UserRepository {
   async getMe(): Promise<User> {
     const response = await fetch("/api/v1/users/me", {
       method: "GET",

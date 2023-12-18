@@ -10,16 +10,16 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mahata.ktlog.controller.ArticlesRequest
-import org.mahata.ktlog.repository.ArticlesEntity
-import org.mahata.ktlog.repository.ArticlesRepository
+import org.mahata.ktlog.controller.ArticleRequest
+import org.mahata.ktlog.entity.ArticleEntity
+import org.mahata.ktlog.repository.ArticleRepository
 import java.util.Optional
 import java.util.UUID
 
 @ExtendWith(MockKExtension::class)
-class ArticlesServiceImplTest {
+class ArticleServiceImplTest {
     @MockK
-    lateinit var stubArticleServiceRepository: ArticlesRepository
+    lateinit var stubArticleServiceRepository: ArticleRepository
 
     @Nested
     @DisplayName("getArticles()")
@@ -31,10 +31,10 @@ class ArticlesServiceImplTest {
                 stubArticleServiceRepository.findAll()
             } returns
                 listOf(
-                    ArticlesEntity(uuid, "title", "content"),
+                    ArticleEntity(uuid, "title", "content"),
                 )
 
-            val service = ArticlesServiceImpl(stubArticleServiceRepository)
+            val service = ArticleServiceImpl(stubArticleServiceRepository)
             val result = service.getArticles()
 
             assertEquals(1, result.size)
@@ -54,9 +54,9 @@ class ArticlesServiceImplTest {
             val uuid = UUID.randomUUID()
             every {
                 stubArticleServiceRepository.findById(uuid)
-            } returns Optional.of(ArticlesEntity(uuid, "title", "content"))
+            } returns Optional.of(ArticleEntity(uuid, "title", "content"))
 
-            val service = ArticlesServiceImpl(stubArticleServiceRepository)
+            val service = ArticleServiceImpl(stubArticleServiceRepository)
             val result = service.getArticle(uuid)
 
             assertEquals(
@@ -72,7 +72,7 @@ class ArticlesServiceImplTest {
                 stubArticleServiceRepository.findById(uuid)
             } returns Optional.empty()
 
-            val service = ArticlesServiceImpl(stubArticleServiceRepository)
+            val service = ArticleServiceImpl(stubArticleServiceRepository)
             val result = service.getArticle(uuid)
 
             assertNull(result)
@@ -84,10 +84,10 @@ class ArticlesServiceImplTest {
     inner class SaveArticleRequest {
         @Test
         fun `saveArticle(request) saves an article`() {
-            val articlesRequest = ArticlesRequest("my title", "my content")
+            val articlesRequest = ArticleRequest("my title", "my content")
             every { stubArticleServiceRepository.save(any()) } answers { callOriginal() }
 
-            val service = ArticlesServiceImpl(stubArticleServiceRepository)
+            val service = ArticleServiceImpl(stubArticleServiceRepository)
             service.saveArticle(articlesRequest)
 
             verify {

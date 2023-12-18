@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import { NetworkArticlesRepository } from "./ArticlesRepository";
+import { NetworkArticleRepository } from "./ArticleRepository";
 
 const originalFetch = global.fetch;
 
@@ -17,7 +17,7 @@ describe("ArticlesRepository", () => {
     mockedFetch.mockResolvedValue(new Response(JSON.stringify(stubResponse)));
     global.fetch = mockedFetch;
 
-    const articlesRepository = new NetworkArticlesRepository();
+    const articlesRepository = new NetworkArticleRepository();
     const response = await articlesRepository.getAll();
 
     expect(mockedFetch).toHaveBeenCalledWith("/api/v1/articles", {
@@ -33,7 +33,7 @@ describe("ArticlesRepository", () => {
     mockedFetch.mockResolvedValue(new Response(JSON.stringify(stubResponse)));
     global.fetch = mockedFetch;
 
-    const articlesRepository = new NetworkArticlesRepository();
+    const articlesRepository = new NetworkArticleRepository();
     const response = await articlesRepository.get(article.id);
 
     expect(mockedFetch).toHaveBeenCalledWith(`/api/v1/articles/${article.id}`, {

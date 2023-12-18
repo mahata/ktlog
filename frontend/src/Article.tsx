@@ -1,9 +1,9 @@
-import { Article, ArticlesRepository } from "./repository/ArticlesRepository";
+import { Article, ArticleRepository } from "./repository/ArticleRepository";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 type Props = {
-  articlesRepository: ArticlesRepository;
+  articlesRepository: ArticleRepository;
 };
 
 export default function Article({ articlesRepository }: Props) {

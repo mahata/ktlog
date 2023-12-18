@@ -8,7 +8,7 @@ describe("Articles", () => {
   it("shows 'Articles' header", async () => {
     const stubArticlesRepository = new StubArticlesRepository();
     stubArticlesRepository.getAll.mockResolvedValue([]);
-    render(<Articles articlesRepository={stubArticlesRepository} />, {
+    render(<Articles articleRepository={stubArticlesRepository} />, {
       wrapper: MemoryRouter,
     });
 
@@ -28,7 +28,7 @@ describe("Articles", () => {
         content: "this does not matter",
       },
     ]);
-    render(<Articles articlesRepository={stubArticlesRepository} />, {
+    render(<Articles articleRepository={stubArticlesRepository} />, {
       wrapper: MemoryRouter,
     });
 

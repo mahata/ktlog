@@ -1,23 +1,23 @@
 import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 import { useEffect, useState } from "react";
-import { UsersRepository } from "./repository/UsersRepository";
+import { UserRepository } from "./repository/UserRepository";
 import { useAtom } from "jotai";
 import { modalAtom } from "./Modal.atoms";
 
 type Props = {
-  usersRepository: UsersRepository;
+  userRepository: UserRepository;
 };
 
-export default function Header({ usersRepository }: Props) {
+export default function Header({ userRepository }: Props) {
   const [, setShowModal] = useAtom(modalAtom);
   const [username, setUsername] = useState<string>("");
 
   useEffect(() => {
-    usersRepository.getMe().then((user) => {
+    userRepository.getMe().then((user) => {
       setUsername(user.name ? user.name : "");
     });
-  }, [usersRepository]);
+  }, [userRepository]);
 
   return (
     <header className={styles.headerContainer}>

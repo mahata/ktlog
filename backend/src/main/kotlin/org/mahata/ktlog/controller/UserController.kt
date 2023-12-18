@@ -13,7 +13,7 @@ data class UserResponse(
 
 @RestController
 @RequestMapping("/api/v1/users")
-class UsersController {
+class UserController {
     @GetMapping("/me")
     fun me(
         @AuthenticationPrincipal user: OAuth2User?,

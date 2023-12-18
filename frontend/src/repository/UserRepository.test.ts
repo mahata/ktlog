@@ -1,9 +1,9 @@
 import { vi } from "vitest";
-import { NetworkUsersRepository } from "./UsersRepository";
+import { NetworkUserRepository } from "./UserRepository";
 
 const originalFetch = global.fetch;
 
-describe("UsersRepository", () => {
+describe("UserRepository", () => {
   it("getMe() returns the user's data", async () => {
     const stubResponse = {
       name: "Yasunori MAHATA",
@@ -14,8 +14,8 @@ describe("UsersRepository", () => {
     mockedFetch.mockResolvedValue(new Response(JSON.stringify(stubResponse)));
     global.fetch = mockedFetch;
 
-    const usersRepository = new NetworkUsersRepository();
-    const response = await usersRepository.getMe();
+    const userRepository = new NetworkUserRepository();
+    const response = await userRepository.getMe();
 
     expect(mockedFetch).toHaveBeenCalledWith(`/api/v1/users/me`, {
       method: "GET",

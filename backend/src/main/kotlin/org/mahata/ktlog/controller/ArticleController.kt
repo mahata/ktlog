@@ -1,7 +1,7 @@
 package org.mahata.ktlog.controller
 
 import org.mahata.ktlog.service.Article
-import org.mahata.ktlog.service.ArticlesService
+import org.mahata.ktlog.service.ArticleService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 import java.util.UUID
 
-data class ArticlesRequest(
+data class ArticleRequest(
     val title: String,
     val content: String,
 )
 
 @RestController
 @RequestMapping("/api/v1/articles")
-class ArticlesController(
-    private val articlesService: ArticlesService,
+class ArticleController(
+    private val articlesService: ArticleService,
 ) {
     @GetMapping
     fun getAll(): List<Article> {
@@ -38,7 +38,7 @@ class ArticlesController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun save(
-        @RequestBody request: ArticlesRequest,
+        @RequestBody request: ArticleRequest,
     ) {
         articlesService.saveArticle(request)
     }

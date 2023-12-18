@@ -18,8 +18,8 @@ describe("App", () => {
       render(
         <App
           ktlogDomain={serviceDomain}
-          articlesRepository={stubArticleRepository}
-          usersRepository={stubUsersRepository}
+          articleRepository={stubArticleRepository}
+          userRepository={stubUsersRepository}
         />,
         {
           wrapper: MemoryRouter,
@@ -37,8 +37,8 @@ describe("App", () => {
       render(
         <App
           ktlogDomain="example.com"
-          articlesRepository={stubArticleRepository}
-          usersRepository={stubUsersRepository}
+          articleRepository={stubArticleRepository}
+          userRepository={stubUsersRepository}
         />,
         {
           wrapper: MemoryRouter,
@@ -54,8 +54,8 @@ describe("App", () => {
       render(
         <App
           ktlogDomain="example.com"
-          articlesRepository={stubArticleRepository}
-          usersRepository={stubUsersRepository}
+          articleRepository={stubArticleRepository}
+          userRepository={stubUsersRepository}
         />,
         {
           wrapper: MemoryRouter,

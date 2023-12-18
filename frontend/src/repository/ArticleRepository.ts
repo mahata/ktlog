@@ -4,12 +4,12 @@ export type Article = {
   content: string;
 };
 
-export interface ArticlesRepository {
+export interface ArticleRepository {
   getAll(): Promise<Article[]>;
   get(uuid: string): Promise<Article>;
 }
 
-export class NetworkArticlesRepository implements ArticlesRepository {
+export class NetworkArticleRepository implements ArticleRepository {
   async getAll(): Promise<Article[]> {
     const response = await fetch("/api/v1/articles", { method: "GET" });
     if (!response.ok) {
