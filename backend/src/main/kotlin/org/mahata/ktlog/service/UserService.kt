@@ -2,6 +2,7 @@ package org.mahata.ktlog.service
 
 import org.mahata.ktlog.controller.UserRequest
 import org.mahata.ktlog.entity.UserEntity
+import org.mahata.ktlog.exception.DuplicateEmailException
 import org.mahata.ktlog.exception.DuplicateUnameException
 import org.mahata.ktlog.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -32,6 +33,10 @@ class UserServiceImpl(
     }
 
     override fun saveUser(user: UserRequest) {
+        userRepository.findByEmail(user.email)?.let {
+            throw DuplicateEmailException("Duplicate email exists: ${user.email}")
+        }
+
         userRepository.findByUname(user.uname)?.let {
             throw DuplicateUnameException("Duplicate uname exists: ${user.uname}")
         }
