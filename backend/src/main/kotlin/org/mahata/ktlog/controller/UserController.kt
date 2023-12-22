@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 
 data class UserResponse(
     val name: String? = null,
@@ -42,6 +43,11 @@ class UserController(
         @AuthenticationPrincipal user: OAuth2User?,
         @RequestBody signUpRequest: UserRequest,
     ) {
+        val email = user?.attributes?.get("email") as? String
+        if (email == null || email != signUpRequest.email) {
+            throw ResponseStatusException(HttpStatus.FORBIDDEN)
+        }
+
         userService.saveUser(signUpRequest)
     }
 }

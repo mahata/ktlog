@@ -27,7 +27,7 @@ class UserServiceImplTest {
         @Test
         fun `signup with unique email and uname works`() {
             val email = "mahata777@gmail.com"
-            val uname = "existingUser"
+            val uname = "mahata"
             val newUser = UserRequest(email, uname)
 
             every { stubUserRepository.findByEmail(email) } returns null

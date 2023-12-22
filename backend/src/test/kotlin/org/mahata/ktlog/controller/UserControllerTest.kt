@@ -82,7 +82,39 @@ class UserControllerTest {
             }
         }
 
-        // TODO: When called with the uname that already exists, it should fail
-        // TODO: When the email address isn't the same as the one that the OAuth provider says, it should fail
+        @Test
+        fun `When called without a CSRF token, it rejects the request`() {
+            val mockSignUpRequest = UserRequest("mahata777@gmail.com", "mahata")
+
+            every { stubUserService.saveUser(mockSignUpRequest) } returns Unit
+
+            val objectMapper = ObjectMapper()
+            val jsonBody = objectMapper.writeValueAsString(mockSignUpRequest)
+
+            mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/v1/users")
+                    .with(SecurityMockMvcRequestPostProcessors.oauth2Login().oauth2User(defaultOAuth2User))
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(jsonBody),
+            ).andExpect(MockMvcResultMatchers.status().isForbidden)
+        }
+
+        @Test
+        fun `When the email address isn't the same as the OAuthed user's one, it rejects the request`() {
+            val mockSignUpRequest = UserRequest("who-is-this@example.com", "mahata")
+
+            every { stubUserService.saveUser(mockSignUpRequest) } returns Unit
+
+            val objectMapper = ObjectMapper()
+            val jsonBody = objectMapper.writeValueAsString(mockSignUpRequest)
+
+            mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/v1/users")
+                    .with(SecurityMockMvcRequestPostProcessors.oauth2Login().oauth2User(defaultOAuth2User))
+                    .with(SecurityMockMvcRequestPostProcessors.csrf())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(jsonBody),
+            ).andExpect(MockMvcResultMatchers.status().isForbidden)
+        }
     }
 }
