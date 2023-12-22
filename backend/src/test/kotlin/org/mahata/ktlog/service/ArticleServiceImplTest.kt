@@ -19,7 +19,7 @@ import java.util.UUID
 @ExtendWith(MockKExtension::class)
 class ArticleServiceImplTest {
     @MockK
-    lateinit var stubArticleServiceRepository: ArticleRepository
+    lateinit var stubArticleRepository: ArticleRepository
 
     @Nested
     @DisplayName("getArticles()")
@@ -28,13 +28,13 @@ class ArticleServiceImplTest {
         fun `getArticles() returns articles from repository`() {
             val uuid = UUID.randomUUID()
             every {
-                stubArticleServiceRepository.findAll()
+                stubArticleRepository.findAll()
             } returns
                 listOf(
                     ArticleEntity(uuid, "title", "content"),
                 )
 
-            val service = ArticleServiceImpl(stubArticleServiceRepository)
+            val service = ArticleServiceImpl(stubArticleRepository)
             val result = service.getArticles()
 
             assertEquals(1, result.size)
@@ -53,11 +53,11 @@ class ArticleServiceImplTest {
         fun `getArticle(id) returns an article from repository if the id exists`() {
             val uuid = UUID.randomUUID()
             every {
-                stubArticleServiceRepository.findById(uuid)
+                stubArticleRepository.findById(uuid)
             } returns Optional.of(ArticleEntity(uuid, "title", "content"))
 
-            val service = ArticleServiceImpl(stubArticleServiceRepository)
-            val result = service.getArticle(uuid)
+            val articleService = ArticleServiceImpl(stubArticleRepository)
+            val result = articleService.getArticle(uuid)
 
             assertEquals(
                 Article(uuid, "title", "content"),
@@ -69,10 +69,10 @@ class ArticleServiceImplTest {
         fun `getArticle(id) returns null if the id isn't available in the repository`() {
             val uuid = UUID.randomUUID()
             every {
-                stubArticleServiceRepository.findById(uuid)
+                stubArticleRepository.findById(uuid)
             } returns Optional.empty()
 
-            val service = ArticleServiceImpl(stubArticleServiceRepository)
+            val service = ArticleServiceImpl(stubArticleRepository)
             val result = service.getArticle(uuid)
 
             assertNull(result)
@@ -85,13 +85,13 @@ class ArticleServiceImplTest {
         @Test
         fun `saveArticle(request) saves an article`() {
             val articlesRequest = ArticleRequest("my title", "my content")
-            every { stubArticleServiceRepository.save(any()) } answers { callOriginal() }
+            every { stubArticleRepository.save(any()) } answers { callOriginal() }
 
-            val service = ArticleServiceImpl(stubArticleServiceRepository)
+            val service = ArticleServiceImpl(stubArticleRepository)
             service.saveArticle(articlesRequest)
 
             verify {
-                stubArticleServiceRepository.save(
+                stubArticleRepository.save(
                     withArg {
                         assertEquals("my title", it.title)
                         assertEquals("my content", it.content)
