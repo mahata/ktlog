@@ -38,8 +38,8 @@ class ArticleController(
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun save(
-        @RequestBody request: ArticleRequest,
+        @RequestBody articleRequest: ArticleRequest,
     ) {
-        articlesService.saveArticle(request)
+        articlesService.saveArticle(articleRequest)
     }
 }
