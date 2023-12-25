@@ -18,4 +18,8 @@ export class StubUsersRepository implements UserRepository {
     Parameters<UserRepository["getMe"]>,
     ReturnType<UserRepository["getMe"]>
   > = vi.fn();
+  save: Mock<
+    Parameters<UserRepository["save"]>,
+    ReturnType<UserRepository["save"]>
+  > = vi.fn();
 }

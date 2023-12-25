@@ -10,7 +10,7 @@ describe("App", () => {
   const stubArticleRepository = new StubArticlesRepository();
   const stubUsersRepository = new StubUsersRepository();
   stubArticleRepository.getAll.mockResolvedValue([]);
-  stubUsersRepository.getMe.mockResolvedValue({ name: null, email: null });
+  stubUsersRepository.getMe.mockResolvedValue({ uname: null, email: null });
 
   it.each(["localhost", "127.0.0.1"])(
     'adds "dev|" to the title when it runs on the localhost',

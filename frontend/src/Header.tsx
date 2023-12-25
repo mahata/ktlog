@@ -15,7 +15,7 @@ export default function Header({ userRepository }: Props) {
 
   useEffect(() => {
     userRepository.getMe().then((user) => {
-      setUsername(user.name ? user.name : "");
+      setUsername(user.uname ? user.uname : "");
     });
   }, [userRepository]);
 

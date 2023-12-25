@@ -7,6 +7,8 @@ type Props = {
 
 export default function SignUp({ userRepository }: Props) {
   const [email, setEmail] = useState<string>("");
+  const [uname, setUname] = useState<string>("");
+  const [buttonDisabled, setButtonDisabled] = useState(true);
 
   useEffect(() => {
     userRepository.getMe().then((user) => {
@@ -25,16 +27,32 @@ export default function SignUp({ userRepository }: Props) {
           value={email}
           readOnly
         />
-        <input type="text" aria-label="uname" name="uname" />
-        <button
-          type="button"
-          onClick={() => {
-            alert(
-              "It's expected to do something! (namely, register a username)",
+        <input
+          type="text"
+          aria-label="uname"
+          name="uname"
+          pattern="[A-Za-z0-9]{1,63}"
+          title="Must be only alphanumeric and less than 64 characters"
+          onChange={(event) => {
+            const uname = event.target.value.trim();
+            setUname(uname);
+            setButtonDisabled(
+              uname.length === 0 ||
+                0 < document.querySelectorAll("input:invalid").length,
             );
           }}
+        />
+        <button
+          type="button"
+          onClick={async () => {
+            await userRepository.save({
+              email,
+              uname,
+            });
+          }}
+          disabled={buttonDisabled}
         >
-          Register
+          Sign up!
         </button>
       </div>
     </>

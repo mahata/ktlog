@@ -9,7 +9,7 @@ describe("Header", () => {
 
   beforeEach(() => {
     stubUserRepository.getMe.mockResolvedValue({
-      name: "Yasunori MAHATA",
+      uname: "Yasunori MAHATA",
       email: "mahata777@gmail.com",
     });
   });
@@ -17,7 +17,7 @@ describe("Header", () => {
   describe("Login", () => {
     it("shows 'login' button when the user isn't logged in", () => {
       stubUserRepository.getMe.mockResolvedValue({
-        name: null,
+        uname: null,
         email: null,
       });
 
@@ -34,7 +34,7 @@ describe("Header", () => {
 
     it("shows a username when the user is logged in", async () => {
       stubUserRepository.getMe.mockResolvedValue({
-        name: "Yasunori MAHATA",
+        uname: "Yasunori MAHATA",
         email: "mahata777@gmail.com",
       });
       render(<Header userRepository={stubUserRepository} />, {

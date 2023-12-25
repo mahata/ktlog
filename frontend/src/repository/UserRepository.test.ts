@@ -23,6 +23,25 @@ describe("UserRepository", () => {
     expect(response).toEqual(stubResponse);
   });
 
+  it("save() makes a POST request to the backend", async () => {
+    const mockedFetch = vi.fn();
+    mockedFetch.mockResolvedValue(new Response(""));
+    global.fetch = mockedFetch;
+
+    const user = {
+      email: "mahata777@gmail.com",
+      uname: "mahata",
+    };
+    const userRepository = new NetworkUserRepository();
+    await userRepository.save(user);
+
+    expect(mockedFetch).toHaveBeenCalledWith("/api/v1/users", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
+    });
+  });
+
   afterEach(() => {
     if (vi.isMockFunction(global.fetch)) {
       global.fetch = originalFetch;
