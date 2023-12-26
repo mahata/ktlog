@@ -20,6 +20,7 @@ class SecurityConfig(
         http
             .authorizeHttpRequests {
                 it.requestMatchers("/signup").authenticated()
+                it.requestMatchers("/api/v1/csrf").authenticated()
                 it.anyRequest().permitAll()
             }
             .oauth2Login {
