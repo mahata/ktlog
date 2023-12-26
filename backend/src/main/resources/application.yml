@@ -27,5 +27,9 @@ spring:
               - user:email
               - read:user
 
+  threads:
+    virtual:
+      enabled: true
+
 server:
   port: 18080
