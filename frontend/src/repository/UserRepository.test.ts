@@ -1,7 +1,8 @@
 import { vi } from "vitest";
 import { NetworkUserRepository } from "./UserRepository";
+import { CsrfTokenManager } from "../CsrfTokenManager";
 
-const originalFetch = global.fetch;
+const originalFetch = globalThis.fetch;
 
 describe("UserRepository", () => {
   it("getMe() returns the user's data", async () => {
@@ -12,7 +13,7 @@ describe("UserRepository", () => {
 
     const mockedFetch = vi.fn();
     mockedFetch.mockResolvedValue(new Response(JSON.stringify(stubResponse)));
-    global.fetch = mockedFetch;
+    globalThis.fetch = mockedFetch;
 
     const userRepository = new NetworkUserRepository();
     const response = await userRepository.getMe();
@@ -24,9 +25,12 @@ describe("UserRepository", () => {
   });
 
   it("save() makes a POST request to the backend", async () => {
+    const csrfToken = "DOES NOT REALLY MATTER";
+    localStorage.setItem(CsrfTokenManager.TOKEN_STORAGE_KEY, csrfToken);
+
     const mockedFetch = vi.fn();
     mockedFetch.mockResolvedValue(new Response(""));
-    global.fetch = mockedFetch;
+    globalThis.fetch = mockedFetch;
 
     const user = {
       email: "mahata777@gmail.com",
@@ -37,14 +41,16 @@ describe("UserRepository", () => {
 
     expect(mockedFetch).toHaveBeenCalledWith("/api/v1/users", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": csrfToken,
+      },
       body: JSON.stringify(user),
     });
   });
 
   afterEach(() => {
-    if (vi.isMockFunction(global.fetch)) {
-      global.fetch = originalFetch;
-    }
+    localStorage.clear();
+    globalThis.fetch = originalFetch;
   });
 });

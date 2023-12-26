@@ -1,7 +1,7 @@
 import { vi } from "vitest";
 import { NetworkArticleRepository } from "./ArticleRepository";
 
-const originalFetch = global.fetch;
+const originalFetch = globalThis.fetch;
 
 describe("ArticlesRepository", () => {
   const article = {
@@ -13,14 +13,14 @@ describe("ArticlesRepository", () => {
   it("getAll() returns data of Article[]", async () => {
     const stubResponse = [article];
 
-    const mockedFetch = vi.fn();
-    mockedFetch.mockResolvedValue(new Response(JSON.stringify(stubResponse)));
-    global.fetch = mockedFetch;
+    globalThis.fetch = vi
+      .fn()
+      .mockResolvedValue(new Response(JSON.stringify(stubResponse)));
 
     const articlesRepository = new NetworkArticleRepository();
     const response = await articlesRepository.getAll();
 
-    expect(mockedFetch).toHaveBeenCalledWith("/api/v1/articles", {
+    expect(globalThis.fetch).toHaveBeenCalledWith("/api/v1/articles", {
       method: "GET",
     });
     expect(response).toEqual(stubResponse);
@@ -29,22 +29,23 @@ describe("ArticlesRepository", () => {
   it("get(uuid) returns data of Article", async () => {
     const stubResponse = article;
 
-    const mockedFetch = vi.fn();
-    mockedFetch.mockResolvedValue(new Response(JSON.stringify(stubResponse)));
-    global.fetch = mockedFetch;
+    globalThis.fetch = vi
+      .fn()
+      .mockResolvedValue(new Response(JSON.stringify(stubResponse)));
 
     const articlesRepository = new NetworkArticleRepository();
     const response = await articlesRepository.get(article.id);
 
-    expect(mockedFetch).toHaveBeenCalledWith(`/api/v1/articles/${article.id}`, {
-      method: "GET",
-    });
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      `/api/v1/articles/${article.id}`,
+      {
+        method: "GET",
+      },
+    );
     expect(response).toEqual(stubResponse);
   });
 
   afterEach(() => {
-    if (vi.isMockFunction(global.fetch)) {
-      global.fetch = originalFetch;
-    }
+    globalThis.fetch = originalFetch;
   });
 });
