@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { UserRepository } from "./repository/UserRepository";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   userRepository: UserRepository;
@@ -9,6 +10,8 @@ export default function SignUp({ userRepository }: Props) {
   const [email, setEmail] = useState<string>("");
   const [uname, setUname] = useState<string>("");
   const [buttonDisabled, setButtonDisabled] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     userRepository.getMe().then((user) => {
@@ -49,6 +52,7 @@ export default function SignUp({ userRepository }: Props) {
               email,
               uname,
             });
+            navigate("/");
           }}
           disabled={buttonDisabled}
         >

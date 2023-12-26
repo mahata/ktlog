@@ -2,6 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import SignUp from "./SignUp";
 import { StubUsersRepository } from "./StubRepos";
 import userEvent from "@testing-library/user-event";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 
 describe("SignUp", () => {
   const stubUserRepository = new StubUsersRepository();
@@ -23,7 +24,9 @@ describe("SignUp", () => {
   };
 
   it("shows the authed user's email address in the input field", async () => {
-    render(<SignUp userRepository={stubUserRepository} />);
+    render(<SignUp userRepository={stubUserRepository} />, {
+      wrapper: MemoryRouter,
+    });
     await waitUseEffect();
 
     expect(screen.getByText("Let's Sign up!")).toBeInTheDocument();
@@ -31,7 +34,9 @@ describe("SignUp", () => {
 
   describe("Button", () => {
     it("is disabled by default", async () => {
-      render(<SignUp userRepository={stubUserRepository} />);
+      render(<SignUp userRepository={stubUserRepository} />, {
+        wrapper: MemoryRouter,
+      });
       await waitUseEffect();
 
       const signUpButton: HTMLButtonElement = screen.getByRole("button", {
@@ -41,7 +46,9 @@ describe("SignUp", () => {
     });
 
     it("gets enabled when the uname isn't empty", async () => {
-      render(<SignUp userRepository={stubUserRepository} />);
+      render(<SignUp userRepository={stubUserRepository} />, {
+        wrapper: MemoryRouter,
+      });
       await waitUseEffect();
 
       const signUpButton: HTMLButtonElement = screen.getByRole("button", {
@@ -56,7 +63,9 @@ describe("SignUp", () => {
     });
 
     it("gets disabled when the uname length is more than 63 chars", async () => {
-      render(<SignUp userRepository={stubUserRepository} />);
+      render(<SignUp userRepository={stubUserRepository} />, {
+        wrapper: MemoryRouter,
+      });
       await waitUseEffect();
 
       const signUpButton: HTMLButtonElement = screen.getByRole("button", {
@@ -71,7 +80,9 @@ describe("SignUp", () => {
     });
 
     it("gets disabled when the uname has non-alpha-numerical values", async () => {
-      render(<SignUp userRepository={stubUserRepository} />);
+      render(<SignUp userRepository={stubUserRepository} />, {
+        wrapper: MemoryRouter,
+      });
       await waitUseEffect();
 
       const signUpButton: HTMLButtonElement = screen.getByRole("button", {
@@ -84,7 +95,9 @@ describe("SignUp", () => {
     });
 
     it("makes an HTTP request when the it's clicked", async () => {
-      render(<SignUp userRepository={stubUserRepository} />);
+      render(<SignUp userRepository={stubUserRepository} />, {
+        wrapper: MemoryRouter,
+      });
       await waitUseEffect();
 
       const signUpButton: HTMLButtonElement = screen.getByRole("button", {
@@ -98,6 +111,34 @@ describe("SignUp", () => {
       expect(stubUserRepository.save).toHaveBeenCalledWith({
         email: "mahata777@gmail.com",
         uname: "MyName",
+      });
+    });
+
+    it("redirects users back to '/' after clicking the signup button", async () => {
+      render(
+        <MemoryRouter initialEntries={["/signup"]}>
+          <Routes>
+            <Route path="/" element={<div>Destination</div>} />
+            <Route
+              path="/signup"
+              element={<SignUp userRepository={stubUserRepository} />}
+            />
+          </Routes>
+        </MemoryRouter>,
+      );
+
+      await waitUseEffect();
+
+      const signUpButton: HTMLButtonElement = screen.getByRole("button", {
+        name: "Sign up!",
+      });
+      const unameInput: HTMLInputElement = screen.getByLabelText("uname");
+
+      await userEvent.type(unameInput, "MyName");
+      await userEvent.click(signUpButton);
+
+      await waitFor(() => {
+        expect(screen.getByText("Destination")).toBeInTheDocument();
       });
     });
   });
