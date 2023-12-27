@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mahata.ktlog.controller.ArticleRequest
 import org.mahata.ktlog.entity.ArticleEntity
+import org.mahata.ktlog.entity.UserEntity
 import org.mahata.ktlog.repository.ArticleRepository
 import java.util.Optional
 import java.util.UUID
@@ -25,13 +26,18 @@ class ArticleServiceImplTest {
     @DisplayName("getArticles()")
     inner class GetArticles {
         @Test
-        fun `getArticles() returns articles from repository`() {
+        fun `getArticles() returns all articles from repository`() {
             val uuid = UUID.randomUUID()
             every {
                 stubArticleRepository.findAll()
             } returns
                 listOf(
-                    ArticleEntity(uuid, "title", "content"),
+                    ArticleEntity(
+                        uuid,
+                        "title",
+                        "content",
+                        UserEntity("mahata", "mahata777@gmail.com"),
+                    ),
                 )
 
             val service = ArticleServiceImpl(stubArticleRepository)
@@ -40,7 +46,7 @@ class ArticleServiceImplTest {
             assertEquals(1, result.size)
 
             assertEquals(
-                Article(uuid, "title", "content"),
+                Article(uuid, "title", "content", "mahata"),
                 result[0],
             )
         }
@@ -54,13 +60,21 @@ class ArticleServiceImplTest {
             val uuid = UUID.randomUUID()
             every {
                 stubArticleRepository.findById(uuid)
-            } returns Optional.of(ArticleEntity(uuid, "title", "content"))
+            } returns
+                Optional.of(
+                    ArticleEntity(
+                        uuid,
+                        "title",
+                        "content",
+                        UserEntity("mahata", "mahata777@gmail.com"),
+                    ),
+                )
 
             val articleService = ArticleServiceImpl(stubArticleRepository)
             val result = articleService.getArticle(uuid)
 
             assertEquals(
-                Article(uuid, "title", "content"),
+                Article(uuid, "title", "content", "mahata"),
                 result,
             )
         }
@@ -98,6 +112,36 @@ class ArticleServiceImplTest {
                     },
                 )
             }
+        }
+    }
+
+    @Nested
+    @DisplayName("getArticlesByUname(uname)")
+    inner class GetArticlesByUnameUname {
+        @Test
+        fun `getArticlesByUname(uname) returns all articles written by the user`() {
+            val uuid = UUID.randomUUID()
+            every {
+                stubArticleRepository.findAllByUserUname("mahata")
+            } returns
+                listOf(
+                    ArticleEntity(
+                        uuid,
+                        "title",
+                        "content",
+                        UserEntity("mahata", "mahata777@gmail.com"),
+                    ),
+                )
+
+            val service = ArticleServiceImpl(stubArticleRepository)
+            val result = service.getArticlesByUname("mahata")
+
+            assertEquals(1, result.size)
+
+            assertEquals(
+                Article(uuid, "title", "content", "mahata"),
+                result[0],
+            )
         }
     }
 }

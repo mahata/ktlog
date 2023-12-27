@@ -22,24 +22,24 @@ import java.util.UUID
 @ExtendWith(MockKExtension::class)
 class ArticleControllerTest {
     @MockK
-    private lateinit var stubArticlesService: ArticleService
+    private lateinit var stubArticleService: ArticleService
 
     private lateinit var mockMvc: MockMvc
 
     @BeforeEach
     fun setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(ArticleController(stubArticlesService)).build()
+        mockMvc = MockMvcBuilders.standaloneSetup(ArticleController(stubArticleService)).build()
     }
 
     @Nested
     @DisplayName("GET /api/v1/articles")
     inner class GetApiV1Articles {
         @Test
-        fun `It returns all articles available`() {
+        fun `returns all articles available`() {
             val uuid = UUID.randomUUID()
             every {
-                stubArticlesService.getArticles()
-            } returns listOf(Article(uuid, "title", "content"))
+                stubArticleService.getArticles()
+            } returns listOf(Article(uuid, "title", "content", "mahata"))
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/articles"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
@@ -55,11 +55,11 @@ class ArticleControllerTest {
     @DisplayName("GET /api/v1/articles/{id}")
     inner class GetApiV1ArticlesId {
         @Test
-        fun `It returns an existing article when ID is valid`() {
+        fun `returns an existing article when ID is valid`() {
             val uuid = UUID.randomUUID()
             every {
-                stubArticlesService.getArticle(uuid)
-            } returns Article(uuid, "title", "content")
+                stubArticleService.getArticle(uuid)
+            } returns Article(uuid, "title", "content", "mahata")
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/articles/$uuid"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
@@ -69,10 +69,10 @@ class ArticleControllerTest {
         }
 
         @Test
-        fun `It returns 404 when article with ID does not exist`() {
+        fun `returns 404 when article with ID does not exist`() {
             val uuid = UUID.randomUUID()
             every {
-                stubArticlesService.getArticle(uuid)
+                stubArticleService.getArticle(uuid)
             } returns null
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/articles/$uuid"))
@@ -84,11 +84,11 @@ class ArticleControllerTest {
     @DisplayName("POST /api/v1/articles")
     inner class PostApiV1Articles {
         @Test
-        fun `It saves a given article`() {
+        fun `saves a given article`() {
             val mockArticle = ArticleRequest("my title", "my content")
 
             every {
-                stubArticlesService.saveArticle(mockArticle)
+                stubArticleService.saveArticle(mockArticle)
             } returns Unit
 
             val objectMapper = ObjectMapper()
@@ -101,7 +101,7 @@ class ArticleControllerTest {
             ).andExpect(MockMvcResultMatchers.status().isCreated)
 
             verify(exactly = 1) {
-                stubArticlesService.saveArticle(ArticleRequest(mockArticle.title, mockArticle.content))
+                stubArticleService.saveArticle(ArticleRequest(mockArticle.title, mockArticle.content))
             }
         }
     }

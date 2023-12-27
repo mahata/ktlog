@@ -1,10 +1,13 @@
 package org.mahata.ktlog.controller
 
+import org.mahata.ktlog.service.Article
+import org.mahata.ktlog.service.ArticleService
 import org.mahata.ktlog.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -26,6 +29,7 @@ data class UserRequest(
 @RequestMapping("/api/v1/users")
 class UserController(
     private val userService: UserService,
+    private val articleService: ArticleService,
 ) {
     @GetMapping("/me")
     fun me(
@@ -49,5 +53,12 @@ class UserController(
         }
 
         userService.saveUser(signUpRequest)
+    }
+
+    @GetMapping("/{uname}/articles")
+    fun getAll(
+        @PathVariable uname: String,
+    ): List<Article> {
+        return articleService.getArticlesByUname(uname)
     }
 }

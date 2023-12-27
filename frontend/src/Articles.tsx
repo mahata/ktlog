@@ -9,6 +9,8 @@ type Props = {
 
 export default function Articles({ articleRepository }: Props) {
   const [articles, setArticles] = useState<Article[]>([]);
+  // const { uname } = useParams();
+
   useEffect(() => {
     articleRepository
       .getAll()

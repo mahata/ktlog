@@ -7,6 +7,8 @@ import io.mockk.verify
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.mahata.ktlog.service.Article
+import org.mahata.ktlog.service.ArticleService
 import org.mahata.ktlog.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -17,6 +19,7 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import java.util.UUID
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -26,6 +29,9 @@ class UserControllerTest {
 
     @MockkBean
     private lateinit var stubUserService: UserService
+
+    @MockkBean
+    private lateinit var stubArticleService: ArticleService
 
     private val defaultOAuth2User =
         DefaultOAuth2User(
@@ -38,7 +44,7 @@ class UserControllerTest {
     @Nested
     inner class GetApiV1UsersMe {
         @Test
-        fun `When the user is not authorized, it returns null values`() {
+        fun `returns null values when the user is not authorized`() {
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/me"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(null))
@@ -46,7 +52,7 @@ class UserControllerTest {
         }
 
         @Test
-        fun `When the user is authorized, it returns the user info`() {
+        fun `returns user info when the user is authorized`() {
             mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/v1/users/me")
                     .with(SecurityMockMvcRequestPostProcessors.oauth2Login().oauth2User(defaultOAuth2User)),
@@ -61,7 +67,7 @@ class UserControllerTest {
     @Nested
     inner class PostApiV1Users {
         @Test
-        fun `When called with valid data, it creates a new user`() {
+        fun `creates a new user when called with valid data `() {
             val mockSignUpRequest = UserRequest("mahata777@gmail.com", "mahata")
 
             every { stubUserService.saveUser(mockSignUpRequest) } returns Unit
@@ -83,7 +89,7 @@ class UserControllerTest {
         }
 
         @Test
-        fun `When called without a CSRF token, it rejects the request`() {
+        fun `rejects the request when called without a CSRF token`() {
             val mockSignUpRequest = UserRequest("mahata777@gmail.com", "mahata")
 
             every { stubUserService.saveUser(mockSignUpRequest) } returns Unit
@@ -100,7 +106,7 @@ class UserControllerTest {
         }
 
         @Test
-        fun `When the email address isn't the same as the OAuthed user's one, it rejects the request`() {
+        fun `rejects the request when the email address isn't the same as the OAuthed user's one`() {
             val mockSignUpRequest = UserRequest("who-is-this@example.com", "mahata")
 
             every { stubUserService.saveUser(mockSignUpRequest) } returns Unit
@@ -115,6 +121,26 @@ class UserControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(jsonBody),
             ).andExpect(MockMvcResultMatchers.status().isForbidden)
+        }
+    }
+
+    @DisplayName("GET /api/v1/users/{uname}/articles")
+    @Nested
+    inner class GetApiV1UsersUnameArticles {
+        @Test
+        fun `returns articles written by the user`() {
+            val uuid = UUID.randomUUID()
+            every {
+                stubArticleService.getArticlesByUname("mahata")
+            } returns listOf(Article(uuid, "title", "content", "mahata"))
+
+            mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users/mahata/articles"))
+                .andExpect(MockMvcResultMatchers.status().isOk)
+                .andExpect(MockMvcResultMatchers.jsonPath("$").isArray)
+                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(uuid.toString()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("title"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].content").value("content"))
         }
     }
 }

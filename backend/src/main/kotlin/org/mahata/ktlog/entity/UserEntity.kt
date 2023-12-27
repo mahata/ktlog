@@ -9,7 +9,7 @@ import jakarta.persistence.Table
 @Table(name = "users")
 class UserEntity(
     @Id
-    val email: String,
-    @Column(unique = true)
     val uname: String,
+    @Column(unique = true)
+    val email: String,
 )

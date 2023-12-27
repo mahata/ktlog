@@ -48,6 +48,10 @@ export default function App({
           path="/signup"
           element={<SignUp userRepository={userRepository} />}
         />
+        <Route
+          path="/u/:uname"
+          element={<Articles articleRepository={articleRepository} />}
+        />
       </Routes>
       {showModal && <Modal title="Social Login" />}
     </div>
