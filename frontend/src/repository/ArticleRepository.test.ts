@@ -26,6 +26,25 @@ describe("ArticlesRepository", () => {
     expect(response).toEqual(stubResponse);
   });
 
+  it("getAllByUname(uname) returns data of Article[] written by the user", async () => {
+    const stubResponse = [article];
+
+    globalThis.fetch = vi
+      .fn()
+      .mockResolvedValue(new Response(JSON.stringify(stubResponse)));
+
+    const articlesRepository = new NetworkArticleRepository();
+    const response = await articlesRepository.getAllByUname("mahata");
+
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      "/api/v1/users/mahata/articles",
+      {
+        method: "GET",
+      },
+    );
+    expect(response).toEqual(stubResponse);
+  });
+
   it("get(uuid) returns data of Article", async () => {
     const stubResponse = article;
 
