@@ -19,7 +19,7 @@
     "reset-css": "^5.0.2"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/jest-dom": "^6.1.6",
     "@testing-library/react": "^14.1.2",
     "@testing-library/user-event": "^14.5.1",
     "@types/react": "^18.2.45",
