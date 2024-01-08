@@ -38,7 +38,7 @@ dependencies {
 
     runtimeOnly("org.postgresql:postgresql:42.7.1")
     runtimeOnly("com.h2database:h2:2.2.224")
-    testImplementation("io.mockk:mockk:1.13.8")
+    testImplementation("io.mockk:mockk:1.13.9")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
     testImplementation("org.testcontainers:junit-jupiter:1.19.3")
     testImplementation("org.testcontainers:postgresql:1.19.3")
