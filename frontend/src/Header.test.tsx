@@ -1,8 +1,8 @@
-import { describe } from "vitest";
 import { act, render, screen } from "@testing-library/react";
 import Header from "./Header";
 import { MemoryRouter } from "react-router-dom";
 import { StubUsersRepository } from "./StubRepos";
+import { expect, it, beforeEach, describe } from "vitest";
 
 describe("Header", () => {
   const stubUserRepository = new StubUsersRepository();

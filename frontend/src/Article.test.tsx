@@ -1,5 +1,5 @@
 import Article from "./Article";
-import { vi } from "vitest";
+import { vi, expect, it, describe } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { StubArticlesRepository } from "./StubRepos";
 

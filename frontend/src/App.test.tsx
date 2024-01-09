@@ -1,3 +1,4 @@
+import { expect, it, describe, afterEach } from "vitest";
 import App from "./App";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { StubArticlesRepository, StubUsersRepository } from "./StubRepos";

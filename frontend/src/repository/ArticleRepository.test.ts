@@ -1,4 +1,4 @@
-import { vi } from "vitest";
+import { vi, describe, it, expect, afterEach } from "vitest";
 import { NetworkArticleRepository } from "./ArticleRepository";
 
 const originalFetch = globalThis.fetch;

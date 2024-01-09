@@ -3,6 +3,7 @@ import SignUp from "./SignUp";
 import { StubUsersRepository } from "./StubRepos";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { describe, it, expect, beforeEach } from "vitest";
 
 describe("SignUp", () => {
   const stubUserRepository = new StubUsersRepository();
