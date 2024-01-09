@@ -33,7 +33,7 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.22")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")
-    implementation("org.flywaydb:flyway-core:9.22.3")
+    implementation("org.flywaydb:flyway-core:10.4.1")
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
 
     runtimeOnly("org.postgresql:postgresql:42.7.1")
