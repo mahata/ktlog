@@ -29,8 +29,9 @@ jobs:
       - name: Build Frontend so that Backend can host it
         run: |
           cd frontend
-          npx tailwindcss -i ./src/index.css -o ./dist/output.css
+          # Note: The order matters since `npx vite build` will create a fresh directory every time
           npx vite build --outDir ./dist
+          npx tailwindcss -i ./src/index.css -o ./dist/output.css
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
