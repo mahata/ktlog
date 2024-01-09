@@ -20,8 +20,8 @@ export default function Header({ userRepository }: Props) {
 
   return (
     <header className="w-full bg-cyan-100">
-      <nav className="flex justify-between h-10">
-        <div className="py-1.5 px-4">
+      <nav className="flex h-10 justify-between">
+        <div className="px-4 py-1.5">
           <Link to="/">
             <img className="h-7 shadow-lg" src="/ktlog.webp" alt="Site Logo" />
           </Link>
