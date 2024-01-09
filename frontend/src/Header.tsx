@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import styles from "./Header.module.scss";
 import { useEffect, useState } from "react";
 import { UserRepository } from "./repository/UserRepository";
 import { useAtom } from "jotai";
@@ -20,18 +19,14 @@ export default function Header({ userRepository }: Props) {
   }, [userRepository]);
 
   return (
-    <header className={styles.headerContainer}>
-      <nav className={styles.navContainer}>
-        <div className={styles.headerLogo}>
+    <header className="w-full bg-cyan-100">
+      <nav className="flex justify-between h-10">
+        <div className="py-1.5 px-4">
           <Link to="/">
-            <img
-              className={styles.headerLogoImage}
-              src="/ktlog.webp"
-              alt="Site Logo"
-            />
+            <img className="h-7 shadow-lg" src="/ktlog.webp" alt="Site Logo" />
           </Link>
         </div>
-        <div className={styles.headerLinkContainer}>
+        <div className="p-3">
           {username ? (
             username
           ) : (
