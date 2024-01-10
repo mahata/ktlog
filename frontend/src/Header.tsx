@@ -23,7 +23,11 @@ export default function Header({ userRepository }: Props) {
       <nav className="flex h-10 justify-between">
         <div className="px-4 py-1.5">
           <Link to="/">
-            <img className="h-7 shadow-lg" src="/ktlog.webp" alt="Site Logo" />
+            <img
+              className="h-7 rounded shadow-lg"
+              src="/ktlog.webp"
+              alt="Site Logo"
+            />
           </Link>
         </div>
         <div className="p-3">

@@ -7,7 +7,7 @@
     "build-react": "tsc && vite build --watch --emptyOutDir --outDir ../backend/src/main/resources/static",
     "build-tailwind": "tailwindcss --watch -i ./src/index.css -o ../backend/src/main/resources/static/output.css",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "lint-fix": "eslint --ext .js,.jsx,.ts,.tsx src/ --fix && stylelint --fix src/**/*.scss && prettier --write src/**/*.ts src/**/*.tsx src/**/*.scss",
+    "lint-fix": "eslint --ext .js,.jsx,.ts,.tsx src/ --fix && prettier --write src/**/*.ts src/**/*.tsx",
     "preview": "vite preview",
     "test": "vitest run"
   },
@@ -36,15 +36,14 @@
     "postcss-cli": "^11.0.0",
     "prettier": "^3.1.1",
     "prettier-plugin-tailwindcss": "^0.5.11",
-    "sass": "^1.69.5",
-    "stylelint": "^15.11.0",
-    "stylelint-config-standard-scss": "^11.1.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3",
     "vite": "^5.0.10",
     "vitest": "^0.34.6"
   },
   "prettier": {
-    "plugins": ["prettier-plugin-tailwindcss"]
+    "plugins": [
+      "prettier-plugin-tailwindcss"
+    ]
   }
 }

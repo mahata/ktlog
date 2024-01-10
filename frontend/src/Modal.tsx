@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useAtom } from "jotai";
 import { modalAtom } from "./Modal.atoms";
-import styles from "./Modal.module.scss";
 import { X } from "lucide-react";
 
 type Props = {
@@ -20,25 +19,21 @@ export default function Modal({ title }: Props) {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.background} />
-      <div className={styles.modal}>
-        <div className={styles.header}>
-          <div className={styles.title}>{title}</div>
+    <div className="fixed inset-0 z-10 flex items-center justify-center">
+      <div className="absolute inset-0 z-10 bg-slate-400/40" />
+      <div className="z-20 w-4/5 rounded-3xl bg-blue-50 p-4 shadow-2xl">
+        <div className="flex justify-between">
+          <div>{title}</div>
           <X size={24} onClick={() => setShowModal(false)} />
         </div>
-        <div className={styles.body}>
-          <div className={styles.socialLogin}>
+        <div>
+          <div className="rounded-2xl bg-blue-100 p-2">
             <a
-              className={styles.socialLoginLink}
+              className="flex items-center gap-4"
               href="/oauth2/authorization/github"
             >
-              <img
-                className={styles.socialLoginIcon}
-                src="/github.webp"
-                alt="GitHub Logo"
-              />
-              <div className={styles.socialLoginText}>Login with GitHub</div>
+              <img className="h-8 w-8" src="/github.webp" alt="GitHub Logo" />
+              <p>Login with GitHub</p>
             </a>
           </div>
         </div>

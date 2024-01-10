@@ -1,6 +1,5 @@
 import { Article, ArticleRepository } from "./repository/ArticleRepository";
 import { useEffect, useState } from "react";
-import styles from "./Articles.module.scss";
 import { Link, useParams } from "react-router-dom";
 
 type Props = {
@@ -24,12 +23,15 @@ export default function Articles({ articleRepository }: Props) {
   }, [uname, articleRepository]);
 
   return (
-    <div className={styles.articlesContainer}>
-      <h2 className={styles.articlesHeader}>Articles</h2>
-      <div className={styles.articleContainer}>
+    <div className="flex flex-col items-center">
+      <h2 className="text-4xl font-semibold leading-5">Articles</h2>
+      <div className="w-4/5">
         {articles.map((article) => {
           return (
-            <div className={styles.articleTitleContainer} key={article.id}>
+            <div
+              className="my-6 justify-start text-2xl font-medium leading-4"
+              key={article.id}
+            >
               <h2>
                 <Link to={`/articles/${article.id}`}>{article.title}</Link>
               </h2>
