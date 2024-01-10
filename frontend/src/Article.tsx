@@ -21,9 +21,11 @@ export default function Article({ articlesRepository }: Props) {
 
   return (
     article && (
-      <div className="w-4/5">
-        <h2 className="text-4xl font-semibold leading-5">{article.title}</h2>
-        <div className="leading-4">{article.content}</div>
+      <div className="flex flex-col items-center">
+        <div className="w-4/5">
+          <h2 className="my-2 text-4xl font-semibold">{article.title}</h2>
+          <div className="my-2 leading-4">{article.content}</div>
+        </div>
       </div>
     )
   );
