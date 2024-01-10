@@ -30,12 +30,12 @@ By running the following commands, React will start monitoring changes in the `f
 
 ```shell
 $ cd frontend
-$ npm run build-watch
+$ npx concurrently "npm:build-react" "npm:build-tailwind"
 ```
 
 ### Backend Instructions
 
-Execute the following commands to boot up the Spring Boot process. Once it's up, you can access it via: http://localhost:8080.
+Execute the following commands to boot up the Spring Boot process. Once it's up, you can access it via: http://localhost:18080.
 
 ```
 $ cd backend
