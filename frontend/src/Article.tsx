@@ -21,10 +21,10 @@ export default function Article({ articlesRepository }: Props) {
 
   return (
     article && (
-      <>
-        <div>{article.title}</div>
-        <div>{article.content}</div>
-      </>
+      <div className="w-4/5">
+        <h2 className="text-4xl font-semibold leading-5">{article.title}</h2>
+        <div className="leading-4">{article.content}</div>
+      </div>
     )
   );
 }

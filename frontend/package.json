@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build-react": "tsc && vite build --watch --emptyOutDir --outDir ../backend/src/main/resources/static",
-    "build-tailwind": "tailwindcss --watch -i ./src/index.css -o ../backend/src/main/resources/static/output.css",
+    "build-tailwind": "tailwindcss --watch -i ./src/index.css -o ./src/output.css",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint-fix": "eslint --ext .js,.jsx,.ts,.tsx src/ --fix && prettier --write src/**/*.ts src/**/*.tsx",
     "preview": "vite preview",
