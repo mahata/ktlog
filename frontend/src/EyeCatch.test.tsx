@@ -7,7 +7,9 @@ describe("EyeCatch", () => {
   it("shows an eye-catch logo", () => {
     render(<EyeCatch />, { wrapper: MemoryRouter });
 
-    const eyeCatchImage = screen.getByRole("img", { name: "Eye Catch Logo" });
+    const eyeCatchImage = screen.getByRole("img", {
+      name: "Eye Catch Cat Logo",
+    });
     expect(eyeCatchImage).toBeInTheDocument();
   });
 
@@ -15,7 +17,7 @@ describe("EyeCatch", () => {
     render(<EyeCatch />, { wrapper: MemoryRouter });
 
     const eyeCatchLogoLink = screen.getByRole("link", {
-      name: "Eye Catch Logo",
+      name: "Eye Catch Cat Logo",
     }) as HTMLAnchorElement;
 
     expect(eyeCatchLogoLink).toBeInTheDocument();
