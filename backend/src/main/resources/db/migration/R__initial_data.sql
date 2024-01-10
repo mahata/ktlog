@@ -13,6 +13,5 @@ TRUNCATE TABLE articles CASCADE;
 
 INSERT INTO articles (id, title, content, user_uname)
 VALUES
-    ('885bf6cc-2cf2-457d-a2a0-08b16c30c2de', '日本語のタイトル', 'こんにちは、元気ですか? 僕は元気です。', 'mahata'),
-    ('17e6529d-2ae1-49c8-9c39-d2eb00ef39e1', 'title by mahata', 'kenshiro', 'mahata'),
-    ('65c4bd90-2112-43a4-8227-27caedbc0a00', 'title by ymahata', 'raou', 'ymahata');
+    ('17e6529d-2ae1-49c8-9c39-d2eb00ef39e1', 'this is a blog title', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci aspernatur consectetur debitis dolore dolores ea enim eveniet impedit iste, maiores, natus, praesentium quas quis temporibus! Accusamus at beatae delectus eius, enim esse eveniet, excepturi libero optio quia sed voluptatem.', 'mahata'),
+    ('65c4bd90-2112-43a4-8227-27caedbc0a00', 'this is yet another blog title', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci aspernatur consectetur debitis dolore dolores ea enim eveniet impedit iste, maiores, natus, praesentium quas quis temporibus! Accusamus at beatae delectus eius, enim esse eveniet, excepturi libero optio quia sed voluptatem.', 'ymahata');

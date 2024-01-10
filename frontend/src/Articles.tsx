@@ -28,13 +28,20 @@ export default function Articles({ articleRepository }: Props) {
       <div className="w-4/5">
         {articles.map((article) => {
           return (
-            <div
-              className="my-6 justify-start text-2xl font-medium leading-4"
-              key={article.id}
-            >
+            <div className="my-6 justify-start" key={article.id}>
               <h2>
-                <Link to={`/articles/${article.id}`}>{article.title}</Link>
+                <Link
+                  className="text-2xl font-medium leading-4"
+                  to={`/articles/${article.id}`}
+                >
+                  {article.title}
+                </Link>
               </h2>
+              <p>
+                {article.content.length <= 200
+                  ? article.content
+                  : article.content.substring(0, 200) + "..."}
+              </p>
             </div>
           );
         })}
