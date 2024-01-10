@@ -29,6 +29,7 @@ jobs:
       - name: Build Frontend so that Backend can host it
         run: |
           cd frontend
+          tailwindcss -i ./src/index.css -o ./src/output.css
           npx vite build --outDir ./dist
 
       - name: Upload build artifacts
