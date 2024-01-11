@@ -23,7 +23,7 @@ export default function Modal({ title }: Props) {
       <div className="absolute inset-0 z-10 bg-slate-400/40" />
       <div className="z-20 w-4/5 rounded-3xl bg-blue-50 p-4 shadow-2xl">
         <div className="flex justify-between">
-          <div>{title}</div>
+          <div className="pb-3 pt-2 text-xl font-medium leading-5">{title}</div>
           <X size={24} onClick={() => setShowModal(false)} />
         </div>
         <div>

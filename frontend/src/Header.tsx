@@ -19,7 +19,7 @@ export default function Header({ userRepository }: Props) {
   }, [userRepository]);
 
   return (
-    <header className="w-full bg-cyan-100">
+    <header className="w-full bg-blue-400 shadow shadow-blue-600">
       <nav className="flex h-10 justify-between">
         <div className="px-4 py-1.5">
           <Link to="/">
