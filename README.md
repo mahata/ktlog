@@ -41,3 +41,7 @@ Execute the following commands to boot up the Spring Boot process. Once it's up,
 $ cd backend
 $ ./gradlew bootRun
 ```
+
+## Demo
+
+The latest version of this service is available here: [https://ktlog.mahata.org/](https://ktlog.mahata.org/) However, please note that this is a "DEMO" site and I do NOT guarantee data permanence or anything like that.

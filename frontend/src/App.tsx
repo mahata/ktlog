@@ -10,6 +10,7 @@ import Modal from "./Modal";
 import { useAtom } from "jotai";
 import { modalAtom } from "./Modal.atoms";
 import SignUp from "./SignUp";
+import Post from "./Post";
 
 type Props = {
   ktlogDomain: string;
@@ -40,6 +41,10 @@ export default function App({
           element={<Articles articleRepository={articleRepository} />}
         />
         <Route
+          path="/u/:uname"
+          element={<Articles articleRepository={articleRepository} />}
+        />
+        <Route
           path="/articles/:id"
           element={<Article articlesRepository={articleRepository} />}
         />
@@ -47,10 +52,7 @@ export default function App({
           path="/signup"
           element={<SignUp userRepository={userRepository} />}
         />
-        <Route
-          path="/u/:uname"
-          element={<Articles articleRepository={articleRepository} />}
-        />
+        <Route path="/post" element={<Post />} />
       </Routes>
       {showModal && <Modal title="Social Login" />}
     </div>
