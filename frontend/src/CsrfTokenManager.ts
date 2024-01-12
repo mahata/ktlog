@@ -6,7 +6,6 @@ export class CsrfTokenManager {
 
     if (!token) {
       token = await this.fetchNewToken();
-      localStorage.setItem(CsrfTokenManager.TOKEN_STORAGE_KEY, token);
     }
 
     return token;
@@ -18,8 +17,8 @@ export class CsrfTokenManager {
       throw new Error(`Failed to fetch CSRF token: ${response.status}`);
     }
 
-    const data = await response.json();
-    return data.token;
+    const { token } = await response.json();
+    localStorage.setItem(CsrfTokenManager.TOKEN_STORAGE_KEY, token);
+    return token;
   }
 }
-3;

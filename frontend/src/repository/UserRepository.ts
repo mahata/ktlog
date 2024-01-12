@@ -34,9 +34,9 @@ export class NetworkUserRepository implements UserRepository {
   }
 
   private async postRequest(user: User): Promise<void> {
-    const csrfToken = await this.csrfTokenManager.getToken();
-
     const request = async () => {
+      const csrfToken = await this.csrfTokenManager.getToken();
+
       return fetch("/api/v1/users", {
         method: "POST",
         headers: {

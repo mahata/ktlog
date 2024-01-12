@@ -28,7 +28,7 @@ export default function SignUp({ userRepository }: Props) {
         name="email"
         value={email}
         placeholder="Email Address"
-        className="my-2 block w-3/4 w-full rounded border border-gray-300 p-3"
+        className="my-2 block w-3/4 rounded border border-gray-300 p-3"
         readOnly
       />
       <input
@@ -38,7 +38,7 @@ export default function SignUp({ userRepository }: Props) {
         pattern="[A-Za-z0-9]{1,63}"
         title="Must be only alphanumeric and less than 64 characters"
         placeholder="User Name"
-        className="my-2 block w-3/4 w-full rounded border border-gray-300 p-3"
+        className="my-2 block w-3/4 rounded border border-gray-300 p-3"
         onChange={(event) => {
           const uname = event.target.value.trim();
           setUname(uname);

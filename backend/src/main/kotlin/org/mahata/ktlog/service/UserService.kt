@@ -8,8 +8,8 @@ import org.mahata.ktlog.repository.UserRepository
 import org.springframework.stereotype.Service
 
 data class User(
-    val email: String,
     val uname: String,
+    val email: String,
 )
 
 interface UserService {
@@ -25,23 +25,29 @@ class UserServiceImpl(
     private val userRepository: UserRepository,
 ) : UserService {
     override fun getUserByEmail(email: String): User? {
-        TODO("Not yet implemented")
+        return userRepository.findByEmail(email)?.let {
+            User(it.uname, it.email)
+        }
     }
 
     override fun getUserByUname(uname: String): User? {
-        TODO("Not yet implemented")
+        return userRepository.findById(uname).let {
+            val userEntity = it.get()
+            User(userEntity.uname, userEntity.email)
+        }
     }
 
     override fun saveUser(user: UserRequest) {
+        val dbUserByUname = userRepository.findById(user.uname)
+        if (dbUserByUname.isPresent) {
+            throw DuplicateEmailException("Duplicate uname exists: ${user.uname}")
+        }
+
         userRepository.findByEmail(user.email)?.let {
-            throw DuplicateEmailException("Duplicate email exists: ${user.email}")
+            throw DuplicateUnameException("Duplicate email exists: ${user.email}")
         }
 
-        userRepository.findByUname(user.uname)?.let {
-            throw DuplicateUnameException("Duplicate uname exists: ${user.uname}")
-        }
-
-        val userEntity = UserEntity(user.email, user.uname)
+        val userEntity = UserEntity(user.uname, user.email)
 
         userRepository.save(userEntity)
     }

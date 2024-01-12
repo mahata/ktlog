@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test
 import org.mahata.ktlog.repository.UserRepository
 import org.springframework.security.core.Authentication
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User
+import java.util.Optional
 
 class OAuth2LoginSuccessHandlerTest {
     @Test
@@ -24,7 +25,7 @@ class OAuth2LoginSuccessHandlerTest {
 
         every { authentication.principal } returns oauthUser
         every { oauthUser.getAttribute<String>("email") } returns email
-        every { userRepository.findByEmail(email) } returns null
+        every { userRepository.findById(email) } returns Optional.empty()
 
         handler.onAuthenticationSuccess(request, response, authentication)
 

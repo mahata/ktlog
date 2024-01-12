@@ -16,13 +16,14 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 
 data class UserResponse(
-    val name: String? = null,
+    val uname: String? = null,
     val email: String? = null,
+    val name: String? = null,
 )
 
 data class UserRequest(
-    val email: String,
     val uname: String,
+    val email: String,
 )
 
 @RestController
@@ -33,21 +34,25 @@ class UserController(
 ) {
     @GetMapping("/me")
     fun me(
-        @AuthenticationPrincipal user: OAuth2User?,
+        @AuthenticationPrincipal oAuth2User: OAuth2User?,
     ): UserResponse {
+        val email = oAuth2User?.attributes?.get("email") as? String
+        val uname = email?.let { userService.getUserByEmail(it)?.uname }
+
         return UserResponse(
-            name = user?.attributes?.get("name") as? String,
-            email = user?.attributes?.get("email") as? String,
+            uname,
+            email,
+            name = oAuth2User?.attributes?.get("name") as? String,
         )
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun post(
-        @AuthenticationPrincipal user: OAuth2User?,
+        @AuthenticationPrincipal oAuth2User: OAuth2User?,
         @RequestBody signUpRequest: UserRequest,
     ) {
-        val email = user?.attributes?.get("email") as? String
+        val email = oAuth2User?.attributes?.get("email") as? String
         if (email == null || email != signUpRequest.email) {
             throw ResponseStatusException(HttpStatus.FORBIDDEN)
         }

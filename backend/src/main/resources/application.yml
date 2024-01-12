@@ -33,3 +33,9 @@ spring:
 
 server:
   port: 18080
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG

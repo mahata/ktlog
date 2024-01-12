@@ -37,7 +37,7 @@ export default function Articles({ articleRepository }: Props) {
                   {article.title}
                 </Link>
               </h2>
-              <p>
+              <p className="my-2">
                 {article.content.length <= 200
                   ? article.content
                   : article.content.substring(0, 200) + "..."}

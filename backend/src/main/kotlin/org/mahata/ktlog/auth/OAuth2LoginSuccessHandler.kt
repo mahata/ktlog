@@ -20,8 +20,8 @@ class OAuth2LoginSuccessHandler(
         val oauthUser = authentication.principal as DefaultOAuth2User
         val email = oauthUser.getAttribute<String>("email") ?: return
 
-        val userEntity = userRepository.findByEmail(email)
-        if (userEntity == null) {
+        val userEntity = userRepository.findById(email)
+        if (userEntity.isEmpty) {
             response.sendRedirect("/signup")
         }
 
