@@ -16,7 +16,7 @@
     "lucide-react": "^0.309.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.0"
+    "react-router-dom": "^6.21.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.2.0",
