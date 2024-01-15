@@ -1,5 +1,6 @@
 import { vi, describe, it, expect, afterEach } from "vitest";
 import { NetworkArticleRepository } from "./ArticleRepository";
+import { CsrfTokenManager } from "../CsrfTokenManager";
 
 const originalFetch = globalThis.fetch;
 
@@ -62,6 +63,27 @@ describe("ArticlesRepository", () => {
       },
     );
     expect(response).toEqual(stubResponse);
+  });
+
+  it("save(article) sends data of Article", async () => {
+    const csrfToken = "DOES NOT REALLY MATTER";
+    localStorage.setItem(CsrfTokenManager.TOKEN_STORAGE_KEY, csrfToken);
+
+    const mockedFetch = vi.fn();
+    mockedFetch.mockResolvedValue(new Response(""));
+    globalThis.fetch = mockedFetch;
+
+    const articleRepository = new NetworkArticleRepository();
+    await articleRepository.save(article);
+
+    expect(globalThis.fetch).toHaveBeenCalledWith(`/api/v1/articles`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": csrfToken,
+      },
+      body: JSON.stringify(article),
+    });
   });
 
   afterEach(() => {
