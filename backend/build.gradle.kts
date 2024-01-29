@@ -41,7 +41,7 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.9")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
     testImplementation("org.testcontainers:junit-jupiter:1.19.3")
-    testImplementation("org.testcontainers:postgresql:1.19.3")
+    testImplementation("org.testcontainers:postgresql:1.19.4")
     testImplementation("com.microsoft.playwright:playwright:1.41.0")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
