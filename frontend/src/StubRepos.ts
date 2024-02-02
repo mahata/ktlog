@@ -15,6 +15,10 @@ export class StubArticlesRepository implements ArticleRepository {
     Parameters<ArticleRepository["get"]>,
     ReturnType<ArticleRepository["get"]>
   > = vi.fn();
+  save: Mock<
+    Parameters<ArticleRepository["save"]>,
+    ReturnType<ArticleRepository["save"]>
+  > = vi.fn();
 }
 
 export class StubUsersRepository implements UserRepository {

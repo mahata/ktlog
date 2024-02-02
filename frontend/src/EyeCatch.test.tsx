@@ -1,7 +1,6 @@
 import EyeCatch from "./EyeCatch";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { expect, it, describe } from "vitest";
 
 describe("EyeCatch", () => {
   it("shows an eye-catch logo", () => {
