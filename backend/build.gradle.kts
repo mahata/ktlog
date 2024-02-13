@@ -44,7 +44,7 @@ dependencies {
     testImplementation("org.testcontainers:postgresql:1.19.5")
     testImplementation("com.microsoft.playwright:playwright:1.41.1")
 
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.2")
 }
 
 tasks.withType<KotlinCompile> {
