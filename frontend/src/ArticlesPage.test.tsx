@@ -1,6 +1,6 @@
 import { expect, it, vi, describe, Mock } from "vitest";
 import { act, render, screen } from "@testing-library/react";
-import Articles from "./Articles";
+import ArticlesPage from "./ArticlesPage";
 import { StubArticlesRepository } from "./StubRepos";
 import { MemoryRouter, useParams } from "react-router-dom";
 
@@ -20,7 +20,7 @@ describe("Articles", () => {
   it("shows 'Articles' header", async () => {
     (useParams as Mock).mockReturnValue({ uname: undefined });
     stubArticlesRepository.getAll.mockResolvedValue([]);
-    render(<Articles articleRepository={stubArticlesRepository} />);
+    render(<ArticlesPage articleRepository={stubArticlesRepository} />);
 
     await act(async () => {
       await stubArticlesRepository.getAll();
@@ -38,7 +38,7 @@ describe("Articles", () => {
         content: "my content",
       },
     ]);
-    render(<Articles articleRepository={stubArticlesRepository} />, {
+    render(<ArticlesPage articleRepository={stubArticlesRepository} />, {
       wrapper: MemoryRouter,
     });
 
@@ -64,7 +64,7 @@ describe("Articles", () => {
         content: "my content",
       },
     ]);
-    render(<Articles articleRepository={stubArticlesRepository} />, {
+    render(<ArticlesPage articleRepository={stubArticlesRepository} />, {
       wrapper: MemoryRouter,
     });
 
@@ -94,7 +94,7 @@ describe("Articles", () => {
         content: "y".repeat(201),
       },
     ]);
-    render(<Articles articleRepository={stubArticlesRepository} />, {
+    render(<ArticlesPage articleRepository={stubArticlesRepository} />, {
       wrapper: MemoryRouter,
     });
 

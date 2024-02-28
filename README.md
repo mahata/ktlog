@@ -8,7 +8,7 @@ This is an implementation of a blog platform, crafted using Spring Boot with Kot
 
 ## Prerequisites
 
-* Java 17 or higher
+* Java 21 or higher
 * Node 20 or higher
 * Docker
 
@@ -22,25 +22,26 @@ Run the following command in the project's root directory:
 $ docker compose up
 ```
 
-Also, this repository includes both frontend and backend implementations. Due to the backend using the artifact generated from the `frontend/` directory, the following commands are essential to run the entire service locally:
-
-### Frontend Instructions
-
-By running the following commands, React will start monitoring changes in the `frontend/` directory. If any changes are detected, React will build the artifact and copy it over to the `backend/` directory.
-
-```shell
-$ cd frontend
-$ npx concurrently "npm:build-react" "npm:build-tailwind"
-```
-
 ### Backend Instructions
 
-Execute the following commands to boot up the Spring Boot process. Once it's up, you can access it via: http://localhost:18080.
+Execute the following commands to boot up the Spring Boot process.
 
 ```
 $ cd backend
 $ ./gradlew bootRun
 ```
+
+### Frontend Instructions
+
+By running the following commands, React will start monitoring changes in the `frontend/` directory. If any changes are detected, React will automatically restart to reflect the changes.
+
+```shell
+$ cd frontend
+$ npm i
+$ npm run dev
+```
+
+Together with Backend, the entire system will start serving at http://localhost:5173
 
 ## Demo
 

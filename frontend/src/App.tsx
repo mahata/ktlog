@@ -1,15 +1,15 @@
-import Articles from "./Articles";
+import ArticlesPage from "./ArticlesPage";
 import { ArticleRepository } from "./repository/ArticleRepository";
 import Header from "./Header";
 import EyeCatch from "./EyeCatch";
 import { Route, Routes } from "react-router-dom";
-import Article from "./Article";
+import ArticlePage from "./ArticlePage";
 import { useEffect } from "react";
 import { UserRepository } from "./repository/UserRepository";
 import Modal from "./Modal";
 import { useAtom } from "jotai";
 import { modalAtom } from "./Modal.atoms";
-import SignUp from "./SignUp";
+import SignUpPage from "./SignUpPage";
 import Post from "./Post";
 
 type Props = {
@@ -38,19 +38,19 @@ export default function App({
       <Routes>
         <Route
           path="/"
-          element={<Articles articleRepository={articleRepository} />}
+          element={<ArticlesPage articleRepository={articleRepository} />}
         />
         <Route
           path="/u/:uname"
-          element={<Articles articleRepository={articleRepository} />}
+          element={<ArticlesPage articleRepository={articleRepository} />}
         />
         <Route
           path="/articles/:id"
-          element={<Article articlesRepository={articleRepository} />}
+          element={<ArticlePage articlesRepository={articleRepository} />}
         />
         <Route
           path="/signup"
-          element={<SignUp userRepository={userRepository} />}
+          element={<SignUpPage userRepository={userRepository} />}
         />
         <Route path="/post" element={<Post />} />
       </Routes>

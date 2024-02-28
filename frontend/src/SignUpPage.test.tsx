@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import SignUp from "./SignUp";
+import SignUpPage from "./SignUpPage";
 import { StubUsersRepository } from "./StubRepos";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
@@ -25,7 +25,7 @@ describe("SignUp", () => {
   };
 
   it("shows the authed user's email address in the input field", async () => {
-    render(<SignUp userRepository={stubUserRepository} />, {
+    render(<SignUpPage userRepository={stubUserRepository} />, {
       wrapper: MemoryRouter,
     });
     await waitUseEffect();
@@ -35,7 +35,7 @@ describe("SignUp", () => {
 
   describe("Button", () => {
     it("is disabled by default", async () => {
-      render(<SignUp userRepository={stubUserRepository} />, {
+      render(<SignUpPage userRepository={stubUserRepository} />, {
         wrapper: MemoryRouter,
       });
       await waitUseEffect();
@@ -47,7 +47,7 @@ describe("SignUp", () => {
     });
 
     it("gets enabled when the uname isn't empty", async () => {
-      render(<SignUp userRepository={stubUserRepository} />, {
+      render(<SignUpPage userRepository={stubUserRepository} />, {
         wrapper: MemoryRouter,
       });
       await waitUseEffect();
@@ -64,7 +64,7 @@ describe("SignUp", () => {
     });
 
     it("gets disabled when the uname length is more than 63 chars", async () => {
-      render(<SignUp userRepository={stubUserRepository} />, {
+      render(<SignUpPage userRepository={stubUserRepository} />, {
         wrapper: MemoryRouter,
       });
       await waitUseEffect();
@@ -81,7 +81,7 @@ describe("SignUp", () => {
     });
 
     it("gets disabled when the uname has non-alpha-numerical values", async () => {
-      render(<SignUp userRepository={stubUserRepository} />, {
+      render(<SignUpPage userRepository={stubUserRepository} />, {
         wrapper: MemoryRouter,
       });
       await waitUseEffect();
@@ -96,7 +96,7 @@ describe("SignUp", () => {
     });
 
     it("makes an HTTP request when the it's clicked", async () => {
-      render(<SignUp userRepository={stubUserRepository} />, {
+      render(<SignUpPage userRepository={stubUserRepository} />, {
         wrapper: MemoryRouter,
       });
       await waitUseEffect();
@@ -122,7 +122,7 @@ describe("SignUp", () => {
             <Route path="/" element={<div>Destination</div>} />
             <Route
               path="/signup"
-              element={<SignUp userRepository={stubUserRepository} />}
+              element={<SignUpPage userRepository={stubUserRepository} />}
             />
           </Routes>
         </MemoryRouter>,

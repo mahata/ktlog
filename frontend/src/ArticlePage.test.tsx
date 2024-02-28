@@ -1,4 +1,4 @@
-import Article from "./Article";
+import ArticlePage from "./ArticlePage";
 import { vi, expect, it, describe } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { StubArticlesRepository } from "./StubRepos";
@@ -19,7 +19,7 @@ describe("Article", () => {
       content: "my content",
     });
 
-    render(<Article articlesRepository={stubArticleRepository} />);
+    render(<ArticlePage articlesRepository={stubArticleRepository} />);
 
     expect(await screen.findByText("my title")).toBeInTheDocument();
     expect(screen.getByText("my content")).toBeInTheDocument();

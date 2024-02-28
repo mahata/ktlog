@@ -6,7 +6,7 @@ type Props = {
   userRepository: UserRepository;
 };
 
-export default function SignUp({ userRepository }: Props) {
+export default function SignUpPage({ userRepository }: Props) {
   const [email, setEmail] = useState<string>("");
   const [uname, setUname] = useState<string>("");
   const [buttonDisabled, setButtonDisabled] = useState(true);

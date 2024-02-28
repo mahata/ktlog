@@ -6,7 +6,7 @@ type Props = {
   articlesRepository: ArticleRepository;
 };
 
-export default function Article({ articlesRepository }: Props) {
+export default function ArticlePage({ articlesRepository }: Props) {
   const [article, setArticle] = useState<Article>();
   const { id } = useParams();
 
