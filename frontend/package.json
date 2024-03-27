@@ -13,7 +13,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "jotai": "^2.7.0",
+    "jotai": "^2.7.1",
     "lucide-react": "^0.363.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
