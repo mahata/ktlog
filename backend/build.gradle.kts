@@ -33,16 +33,13 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.23")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.0")
-    implementation("org.flywaydb:flyway-core:9.22.3")
+    implementation("org.flywaydb:flyway-core:10.10.0")
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
 
     runtimeOnly("org.postgresql:postgresql:42.7.2")
     runtimeOnly("com.h2database:h2:2.2.224")
     testImplementation("io.mockk:mockk:1.13.10")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
-    testImplementation("org.testcontainers:junit-jupiter:1.19.7")
-    testImplementation("org.testcontainers:postgresql:1.19.7")
-    testImplementation("com.microsoft.playwright:playwright:1.42.0")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.2")
 }
