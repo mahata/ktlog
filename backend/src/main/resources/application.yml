@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:15432}/${POSTGRES_DB:ktlog}
-    username: ${POSTGRES_USER:ktlog}
-    password: ${POSTGRES_PASSWORD:password}
+    url: jdbc:postgresql://${KTLOG_POSTGRES_HOST:localhost}:${KTLOG_POSTGRES_PORT:15432}/${KTLOG_POSTGRES_DB:ktlog}
+    username: ${KTLOG_POSTGRES_USER:ktlog}
+    password: ${KTLOG_POSTGRES_PASSWORD:password}
 
   jpa:
     show-sql: true
