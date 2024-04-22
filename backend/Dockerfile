@@ -1,4 +1,4 @@
-FROM amazoncorretto:21 AS build
+FROM amazoncorretto:22 AS build
 COPY ./ /home/app
 RUN cd /home/app && ./gradlew build -x test --no-daemon
 
