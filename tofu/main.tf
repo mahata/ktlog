@@ -1,15 +1,15 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "~> 5.46.0"
     }
   }
 
   backend "s3" {
     bucket = "ktlog-tf-state"
-    key = "tofu.tfstate"
-    region = var.aws_region
+    key    = "tofu.tfstate"
+    region = "ap-northeast-1"
   }
 }
 
@@ -22,63 +22,43 @@ locals {
 
   common_tags = {
     Environment = var.environment
-    Project = local.project
+    Name        = "${local.project}-${var.environment}"
+    Project     = local.project
   }
 }
 
-resource "aws_vpc" "main" {
-  cidr_block = var.base_cidr_block
-  instance_tenancy = "default"
-
-  tags = local.common_tags
+module "networking" {
+  source           = "./modules/networking"
+  base_cidr_block  = var.base_cidr_block
+  environment      = var.environment
+  project          = local.project
+  common_tags      = local.common_tags
+  public_subnet_id = module.subnet.public_subnet_id
 }
 
-resource "aws_internet_gateway" "main" {
-  vpc_id = aws_vpc.main.id
-
-  tags = local.common_tags
+module "subnet" {
+  source                = "./modules/subnet"
+  public1_cidr_block    = "10.1.0.0/19"
+  private1_cidr_block   = "10.1.32.0/19"
+  availability_zone     = "ap-northeast-1a"
+  common_tags           = local.common_tags
+  public_route_table_id = module.networking.public_route_table_id
+  vpc_id                = module.networking.vpc_id
 }
 
-resource "aws_route_table" "igw" {
-  vpc_id = aws_vpc.main.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.main.id
-  }
-
-  tags = local.common_tags
+module "eb" {
+  source            = "./modules/eb"
+  environment       = var.environment
+  project           = local.project
+  common_tags       = local.common_tags
+  vpc_id            = module.networking.vpc_id
+  public_subnet_id  = module.subnet.public_subnet_id
+  private_subnet_id = module.subnet.private_subnet_id
+  acm_cert_arn      = module.domain.acm_cert_arn
 }
 
-resource "aws_subnet" "public_1" {
-  vpc_id = aws_vpc.main.id
-  cidr_block = "10.1.0.0/23"
-  availability_zone = "ap-northeast-1a"
-  map_public_ip_on_launch = true
-
-  tags = local.common_tags
-}
-
-resource "aws_route_table_association" "public_1" {
-  subnet_id = aws_subnet.public_1.id
-  route_table_id = aws_route_table.igw.id
-}
-
-resource "aws_subnet" "private_1" {
-  vpc_id = aws_vpc.main.id
-  cidr_block = "10.1.8.0/22"
-  availability_zone = "ap-northeast-1a"
-
-  tags = local.common_tags
-}
-
-resource "aws_eip" "main_ngw_public_1" {
-  domain = "vpc"
-}
-
-resource "aws_nat_gateway" "public_1" {
-  subnet_id = aws_subnet.public_1.id
-  allocation_id = aws_eip.main_ngw_public_1.id
-
-  tags = local.common_tags
+module "domain" {
+  source        = "./modules/domain"
+  app_subdomain = var.app_subdomain
+  common_tags   = local.common_tags
 }

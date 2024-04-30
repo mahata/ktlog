@@ -1,1 +1,2 @@
-environment = "prod"
+environment   = "prod"
+app_subdomain = "ktlog"
