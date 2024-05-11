@@ -1,19 +1,16 @@
-name: Unit Tests
+name: CI/CD
 
-on:
-  push:
-    branches-ignore:
-      - main
+on: push
 
 jobs:
   frontend:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Cache node modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: frontend/node_modules
           key: ${{ runner.OS }}-node-${{ hashFiles('frontend/package-lock.json') }}
@@ -25,11 +22,6 @@ jobs:
           cd frontend
           npm install
           npx vitest run
-
-      - name: Build Frontend so that Backend can host it
-        run: |
-          cd frontend
-          npx vite build --outDir ./dist
 
   backend:
     runs-on: ubuntu-latest
