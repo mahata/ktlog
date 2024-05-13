@@ -32,7 +32,7 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.24")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1")
     implementation("org.flywaydb:flyway-core:10.12.0")
     implementation("org.flywaydb:flyway-database-postgresql:10.11.1")
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
