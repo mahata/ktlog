@@ -4,7 +4,6 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
-import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import java.util.UUID
 
@@ -16,6 +15,4 @@ class ArticleEntity(
     var id: UUID? = null,
     var title: String,
     var content: String,
-    @OneToOne
-    var user: UserEntity,
 )

@@ -15,24 +15,17 @@ spring:
   cache:
     type: none
 
-  security:
-    oauth2:
-      client:
-        registration:
-          github:
-            client-id: "${GITHUB_CLIENT_ID}"
-            client-secret: "${GITHUB_CLIENT_SECRET}"
-            authorization-grant-type: authorization_code
-            scope:
-              - user:email
-              - read:user
-
   threads:
     virtual:
       enabled: true
 
 server:
   port: 18080
+
+jwt:
+  key: 0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+  access-token-expiration: 3600000 # 1,000 hours
+  refresh-token-expiration: 86400000 # 1,000 days
 
 logging:
   level:

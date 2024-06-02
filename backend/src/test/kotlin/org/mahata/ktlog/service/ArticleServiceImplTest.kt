@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mahata.ktlog.controller.ArticleRequest
 import org.mahata.ktlog.entity.ArticleEntity
-import org.mahata.ktlog.entity.UserEntity
 import org.mahata.ktlog.repository.ArticleRepository
 import java.util.Optional
 import java.util.UUID
@@ -36,7 +35,6 @@ class ArticleServiceImplTest {
                         uuid,
                         "title",
                         "content",
-                        UserEntity("mahata", "mahata777@gmail.com"),
                     ),
                 )
 
@@ -46,7 +44,7 @@ class ArticleServiceImplTest {
             assertEquals(1, result.size)
 
             assertEquals(
-                Article(uuid, "title", "content", "mahata"),
+                Article(uuid, "title", "content"),
                 result[0],
             )
         }
@@ -66,7 +64,6 @@ class ArticleServiceImplTest {
                         uuid,
                         "title",
                         "content",
-                        UserEntity("mahata", "mahata777@gmail.com"),
                     ),
                 )
 
@@ -74,7 +71,7 @@ class ArticleServiceImplTest {
             val result = articleService.getArticle(uuid)
 
             assertEquals(
-                Article(uuid, "title", "content", "mahata"),
+                Article(uuid, "title", "content"),
                 result,
             )
         }
@@ -112,36 +109,6 @@ class ArticleServiceImplTest {
                     },
                 )
             }
-        }
-    }
-
-    @Nested
-    @DisplayName("getArticlesByUname(uname)")
-    inner class GetArticlesByUnameUname {
-        @Test
-        fun `getArticlesByUname(uname) returns all articles written by the user`() {
-            val uuid = UUID.randomUUID()
-            every {
-                stubArticleRepository.findAllByUserUname("mahata")
-            } returns
-                listOf(
-                    ArticleEntity(
-                        uuid,
-                        "title",
-                        "content",
-                        UserEntity("mahata", "mahata777@gmail.com"),
-                    ),
-                )
-
-            val service = ArticleServiceImpl(stubArticleRepository)
-            val result = service.getArticlesByUname("mahata")
-
-            assertEquals(1, result.size)
-
-            assertEquals(
-                Article(uuid, "title", "content", "mahata"),
-                result[0],
-            )
         }
     }
 }

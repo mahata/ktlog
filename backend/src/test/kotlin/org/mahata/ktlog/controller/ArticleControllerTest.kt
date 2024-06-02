@@ -39,7 +39,7 @@ class ArticleControllerTest {
             val uuid = UUID.randomUUID()
             every {
                 stubArticleService.getArticles()
-            } returns listOf(Article(uuid, "title", "content", "mahata"))
+            } returns listOf(Article(uuid, "title", "content"))
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/articles"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
@@ -59,7 +59,7 @@ class ArticleControllerTest {
             val uuid = UUID.randomUUID()
             every {
                 stubArticleService.getArticle(uuid)
-            } returns Article(uuid, "title", "content", "mahata")
+            } returns Article(uuid, "title", "content")
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/articles/$uuid"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
