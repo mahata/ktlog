@@ -6,9 +6,9 @@ import { Route, Routes } from "react-router-dom";
 import ArticlePage from "./pages/ArticlePage/ArticlePage";
 import { useEffect } from "react";
 import { UserRepository } from "./repository/UserRepository";
-import Modal from "./Modal";
+import LoginModal from "./components/Modal/LoginModal";
 import { useAtom } from "jotai";
-import { modalAtom } from "./Modal.atoms";
+import { loginModalAtom } from "./components/Modal/LoginModal.atoms";
 import SignUpPage from "./SignUpPage";
 import Post from "./Post";
 
@@ -23,7 +23,7 @@ export default function App({
   articleRepository,
   userRepository,
 }: Props) {
-  const [showModal] = useAtom(modalAtom);
+  const [showModal] = useAtom(loginModalAtom);
 
   useEffect(() => {
     if (["localhost", "127.0.0.1"].includes(ktlogDomain)) {
@@ -54,7 +54,7 @@ export default function App({
         />
         <Route path="/post" element={<Post />} />
       </Routes>
-      {showModal && <Modal title="Social Login" />}
+      {showModal && <LoginModal title="Social Login" />}
     </div>
   );
 }

@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useAtom } from "jotai";
-import { modalAtom } from "./Modal.atoms";
+import { loginModalAtom } from "./LoginModal.atoms";
 import { X } from "lucide-react";
 
 type Props = {
   title: string;
 };
 
-export default function Modal({ title }: Props) {
-  const [, setShowModal] = useAtom(modalAtom);
+export default function LoginModal({ title }: Props) {
+  const [, setShowModal] = useAtom(loginModalAtom);
 
   useEffect(() => {
     document.body.style.overflowY = "hidden";

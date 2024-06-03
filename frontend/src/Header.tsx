@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { UserRepository } from "./repository/UserRepository";
 import { useAtom } from "jotai";
-import { modalAtom } from "./Modal.atoms";
+import { loginModalAtom } from "./components/Modal/LoginModal.atoms";
 
 type Props = {
   userRepository: UserRepository;
 };
 
 export default function Header({ userRepository }: Props) {
-  const [, setShowModal] = useAtom(modalAtom);
+  const [, setShowModal] = useAtom(loginModalAtom);
   const [username, setUsername] = useState<string>("");
 
   useEffect(() => {

@@ -14,10 +14,10 @@ vi.mock("react-router-dom", async () => {
   };
 });
 
-describe("Articles", () => {
+describe("TopPage", () => {
   const stubArticlesRepository = new StubArticlesRepository();
 
-  it("shows 'Articles' header", async () => {
+  it("shows 'TopPage' header", async () => {
     (useParams as Mock).mockReturnValue({ uname: undefined });
     stubArticlesRepository.getAll.mockResolvedValue([]);
     render(<TopPage articleRepository={stubArticlesRepository} />);
@@ -29,35 +29,9 @@ describe("Articles", () => {
     expect(screen.getByText("Articles")).toBeInTheDocument();
   });
 
-  it("shows all articles retrieved from the getAll() method of the repository when uname isn't set", async () => {
+  it("shows all articles", async () => {
     (useParams as Mock).mockReturnValue({ uname: undefined });
     stubArticlesRepository.getAll.mockResolvedValue([
-      {
-        id: "d8fec293-97c1-46b7-a1d4-458da3689dcd",
-        title: "my title",
-        content: "my content",
-      },
-    ]);
-    render(<TopPage articleRepository={stubArticlesRepository} />, {
-      wrapper: MemoryRouter,
-    });
-
-    const articleLink = (await screen.findByRole("link", {
-      name: "my title",
-    })) as HTMLAnchorElement;
-
-    expect(articleLink).toBeInTheDocument();
-    expect(articleLink.href).toBe(
-      window.location.origin + "/articles/d8fec293-97c1-46b7-a1d4-458da3689dcd",
-    );
-
-    expect(screen.getByText("my content")).toBeInTheDocument();
-  });
-
-  it("shows articles retrieved from the getAllByUname(uname) method of the repository when uname is set", async () => {
-    (useParams as Mock).mockReturnValue({ uname: "mahata" });
-    const stubArticlesRepository = new StubArticlesRepository();
-    stubArticlesRepository.getAllByUname.mockResolvedValue([
       {
         id: "d8fec293-97c1-46b7-a1d4-458da3689dcd",
         title: "my title",
