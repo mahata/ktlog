@@ -1,4 +1,4 @@
-import { Article, ArticleRepository } from "./repository/ArticleRepository";
+import { Article, ArticleRepository } from "../../repository/ArticleRepository";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
@@ -6,7 +6,7 @@ type Props = {
   articleRepository: ArticleRepository;
 };
 
-export default function ArticlesPage({ articleRepository }: Props) {
+export default function TopPage({ articleRepository }: Props) {
   const [articles, setArticles] = useState<Article[]>([]);
   const { uname } = useParams();
 

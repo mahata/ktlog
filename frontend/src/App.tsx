@@ -1,9 +1,9 @@
-import ArticlesPage from "./ArticlesPage";
+import TopPage from "./pages/TopPage/TopPage";
 import { ArticleRepository } from "./repository/ArticleRepository";
 import Header from "./Header";
 import EyeCatch from "./EyeCatch";
 import { Route, Routes } from "react-router-dom";
-import ArticlePage from "./ArticlePage";
+import ArticlePage from "./pages/ArticlePage/ArticlePage";
 import { useEffect } from "react";
 import { UserRepository } from "./repository/UserRepository";
 import Modal from "./Modal";
@@ -38,11 +38,11 @@ export default function App({
       <Routes>
         <Route
           path="/"
-          element={<ArticlesPage articleRepository={articleRepository} />}
+          element={<TopPage articleRepository={articleRepository} />}
         />
         <Route
           path="/u/:uname"
-          element={<ArticlesPage articleRepository={articleRepository} />}
+          element={<TopPage articleRepository={articleRepository} />}
         />
         <Route
           path="/articles/:id"

@@ -1,7 +1,7 @@
 import ArticlePage from "./ArticlePage";
 import { vi, expect, it, describe } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { StubArticlesRepository } from "./StubRepos";
+import { StubArticlesRepository } from "../../StubRepos";
 
 vi.mock("react-router-dom", () => ({
   ...vi.importActual("react-router-dom"),
