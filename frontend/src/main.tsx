@@ -15,7 +15,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <Provider>
         <App
-          ktlogDomain={window.location.hostname}
           articleRepository={networkArticlesRepo}
           userRepository={networkUsersRepo}
         />

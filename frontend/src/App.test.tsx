@@ -14,11 +14,10 @@ describe("App", () => {
   stubUsersRepository.getMe.mockResolvedValue({ uname: null, email: null });
 
   it.each(["localhost", "127.0.0.1"])(
-    'adds "dev|" to the title when it runs on the localhost',
-    async (serviceDomain) => {
+    'adds "dev|" to the title when it runs on `%s`',
+    async () => {
       render(
         <App
-          ktlogDomain={serviceDomain}
           articleRepository={stubArticleRepository}
           userRepository={stubUsersRepository}
         />,
@@ -37,7 +36,6 @@ describe("App", () => {
     await act(async () => {
       render(
         <App
-          ktlogDomain="example.com"
           articleRepository={stubArticleRepository}
           userRepository={stubUsersRepository}
         />,
@@ -54,7 +52,6 @@ describe("App", () => {
     await act(async () => {
       render(
         <App
-          ktlogDomain="example.com"
           articleRepository={stubArticleRepository}
           userRepository={stubUsersRepository}
         />,

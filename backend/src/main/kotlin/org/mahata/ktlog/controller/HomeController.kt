@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping
 
 @Controller
 class HomeController {
-    @GetMapping("/articles/*", "/signup", "/post", "/u/*")
+    @GetMapping("/articles/*", "/post")
     fun forward(): String {
         return "forward:/"
     }
