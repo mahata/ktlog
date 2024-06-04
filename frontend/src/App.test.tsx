@@ -6,6 +6,7 @@ import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 
 const originalTitle = document.title;
+const originalLocation = window.location;
 
 describe("App", () => {
   const stubArticleRepository = new StubArticlesRepository();
@@ -33,6 +34,11 @@ describe("App", () => {
   );
 
   it('do NOT add "dev|" when it is not running on the localhost', async () => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: { ...window.location, hostname: 'www.example.com' }
+    });
+
     await act(async () => {
       render(
         <App
@@ -71,5 +77,6 @@ describe("App", () => {
 
   afterEach(() => {
     document.title = originalTitle;
+    window.location = originalLocation;
   });
 });
