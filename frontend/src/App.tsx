@@ -43,7 +43,7 @@ export default function App({
         />
         <Route path="/post" element={<Post />} />
       </Routes>
-      {showModal && <LoginModal title="Social Login" />}
+      {showModal && <LoginModal title="Login to ktlog" />}
     </div>
   );
 }

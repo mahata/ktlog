@@ -8,4 +8,5 @@ t_frontend:
 t_backend:
 	cd backend && ./gradlew clean test
 
+t: t_all
 t_all: t_frontend t_backend

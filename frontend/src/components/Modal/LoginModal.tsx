@@ -21,20 +21,19 @@ export default function LoginModal({ title }: Props) {
   return (
     <div className="fixed inset-0 z-10 flex items-center justify-center">
       <div className="absolute inset-0 z-10 bg-slate-400/40" />
-      <div className="z-20 w-4/5 rounded-3xl bg-blue-50 p-4 shadow-2xl">
+      <div className="z-20 w-96 rounded-xl bg-blue-50 p-4 shadow-2xl">
         <div className="flex justify-between">
-          <div className="pb-3 pt-2 text-xl font-medium leading-5">{title}</div>
-          <X size={24} onClick={() => setShowModal(false)} />
+          <div className="pb-3 pt-2 text-xl font-medium leading-5" aria-label="login-modal-title">{title}</div>
+          <X size={24} onClick={() => setShowModal(false)}/>
         </div>
-        <div>
-          <div className="rounded-2xl bg-blue-100 p-2">
-            <a
-              className="flex items-center gap-4"
-              href="/oauth2/authorization/github"
-            >
-              <img className="h-8 w-8" src="/github.webp" alt="GitHub Logo" />
-              <p>Login with GitHub</p>
-            </a>
+        <div className="flex flex-col gap-1">
+          <div className="flex justify-between">
+            <label className="content-center" htmlFor="username">username</label>
+            <input className="rounded-l p-1" id="username" type="text" size={24} maxLength={256} placeholder="Please type your username"/>
+          </div>
+          <div className="flex justify-between">
+            <label className="content-center" htmlFor="password">password</label>
+            <input className="rounded-l p-1" id="password" type="text" size={24} maxLength={256} placeholder="Please type your password"/>
           </div>
         </div>
       </div>
