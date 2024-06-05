@@ -83,7 +83,7 @@ class AuthControllerTest {
                 refreshTokenCookie,
                 allOf(
                     containsString("refreshToken=refresh-token"),
-                    containsString("Path=/"),
+                    containsString("Path=/api/v1/refresh"),
                     containsString("HttpOnly"),
                     containsString("Secure"),
                     containsString("SameSite=Lax"),

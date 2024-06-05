@@ -28,23 +28,9 @@ class AuthController(
     ): AuthResponse {
         val authResponse = authService.authentication(authRequest)
 
-        val accessTokenCookie =
-            ResponseCookie.from("accessToken", authResponse.accessToken)
-                .httpOnly(true)
-                .path("/")
-                .maxAge(jwtProperties.accessTokenExpiration)
-                .secure(true)
-                .sameSite("Lax")
-                .build()
-
+        val accessTokenCookie = createHttpOnlyCookie("accessToken", authResponse.accessToken, "/", jwtProperties.accessTokenExpiration)
         val refreshTokenCookie =
-            ResponseCookie.from("refreshToken", authResponse.refreshToken)
-                .httpOnly(true)
-                .path("/")
-                .maxAge(jwtProperties.refreshTokenExpiration)
-                .secure(true)
-                .sameSite("Lax")
-                .build()
+            createHttpOnlyCookie("refreshToken", authResponse.refreshToken, "/api/v1/refresh", jwtProperties.refreshTokenExpiration)
 
         response.addHeader("Set-Cookie", accessTokenCookie.toString())
         response.addHeader("Set-Cookie", refreshTokenCookie.toString())
@@ -59,6 +45,21 @@ class AuthController(
         authService.refreshAccessToken(request.token)
             ?.mapToTokenResponse()
             ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid refresh token.")
+
+    private fun createHttpOnlyCookie(
+        name: String,
+        value: String,
+        path: String,
+        maxAge: Long,
+    ): ResponseCookie {
+        return ResponseCookie.from(name, value)
+            .httpOnly(true)
+            .path(path)
+            .maxAge(maxAge)
+            .secure(true)
+            .sameSite("Lax")
+            .build()
+    }
 
     private fun String.mapToTokenResponse(): TokenResponse = TokenResponse(token = this)
 }
