@@ -15,7 +15,8 @@ import org.mahata.ktlog.service.ArticleService
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import java.util.UUID
 
@@ -42,12 +43,12 @@ class ArticleControllerTest {
             } returns listOf(Article(uuid, "title", "content"))
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/articles"))
-                .andExpect(MockMvcResultMatchers.status().isOk)
-                .andExpect(MockMvcResultMatchers.jsonPath("$").isArray)
-                .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(uuid.toString()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("title"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].content").value("content"))
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$").isArray)
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].id").value(uuid.toString()))
+                .andExpect(jsonPath("$[0].title").value("title"))
+                .andExpect(jsonPath("$[0].content").value("content"))
         }
     }
 
@@ -62,10 +63,10 @@ class ArticleControllerTest {
             } returns Article(uuid, "title", "content")
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/articles/$uuid"))
-                .andExpect(MockMvcResultMatchers.status().isOk)
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(uuid.toString()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("title"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.content").value("content"))
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$.id").value(uuid.toString()))
+                .andExpect(jsonPath("$.title").value("title"))
+                .andExpect(jsonPath("$.content").value("content"))
         }
 
         @Test
@@ -76,7 +77,7 @@ class ArticleControllerTest {
             } returns null
 
             mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/articles/$uuid"))
-                .andExpect(MockMvcResultMatchers.status().isNotFound)
+                .andExpect(status().isNotFound)
         }
     }
 
@@ -98,7 +99,7 @@ class ArticleControllerTest {
                 MockMvcRequestBuilders.post("/api/v1/articles")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(jsonBody),
-            ).andExpect(MockMvcResultMatchers.status().isCreated)
+            ).andExpect(status().isCreated)
 
             verify(exactly = 1) {
                 stubArticleService.saveArticle(ArticleRequest(mockArticle.title, mockArticle.content))

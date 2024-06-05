@@ -24,8 +24,8 @@ server:
 
 jwt:
   key: 0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
-  access-token-expiration: 3600000 # 1,000 hours
-  refresh-token-expiration: 86400000 # 1,000 days
+  access-token-expiration: 360000 # 100 hours
+  refresh-token-expiration: 8640000 # 100 days
 
 logging:
   level:
