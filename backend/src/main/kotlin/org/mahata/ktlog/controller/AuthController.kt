@@ -34,6 +34,7 @@ class AuthController(
                 .path("/")
                 .maxAge(jwtProperties.accessTokenExpiration)
                 .secure(true)
+                .sameSite("Lax")
                 .build()
 
         val refreshTokenCookie =
@@ -42,6 +43,7 @@ class AuthController(
                 .path("/")
                 .maxAge(jwtProperties.refreshTokenExpiration)
                 .secure(true)
+                .sameSite("Lax")
                 .build()
 
         response.addHeader("Set-Cookie", accessTokenCookie.toString())

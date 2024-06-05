@@ -73,6 +73,7 @@ class AuthControllerTest {
                     containsString("Path=/"),
                     containsString("HttpOnly"),
                     containsString("Secure"),
+                    containsString("SameSite=Lax"),
                     containsString("Max-Age=360000"),
                 ),
             )
@@ -85,6 +86,7 @@ class AuthControllerTest {
                     containsString("Path=/"),
                     containsString("HttpOnly"),
                     containsString("Secure"),
+                    containsString("SameSite=Lax"),
                     containsString("Max-Age=8640000"),
                 ),
             )
