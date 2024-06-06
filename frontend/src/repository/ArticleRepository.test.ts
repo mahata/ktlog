@@ -5,6 +5,10 @@ import { CsrfTokenManager } from "../CsrfTokenManager";
 const originalFetch = globalThis.fetch;
 
 describe("ArticlesRepository", () => {
+  afterEach(() => {
+    globalThis.fetch = originalFetch;
+  });
+
   const article = {
     id: "9994b37d-1247-4aef-a95d-dfd6a856fbec",
     title: "my title",
@@ -24,25 +28,6 @@ describe("ArticlesRepository", () => {
     expect(globalThis.fetch).toHaveBeenCalledWith("/api/v1/articles", {
       method: "GET",
     });
-    expect(response).toEqual(stubResponse);
-  });
-
-  it("getAllByUname(uname) returns data of Article[] written by the user", async () => {
-    const stubResponse = [article];
-
-    globalThis.fetch = vi
-      .fn()
-      .mockResolvedValue(new Response(JSON.stringify(stubResponse)));
-
-    const articlesRepository = new NetworkArticleRepository();
-    const response = await articlesRepository.getAllByUname("mahata");
-
-    expect(globalThis.fetch).toHaveBeenCalledWith(
-      "/api/v1/users/mahata/articles",
-      {
-        method: "GET",
-      },
-    );
     expect(response).toEqual(stubResponse);
   });
 
@@ -84,9 +69,5 @@ describe("ArticlesRepository", () => {
       },
       body: JSON.stringify(article),
     });
-  });
-
-  afterEach(() => {
-    globalThis.fetch = originalFetch;
   });
 });

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { UserRepository } from "./repository/UserRepository";
+import { UserRepository } from "../../repository/UserRepository";
 import { useAtom } from "jotai";
-import { loginModalAtom } from "./components/Modal/LoginModal.atoms";
+import { loginModalAtom } from "../Modal/LoginModal.atoms";
 
 type Props = {
   userRepository: UserRepository;

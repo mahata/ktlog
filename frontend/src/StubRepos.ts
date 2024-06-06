@@ -7,10 +7,6 @@ export class StubArticlesRepository implements ArticleRepository {
     Parameters<ArticleRepository["getAll"]>,
     ReturnType<ArticleRepository["getAll"]>
   > = vi.fn();
-  getAllByUname: Mock<
-    Parameters<ArticleRepository["getAllByUname"]>,
-    ReturnType<ArticleRepository["getAllByUname"]>
-  > = vi.fn();
   get: Mock<
     Parameters<ArticleRepository["get"]>,
     ReturnType<ArticleRepository["get"]>

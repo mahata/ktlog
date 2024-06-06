@@ -34,9 +34,9 @@ describe("App", () => {
   );
 
   it('do NOT add "dev|" when it is not running on the localhost', async () => {
-    Object.defineProperty(window, 'location', {
+    Object.defineProperty(window, "location", {
       writable: true,
-      value: { ...window.location, hostname: 'www.example.com' }
+      value: { ...window.location, hostname: "www.example.com" },
     });
 
     await act(async () => {
@@ -72,7 +72,9 @@ describe("App", () => {
     }) as HTMLButtonElement;
 
     await userEvent.click(loginButton);
-    expect(await screen.findByLabelText("login-modal-title")).toBeInTheDocument();
+    expect(
+      await screen.findByLabelText("login-modal-title"),
+    ).toBeInTheDocument();
   });
 
   afterEach(() => {

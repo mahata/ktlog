@@ -1,7 +1,7 @@
 import TopPage from "./pages/TopPage/TopPage";
 import { ArticleRepository } from "./repository/ArticleRepository";
-import Header from "./Header";
-import EyeCatch from "./EyeCatch";
+import Header from "./components/Header/Header";
+import EyeCatch from "./components/EyeCatch/EyeCatch";
 import { Route, Routes } from "react-router-dom";
 import ArticlePage from "./pages/ArticlePage/ArticlePage";
 import { UserRepository } from "./repository/UserRepository";
@@ -15,15 +15,12 @@ type Props = {
   userRepository: UserRepository;
 };
 
-export default function App({
-  articleRepository,
-  userRepository,
-}: Props) {
+export default function App({ articleRepository, userRepository }: Props) {
   const [showModal] = useAtom(loginModalAtom);
 
   if (
-      ["localhost", "127.0.0.1"].includes(window.location.hostname) &&
-      !document.title.startsWith("dev|")
+    ["localhost", "127.0.0.1"].includes(window.location.hostname) &&
+    !document.title.startsWith("dev|")
   ) {
     document.title = `dev|${document.title}`;
   }
