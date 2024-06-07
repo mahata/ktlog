@@ -1,7 +1,7 @@
 import { expect, it, describe, afterEach } from "vitest";
 import App from "./App";
 import { act, render, screen, waitFor } from "@testing-library/react";
-import { StubArticlesRepository, StubUsersRepository } from "./StubRepos";
+import { StubUsersRepository } from "./StubRepos";
 import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 
@@ -9,23 +9,15 @@ const originalTitle = document.title;
 const originalLocation = window.location;
 
 describe("App", () => {
-  const stubArticleRepository = new StubArticlesRepository();
   const stubUsersRepository = new StubUsersRepository();
-  stubArticleRepository.getAll.mockResolvedValue([]);
   stubUsersRepository.getMe.mockResolvedValue({ uname: null, email: null });
 
   it.each(["localhost", "127.0.0.1"])(
     'adds "dev|" to the title when it runs on `%s`',
     async () => {
-      render(
-        <App
-          articleRepository={stubArticleRepository}
-          userRepository={stubUsersRepository}
-        />,
-        {
-          wrapper: MemoryRouter,
-        },
-      );
+      render(<App userRepository={stubUsersRepository} />, {
+        wrapper: MemoryRouter,
+      });
 
       await waitFor(() => {
         expect(document.title).toBe(`dev|${originalTitle}`);
@@ -40,15 +32,9 @@ describe("App", () => {
     });
 
     await act(async () => {
-      render(
-        <App
-          articleRepository={stubArticleRepository}
-          userRepository={stubUsersRepository}
-        />,
-        {
-          wrapper: MemoryRouter,
-        },
-      );
+      render(<App userRepository={stubUsersRepository} />, {
+        wrapper: MemoryRouter,
+      });
     });
 
     expect(document.title).toBe(originalTitle);
@@ -56,15 +42,9 @@ describe("App", () => {
 
   it("shows a modal when the 'login' button is clicked", async () => {
     await act(async () => {
-      render(
-        <App
-          articleRepository={stubArticleRepository}
-          userRepository={stubUsersRepository}
-        />,
-        {
-          wrapper: MemoryRouter,
-        },
-      );
+      render(<App userRepository={stubUsersRepository} />, {
+        wrapper: MemoryRouter,
+      });
     });
 
     const loginButton = screen.getByRole("button", {

@@ -1,5 +1,4 @@
 import TopPage from "./pages/TopPage/TopPage";
-import { ArticleRepository } from "./repository/ArticleRepository";
 import Header from "./components/Header/Header";
 import EyeCatch from "./components/EyeCatch/EyeCatch";
 import { Route, Routes } from "react-router-dom";
@@ -11,12 +10,11 @@ import { loginModalAtom } from "./components/Modal/LoginModal.atoms";
 import Post from "./Post";
 
 type Props = {
-  articleRepository: ArticleRepository;
   userRepository: UserRepository;
 };
 
-export default function App({ articleRepository, userRepository }: Props) {
-  const [showModal] = useAtom(loginModalAtom);
+export default function App({ userRepository }: Props) {
+  const [showLoginModal] = useAtom(loginModalAtom);
 
   if (
     ["localhost", "127.0.0.1"].includes(window.location.hostname) &&
@@ -31,13 +29,10 @@ export default function App({ articleRepository, userRepository }: Props) {
       <EyeCatch />
       <Routes>
         <Route path="/" element={<TopPage />} />
-        <Route
-          path="/articles/:id"
-          element={<ArticlePage articlesRepository={articleRepository} />}
-        />
+        <Route path="/articles/:id" element={<ArticlePage />} />
         <Route path="/post" element={<Post />} />
       </Routes>
-      {showModal && <LoginModal title="Login to ktlog" />}
+      {showLoginModal && <LoginModal title="Login to ktlog" />}
     </div>
   );
 }

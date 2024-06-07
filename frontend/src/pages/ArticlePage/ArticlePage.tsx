@@ -1,23 +1,20 @@
-import { Article, ArticleRepository } from "../../repository/ArticleRepository";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useArticleRepository } from "../../repository/useArticleRepository";
+import { Article } from "../../types/Article";
 
-type Props = {
-  articlesRepository: ArticleRepository;
-};
-
-export default function ArticlePage({ articlesRepository }: Props) {
+export default function ArticlePage() {
   const [article, setArticle] = useState<Article>();
   const { id } = useParams();
+  const { get: getArticle } = useArticleRepository();
 
   useEffect(() => {
-    articlesRepository
-      .get(id!)
+    getArticle(id!)
       .then((article) => setArticle(article))
       .catch((error) => {
         console.error("Failed to fetch articles:", error);
       });
-  }, [articlesRepository, id]);
+  }, [getArticle, id]);
 
   return (
     article && (
