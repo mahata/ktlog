@@ -1,3 +1,5 @@
+// TODO: Make it deprecated (in favor of useArticleRepository)
+
 import { HttpError } from "../HttpError";
 import { CsrfTokenManager } from "../CsrfTokenManager";
 
