@@ -2,33 +2,34 @@ import ArticlePage from "./ArticlePage";
 import { vi, expect, it, describe } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { useArticleRepository } from "../../repository/useArticleRepository";
+import { makeArticleFixture } from "../../fixture/makeArticleFixture";
 
 vi.mock("react-router-dom", () => ({
   ...vi.importActual("react-router-dom"),
   useParams: vi
     .fn()
-    .mockReturnValue({ id: "03bcd1f0-34b1-4bb9-93cb-b945e217184b" }),
+    .mockReturnValue({ id: "00000000-0000-0000-0000-000000000000" }),
 }));
 
 vi.mock("../../repository/useArticleRepository");
 
 describe("Article", () => {
   it("shows an article", async () => {
+    const stubArticle = makeArticleFixture({
+      id: "00000000-0000-0000-0000-000000000000",
+    });
+
     vi.mocked(useArticleRepository).mockReturnValue({
       getAll: vi.fn().mockResolvedValue([]),
-      get: vi.fn().mockResolvedValue({
-        id: "03bcd1f0-34b1-4bb9-93cb-b945e217184b",
-        title: "my title",
-        content: "my content",
-      }),
+      get: vi.fn().mockResolvedValue(stubArticle),
     });
 
     render(<ArticlePage />);
 
-    expect(await screen.findByText("my title")).toBeInTheDocument();
-    expect(screen.getByText("my content")).toBeInTheDocument();
+    expect(await screen.findByText(stubArticle.title)).toBeVisible();
+    expect(screen.getByText(stubArticle.content)).toBeInTheDocument();
     expect(useArticleRepository().get).toBeCalledWith(
-      "03bcd1f0-34b1-4bb9-93cb-b945e217184b",
+      "00000000-0000-0000-0000-000000000000",
     );
   });
 });

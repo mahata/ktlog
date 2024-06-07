@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useArticleRepository } from "../../repository/useArticleRepository";
-import { Article } from "../../types/Article";
+import { Article } from "../../type/Article";
 
 export default function TopPage() {
   const [articles, setArticles] = useState<Article[]>([]);

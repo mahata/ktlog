@@ -1,12 +1,12 @@
-import TopPage from "./pages/TopPage/TopPage";
-import Header from "./components/Header/Header";
-import EyeCatch from "./components/EyeCatch/EyeCatch";
+import TopPage from "./page/TopPage/TopPage";
+import Header from "./component/Header/Header";
+import EyeCatch from "./component/EyeCatch/EyeCatch";
 import { Route, Routes } from "react-router-dom";
-import ArticlePage from "./pages/ArticlePage/ArticlePage";
+import ArticlePage from "./page/ArticlePage/ArticlePage";
 import { UserRepository } from "./repository/UserRepository";
-import LoginModal from "./components/Modal/LoginModal";
+import LoginModal from "./component/Modal/LoginModal";
 import { useAtom } from "jotai";
-import { loginModalAtom } from "./components/Modal/LoginModal.atoms";
+import { loginModalAtom } from "./component/Modal/LoginModal.atoms";
 import Post from "./Post";
 
 type Props = {

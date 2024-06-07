@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import TopPage from "./TopPage";
 import { MemoryRouter } from "react-router-dom";
 import { useArticleRepository } from "../../repository/useArticleRepository";
+import { makeArticleFixture } from "../../fixture/makeArticleFixture";
 
 vi.mock("../../repository/useArticleRepository");
 
@@ -14,18 +15,17 @@ describe("TopPage", () => {
     });
     render(<TopPage />);
 
-    expect(await screen.findByText("Articles")).toBeInTheDocument();
+    expect(await screen.findByText("Articles")).toBeVisible();
   });
 
   it("shows all articles", async () => {
+    const articleId = "00000000-0000-0000-0000-000000000000";
+    const stubArticle = makeArticleFixture({
+      id: articleId,
+    });
+
     vi.mocked(useArticleRepository).mockReturnValue({
-      getAll: vi.fn().mockResolvedValue([
-        {
-          id: "d8fec293-97c1-46b7-a1d4-458da3689dcd",
-          title: "my title",
-          content: "my content",
-        },
-      ]),
+      getAll: vi.fn().mockResolvedValue([stubArticle]),
       get: vi.fn(),
     });
 
@@ -34,30 +34,28 @@ describe("TopPage", () => {
     });
 
     const articleLink = (await screen.findByRole("link", {
-      name: "my title",
+      name: stubArticle.title,
     })) as HTMLAnchorElement;
 
-    expect(articleLink).toBeInTheDocument();
+    expect(articleLink).toBeVisible();
     expect(articleLink.href).toBe(
-      window.location.origin + "/articles/d8fec293-97c1-46b7-a1d4-458da3689dcd",
+      window.location.origin + `/articles/${articleId}`,
     );
 
-    expect(screen.getByText("my content")).toBeInTheDocument();
+    expect(screen.getByText(stubArticle.content)).toBeVisible();
   });
 
   it("strips article contents when it's more than 200 chars", async () => {
     vi.mocked(useArticleRepository).mockReturnValue({
       getAll: vi.fn().mockResolvedValue([
-        {
-          id: "d8fec293-97c1-46b7-a1d4-458da3689dcd",
-          title: "my title 1",
+        makeArticleFixture({
+          id: "00000000-0000-0000-0000-000000000000",
           content: "x".repeat(200),
-        },
-        {
-          id: "2da288aa-aabd-4555-befe-30c71d1ee559",
-          title: "my title 2",
+        }),
+        makeArticleFixture({
+          id: "00000000-0000-0000-0000-000000000001",
           content: "y".repeat(201),
-        },
+        }),
       ]),
       get: vi.fn(),
     });
