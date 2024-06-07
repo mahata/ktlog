@@ -30,10 +30,7 @@ export default function App({ articleRepository, userRepository }: Props) {
       <Header userRepository={userRepository} />
       <EyeCatch />
       <Routes>
-        <Route
-          path="/"
-          element={<TopPage articleRepository={articleRepository} />}
-        />
+        <Route path="/" element={<TopPage />} />
         <Route
           path="/articles/:id"
           element={<ArticlePage articlesRepository={articleRepository} />}

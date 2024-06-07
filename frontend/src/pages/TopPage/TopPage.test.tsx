@@ -1,44 +1,35 @@
-import { expect, it, vi, describe, Mock } from "vitest";
-import { act, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { render, screen } from "@testing-library/react";
 import TopPage from "./TopPage";
-import { StubArticlesRepository } from "../../StubRepos";
-import { MemoryRouter, useParams } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
+import { useArticleRepository } from "../../repository/useArticleRepository";
 
-vi.mock("react-router-dom", async () => {
-  const actual = (await vi.importActual("react-router-dom")) as {
-    [key: string]: never;
-  };
-  return {
-    ...actual,
-    useParams: vi.fn(),
-  };
-});
+vi.mock("../../repository/useArticleRepository");
 
 describe("TopPage", () => {
-  const stubArticlesRepository = new StubArticlesRepository();
-
   it("shows 'TopPage' header", async () => {
-    (useParams as Mock).mockReturnValue({ uname: undefined });
-    stubArticlesRepository.getAll.mockResolvedValue([]);
-    render(<TopPage articleRepository={stubArticlesRepository} />);
-
-    await act(async () => {
-      await stubArticlesRepository.getAll();
+    vi.mocked(useArticleRepository).mockReturnValue({
+      getAll: vi.fn().mockResolvedValue([]),
+      get: vi.fn(),
     });
+    render(<TopPage />);
 
-    expect(screen.getByText("Articles")).toBeInTheDocument();
+    expect(await screen.findByText("Articles")).toBeInTheDocument();
   });
 
   it("shows all articles", async () => {
-    (useParams as Mock).mockReturnValue({ uname: undefined });
-    stubArticlesRepository.getAll.mockResolvedValue([
-      {
-        id: "d8fec293-97c1-46b7-a1d4-458da3689dcd",
-        title: "my title",
-        content: "my content",
-      },
-    ]);
-    render(<TopPage articleRepository={stubArticlesRepository} />, {
+    vi.mocked(useArticleRepository).mockReturnValue({
+      getAll: vi.fn().mockResolvedValue([
+        {
+          id: "d8fec293-97c1-46b7-a1d4-458da3689dcd",
+          title: "my title",
+          content: "my content",
+        },
+      ]),
+      get: vi.fn(),
+    });
+
+    render(<TopPage />, {
       wrapper: MemoryRouter,
     });
 
@@ -55,20 +46,23 @@ describe("TopPage", () => {
   });
 
   it("strips article contents when it's more than 200 chars", async () => {
-    (useParams as Mock).mockReturnValue({ uname: undefined });
-    stubArticlesRepository.getAll.mockResolvedValue([
-      {
-        id: "d8fec293-97c1-46b7-a1d4-458da3689dcd",
-        title: "my title 1",
-        content: "x".repeat(200),
-      },
-      {
-        id: "2da288aa-aabd-4555-befe-30c71d1ee559",
-        title: "my title 2",
-        content: "y".repeat(201),
-      },
-    ]);
-    render(<TopPage articleRepository={stubArticlesRepository} />, {
+    vi.mocked(useArticleRepository).mockReturnValue({
+      getAll: vi.fn().mockResolvedValue([
+        {
+          id: "d8fec293-97c1-46b7-a1d4-458da3689dcd",
+          title: "my title 1",
+          content: "x".repeat(200),
+        },
+        {
+          id: "2da288aa-aabd-4555-befe-30c71d1ee559",
+          title: "my title 2",
+          content: "y".repeat(201),
+        },
+      ]),
+      get: vi.fn(),
+    });
+
+    render(<TopPage />, {
       wrapper: MemoryRouter,
     });
 

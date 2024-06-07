@@ -1,26 +1,19 @@
-import { Article, ArticleRepository } from "../../repository/ArticleRepository";
+import { Article } from "../../repository/ArticleRepository";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useArticleRepository } from "../../repository/useArticleRepository";
 
-type Props = {
-  articleRepository: ArticleRepository;
-};
-
-export default function TopPage({ articleRepository }: Props) {
+export default function TopPage() {
   const [articles, setArticles] = useState<Article[]>([]);
-  const { uname } = useParams();
+  const { getAll } = useArticleRepository();
 
   useEffect(() => {
-    const articlesPromise = uname
-      ? articleRepository.getAllByUname(uname)
-      : articleRepository.getAll();
-
-    articlesPromise
+    getAll()
       .then((articles) => setArticles(articles))
       .catch((error) => {
         console.error("Failed to fetch articles:", error);
       });
-  }, [uname, articleRepository]);
+  }, [getAll]);
 
   return (
     <div className="flex flex-col items-center">
