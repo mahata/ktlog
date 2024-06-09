@@ -7,3 +7,7 @@ spring:
 
 server:
   port: 5000
+
+application:
+  cookie:
+    secure: true

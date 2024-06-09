@@ -7,6 +7,7 @@ import org.mahata.ktlog.data.AuthResponse
 import org.mahata.ktlog.data.RefreshTokenRequest
 import org.mahata.ktlog.data.TokenResponse
 import org.mahata.ktlog.service.AuthService
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseCookie
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException
 class AuthController(
     private val authService: AuthService,
     private val jwtProperties: JwtProperties,
+    @Value("\${application.cookie.secure}") private val isSecureCookie: Boolean,
 ) {
     @PostMapping
     fun authenticate(
@@ -56,7 +58,7 @@ class AuthController(
             .httpOnly(true)
             .path(path)
             .maxAge(maxAge)
-            .secure(true)
+            .secure(isSecureCookie)
             .sameSite("Lax")
             .build()
     }

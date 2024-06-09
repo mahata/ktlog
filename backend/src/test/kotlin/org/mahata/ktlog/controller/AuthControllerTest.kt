@@ -7,6 +7,7 @@ import io.mockk.junit5.MockKExtension
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.allOf
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -16,13 +17,19 @@ import org.mahata.ktlog.config.JwtProperties
 import org.mahata.ktlog.data.AuthRequest
 import org.mahata.ktlog.data.AuthResponse
 import org.mahata.ktlog.service.AuthService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.util.TestPropertyValues
+import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
+@SpringBootTest
 @ExtendWith(MockKExtension::class)
 class AuthControllerTest {
     @MockK
@@ -31,65 +38,143 @@ class AuthControllerTest {
     @MockK
     private lateinit var stubJwtProperties: JwtProperties
 
+    @Autowired
+    private lateinit var context: ConfigurableApplicationContext
+
     private lateinit var mockMvc: MockMvc
 
     @Nested
     @DisplayName("POST /api/v1/auth")
     inner class PostApiV1Auth {
-        @BeforeEach
-        fun setUp() {
-            mockMvc = MockMvcBuilders.standaloneSetup(AuthController(stubAuthService, stubJwtProperties)).build()
-            every { stubJwtProperties.accessTokenExpiration } returns 360000L
-            every { stubJwtProperties.refreshTokenExpiration } returns 8640000L
+        private val authRequest = AuthRequest(email = "john-doe@example.com", password = "password")
+        private val authResponse = AuthResponse(accessToken = "access-token", refreshToken = "refresh-token")
+
+        private lateinit var result: MvcResult
+
+        @Nested
+        @DisplayName("Non HTTPS Environment")
+        inner class NoHttps {
+            @BeforeEach
+            fun setUp() {
+                mockMvc = MockMvcBuilders.standaloneSetup(AuthController(stubAuthService, stubJwtProperties, false)).build()
+                every { stubJwtProperties.accessTokenExpiration } returns 360000L
+                every { stubJwtProperties.refreshTokenExpiration } returns 8640000L
+
+                every { stubAuthService.authentication(authRequest) } returns authResponse
+
+                val objectMapper = ObjectMapper()
+
+                result =
+                    mockMvc.perform(
+                        MockMvcRequestBuilders.post("/api/v1/auth")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(authRequest)),
+                    )
+                        .andExpect(status().isOk)
+                        .andExpect(jsonPath("$.accessToken").value("access-token"))
+                        .andExpect(jsonPath("$.refreshToken").value("refresh-token"))
+                        .andReturn()
+            }
+
+            @Test
+            fun `stores access token to cookie`() {
+                val setCookieHeaders = result.response.getHeaders("Set-Cookie")
+
+                val accessTokenCookie = setCookieHeaders.find { it.startsWith("accessToken=") }
+                assertThat(
+                    accessTokenCookie,
+                    allOf(
+                        containsString("accessToken=access-token"),
+                        containsString("Path=/"),
+                        containsString("HttpOnly"),
+                        containsString("SameSite=Lax"),
+                        containsString("Max-Age=360000"),
+                    ),
+                )
+                assertEquals(-1, accessTokenCookie?.indexOf("Secure"), "Secure attribute should not be set")
+            }
+
+            @Test
+            fun `stores refresh token to cookie`() {
+                val setCookieHeaders = result.response.getHeaders("Set-Cookie")
+
+                val refreshTokenCookie = setCookieHeaders.find { it.startsWith("refreshToken=") }
+                assertThat(
+                    refreshTokenCookie,
+                    allOf(
+                        containsString("refreshToken=refresh-token"),
+                        containsString("Path=/api/v1/refresh"),
+                        containsString("HttpOnly"),
+                        containsString("SameSite=Lax"),
+                        containsString("Max-Age=8640000"),
+                    ),
+                )
+                assertEquals(-1, refreshTokenCookie?.indexOf("Secure"), "Secure attribute should not be set")
+            }
         }
 
-        @Test
-        fun `returns access token and refresh token while storing same data to cookie`() {
-            val authRequest = AuthRequest(email = "john-doe@example.com", password = "password")
-            val authResponse = AuthResponse(accessToken = "access-token", refreshToken = "refresh-token")
+        @Nested
+        @DisplayName("HTTPS Environment")
+        inner class Https {
+            @BeforeEach
+            fun setUp() {
+                TestPropertyValues.of("application.cookie.secure=true").applyTo(context)
 
-            every { stubAuthService.authentication(authRequest) } returns authResponse
+                mockMvc = MockMvcBuilders.standaloneSetup(AuthController(stubAuthService, stubJwtProperties, true)).build()
+                every { stubJwtProperties.accessTokenExpiration } returns 360000L
+                every { stubJwtProperties.refreshTokenExpiration } returns 8640000L
 
-            val objectMapper = ObjectMapper()
+                every { stubAuthService.authentication(authRequest) } returns authResponse
 
-            val result =
-                mockMvc.perform(
-                    MockMvcRequestBuilders.post("/api/v1/auth")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(authRequest)),
+                val objectMapper = ObjectMapper()
+
+                result =
+                    mockMvc.perform(
+                        MockMvcRequestBuilders.post("/api/v1/auth")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(authRequest)),
+                    )
+                        .andExpect(status().isOk)
+                        .andExpect(jsonPath("$.accessToken").value("access-token"))
+                        .andExpect(jsonPath("$.refreshToken").value("refresh-token"))
+                        .andReturn()
+            }
+
+            @Test
+            fun `stores access token to cookie`() {
+                val setCookieHeaders = result.response.getHeaders("Set-Cookie")
+
+                val accessTokenCookie = setCookieHeaders.find { it.startsWith("accessToken=") }
+                assertThat(
+                    accessTokenCookie,
+                    allOf(
+                        containsString("accessToken=access-token"),
+                        containsString("Path=/"),
+                        containsString("HttpOnly"),
+                        containsString("Secure"),
+                        containsString("SameSite=Lax"),
+                        containsString("Max-Age=360000"),
+                    ),
                 )
-                    .andExpect(status().isOk)
-                    .andExpect(jsonPath("$.accessToken").value("access-token"))
-                    .andExpect(jsonPath("$.refreshToken").value("refresh-token"))
-                    .andReturn()
+            }
 
-            val setCookieHeaders = result.response.getHeaders("Set-Cookie")
+            @Test
+            fun `stores refresh token to cookie`() {
+                val setCookieHeaders = result.response.getHeaders("Set-Cookie")
 
-            val accessTokenCookie = setCookieHeaders.find { it.startsWith("accessToken=") }
-            assertThat(
-                accessTokenCookie,
-                allOf(
-                    containsString("accessToken=access-token"),
-                    containsString("Path=/"),
-                    containsString("HttpOnly"),
-                    containsString("Secure"),
-                    containsString("SameSite=Lax"),
-                    containsString("Max-Age=360000"),
-                ),
-            )
-
-            val refreshTokenCookie = setCookieHeaders.find { it.startsWith("refreshToken=") }
-            assertThat(
-                refreshTokenCookie,
-                allOf(
-                    containsString("refreshToken=refresh-token"),
-                    containsString("Path=/api/v1/refresh"),
-                    containsString("HttpOnly"),
-                    containsString("Secure"),
-                    containsString("SameSite=Lax"),
-                    containsString("Max-Age=8640000"),
-                ),
-            )
+                val refreshTokenCookie = setCookieHeaders.find { it.startsWith("refreshToken=") }
+                assertThat(
+                    refreshTokenCookie,
+                    allOf(
+                        containsString("refreshToken=refresh-token"),
+                        containsString("Path=/api/v1/refresh"),
+                        containsString("HttpOnly"),
+                        containsString("Secure"),
+                        containsString("SameSite=Lax"),
+                        containsString("Max-Age=8640000"),
+                    ),
+                )
+            }
         }
     }
 
