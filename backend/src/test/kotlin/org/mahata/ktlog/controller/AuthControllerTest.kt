@@ -7,6 +7,7 @@ import io.mockk.junit5.MockKExtension
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.allOf
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -55,9 +56,7 @@ class AuthControllerTest {
         inner class NoHttps {
             @BeforeEach
             fun setUp() {
-                TestPropertyValues.of("application.cookie.secure=false").applyTo(context)
-
-                mockMvc = MockMvcBuilders.standaloneSetup(AuthController(stubAuthService, stubJwtProperties)).build()
+                mockMvc = MockMvcBuilders.standaloneSetup(AuthController(stubAuthService, stubJwtProperties, false)).build()
                 every { stubJwtProperties.accessTokenExpiration } returns 360000L
                 every { stubJwtProperties.refreshTokenExpiration } returns 8640000L
 
@@ -88,11 +87,11 @@ class AuthControllerTest {
                         containsString("accessToken=access-token"),
                         containsString("Path=/"),
                         containsString("HttpOnly"),
-                        // containsString("Secure"), // TODO verify there's no Secure
                         containsString("SameSite=Lax"),
                         containsString("Max-Age=360000"),
                     ),
                 )
+                assertEquals(-1, accessTokenCookie?.indexOf("Secure"), "Secure attribute should not be set")
             }
 
             @Test
@@ -106,11 +105,11 @@ class AuthControllerTest {
                         containsString("refreshToken=refresh-token"),
                         containsString("Path=/api/v1/refresh"),
                         containsString("HttpOnly"),
-                        // containsString("Secure"), // TODO verify there's no Secure
                         containsString("SameSite=Lax"),
                         containsString("Max-Age=8640000"),
                     ),
                 )
+                assertEquals(-1, refreshTokenCookie?.indexOf("Secure"), "Secure attribute should not be set")
             }
         }
 
@@ -121,7 +120,7 @@ class AuthControllerTest {
             fun setUp() {
                 TestPropertyValues.of("application.cookie.secure=true").applyTo(context)
 
-                mockMvc = MockMvcBuilders.standaloneSetup(AuthController(stubAuthService, stubJwtProperties)).build()
+                mockMvc = MockMvcBuilders.standaloneSetup(AuthController(stubAuthService, stubJwtProperties, true)).build()
                 every { stubJwtProperties.accessTokenExpiration } returns 360000L
                 every { stubJwtProperties.refreshTokenExpiration } returns 8640000L
 
