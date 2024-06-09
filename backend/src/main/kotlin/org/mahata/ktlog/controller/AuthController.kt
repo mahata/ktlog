@@ -56,7 +56,7 @@ class AuthController(
             .httpOnly(true)
             .path(path)
             .maxAge(maxAge)
-            .secure(true)
+            .secure(false) // TODO: FixMe - with test properties
             .sameSite("Lax")
             .build()
     }

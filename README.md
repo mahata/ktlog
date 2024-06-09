@@ -22,6 +22,12 @@ Run the following command in the project's root directory:
 $ docker compose up
 ```
 
+Also, the app requires service domain except localhost so that login cookie works. Let's add a line like following in `/etc/hosts`:
+
+```
+127.0.0.1	ktlog.local
+```
+
 ### Backend Instructions
 
 Execute the following commands to boot up the Spring Boot process.
@@ -41,8 +47,4 @@ $ npm i
 $ npm run dev
 ```
 
-Together with Backend, the entire system will start serving at http://localhost:5173
-
-## Demo
-
-The latest version of this service is available here: [https://ktlog.mahata.org/](https://ktlog.mahata.org/) However, please note that this is a "DEMO" site and I do NOT guarantee data permanence or anything like that.
+Together with Backend, the entire system will start serving at http://ktlog.local:5173
