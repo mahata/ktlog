@@ -17,6 +17,8 @@ import org.mahata.ktlog.config.JwtProperties
 import org.mahata.ktlog.data.AuthRequest
 import org.mahata.ktlog.data.AuthResponse
 import org.mahata.ktlog.service.AuthService
+import org.mahata.ktlog.service.CustomUserDetailsService
+import org.mahata.ktlog.service.TokenService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.util.TestPropertyValues
@@ -39,6 +41,12 @@ class AuthControllerTest {
     private lateinit var stubJwtProperties: JwtProperties
 
     @Autowired
+    private lateinit var userDetailsService: CustomUserDetailsService
+
+    @Autowired
+    private lateinit var tokenService: TokenService
+
+    @Autowired
     private lateinit var context: ConfigurableApplicationContext
 
     private lateinit var mockMvc: MockMvc
@@ -56,7 +64,16 @@ class AuthControllerTest {
         inner class NoHttps {
             @BeforeEach
             fun setUp() {
-                mockMvc = MockMvcBuilders.standaloneSetup(AuthController(stubAuthService, stubJwtProperties, false)).build()
+                mockMvc =
+                    MockMvcBuilders.standaloneSetup(
+                        AuthController(
+                            stubAuthService,
+                            userDetailsService,
+                            tokenService,
+                            stubJwtProperties,
+                            false,
+                        ),
+                    ).build()
                 every { stubJwtProperties.accessTokenExpiration } returns 360000L
                 every { stubJwtProperties.refreshTokenExpiration } returns 8640000L
 
@@ -120,7 +137,16 @@ class AuthControllerTest {
             fun setUp() {
                 TestPropertyValues.of("application.cookie.secure=true").applyTo(context)
 
-                mockMvc = MockMvcBuilders.standaloneSetup(AuthController(stubAuthService, stubJwtProperties, true)).build()
+                mockMvc =
+                    MockMvcBuilders.standaloneSetup(
+                        AuthController(
+                            stubAuthService,
+                            userDetailsService,
+                            tokenService,
+                            stubJwtProperties,
+                            true,
+                        ),
+                    ).build()
                 every { stubJwtProperties.accessTokenExpiration } returns 360000L
                 every { stubJwtProperties.refreshTokenExpiration } returns 8640000L
 

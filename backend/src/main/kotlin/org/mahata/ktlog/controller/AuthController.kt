@@ -1,5 +1,6 @@
 package org.mahata.ktlog.controller
 
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.mahata.ktlog.config.JwtProperties
 import org.mahata.ktlog.data.AuthRequest
@@ -7,9 +8,12 @@ import org.mahata.ktlog.data.AuthResponse
 import org.mahata.ktlog.data.RefreshTokenRequest
 import org.mahata.ktlog.data.TokenResponse
 import org.mahata.ktlog.service.AuthService
+import org.mahata.ktlog.service.CustomUserDetailsService
+import org.mahata.ktlog.service.TokenService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseCookie
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -20,6 +24,8 @@ import org.springframework.web.server.ResponseStatusException
 @RequestMapping("/api/v1/auth")
 class AuthController(
     private val authService: AuthService,
+    private val userDetailsService: CustomUserDetailsService,
+    private val tokenService: TokenService,
     private val jwtProperties: JwtProperties,
     @Value("\${application.cookie.secure}") private val isSecureCookie: Boolean,
 ) {
@@ -61,6 +67,16 @@ class AuthController(
             .secure(isSecureCookie)
             .sameSite("Lax")
             .build()
+    }
+
+    @GetMapping("/me")
+    fun me(request: HttpServletRequest): Boolean {
+        return request.cookies?.firstOrNull {
+            it.name == "accessToken"
+        }?.let { jwtToken ->
+            val email = tokenService.extractEmail(jwtToken.value) ?: ""
+            tokenService.isValid(jwtToken.value, userDetailsService.loadUserByUsername(email))
+        } ?: false
     }
 
     private fun String.mapToTokenResponse(): TokenResponse = TokenResponse(token = this)
