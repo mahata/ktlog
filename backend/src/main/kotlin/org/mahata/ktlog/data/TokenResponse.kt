@@ -1,5 +1,5 @@
 package org.mahata.ktlog.data
 
 data class TokenResponse(
-    val token: String,
+    private val token: String,
 )

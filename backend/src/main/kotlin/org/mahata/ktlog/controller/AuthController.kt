@@ -69,8 +69,8 @@ class AuthController(
             .build()
     }
 
-    @GetMapping("/me")
-    fun me(request: HttpServletRequest): Boolean {
+    @GetMapping("/status")
+    fun status(request: HttpServletRequest): Boolean {
         return request.cookies?.firstOrNull {
             it.name == "accessToken"
         }?.let { jwtToken ->

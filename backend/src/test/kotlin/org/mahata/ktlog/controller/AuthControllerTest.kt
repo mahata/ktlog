@@ -204,6 +204,20 @@ class AuthControllerTest {
         }
     }
 
+    @Nested
+    @DisplayName("POST /api/v1/auth/status")
+    inner class GetApiV1AuthStatus {
+        @Test
+        fun `returns true when authed`() {
+            // TODO
+        }
+
+        @Test
+        fun `returns false when not authed`() {
+            // TODO
+        }
+    }
+
     @Test
     fun refreshAccessToken() {
     }
