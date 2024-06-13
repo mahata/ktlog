@@ -1,32 +1,33 @@
-import { expect, it, describe, afterEach, vi, beforeEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import App from "./App";
 import { act, render, screen, waitFor } from "@testing-library/react";
-import { StubUsersRepository } from "./StubRepos";
 import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { useArticleRepository } from "./repository/useArticleRepository";
+import { useAuthRepository } from "./repository/useAuthRepository";
 import { makeArticleFixture } from "./fixture/makeArticleFixture";
 
 const originalTitle = document.title;
 const originalLocation = window.location;
 
 vi.mock("./repository/useArticleRepository");
+vi.mock("./repository/useAuthRepository");
 
 describe("App", () => {
-  const stubUsersRepository = new StubUsersRepository();
-  stubUsersRepository.getMe.mockResolvedValue({ uname: null, email: null });
-
   beforeEach(() => {
     vi.mocked(useArticleRepository).mockReturnValue({
-      getAll: vi.fn().mockResolvedValue([makeArticleFixture()]),
-      get: vi.fn().mockResolvedValue(makeArticleFixture()),
+      getAll: vi.fn().mockResolvedValueOnce([makeArticleFixture()]),
+      get: vi.fn().mockResolvedValueOnce(makeArticleFixture()),
+    });
+    vi.mocked(useAuthRepository).mockReturnValue({
+      isAuthed: vi.fn().mockResolvedValueOnce({ isAuthed: false }),
     });
   });
 
   it.each(["localhost", "127.0.0.1"])(
     'adds "dev|" to the title when it runs on `%s`',
     async () => {
-      render(<App userRepository={stubUsersRepository} />, {
+      render(<App />, {
         wrapper: MemoryRouter,
       });
 
@@ -43,7 +44,7 @@ describe("App", () => {
     });
 
     await act(async () => {
-      render(<App userRepository={stubUsersRepository} />, {
+      render(<App />, {
         wrapper: MemoryRouter,
       });
     });
@@ -53,7 +54,7 @@ describe("App", () => {
 
   it("shows a modal when the 'login' button is clicked", async () => {
     await act(async () => {
-      render(<App userRepository={stubUsersRepository} />, {
+      render(<App />, {
         wrapper: MemoryRouter,
       });
     });

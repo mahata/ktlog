@@ -3,17 +3,12 @@ import Header from "./component/Header/Header";
 import EyeCatch from "./component/EyeCatch/EyeCatch";
 import { Route, Routes } from "react-router-dom";
 import ArticlePage from "./page/ArticlePage/ArticlePage";
-import { UserRepository } from "./repository/UserRepository";
 import LoginModal from "./component/Modal/LoginModal";
 import { useAtom } from "jotai";
 import { loginModalAtom } from "./component/Modal/LoginModal.atoms";
 import Post from "./Post";
 
-type Props = {
-  userRepository: UserRepository;
-};
-
-export default function App({ userRepository }: Props) {
+export default function App() {
   const [showLoginModal] = useAtom(loginModalAtom);
 
   if (
@@ -25,7 +20,7 @@ export default function App({ userRepository }: Props) {
 
   return (
     <div>
-      <Header userRepository={userRepository} />
+      <Header />
       <EyeCatch />
       <Routes>
         <Route path="/" element={<TopPage />} />

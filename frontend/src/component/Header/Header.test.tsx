@@ -1,7 +1,11 @@
-import { act, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Header from "./Header";
 import { MemoryRouter } from "react-router-dom";
 import { StubUsersRepository } from "../../StubRepos";
+import { useAuthRepository } from "../../repository/useAuthRepository";
+import { vi } from "vitest";
+
+vi.mock("../../repository/useAuthRepository");
 
 describe("Header", () => {
   const stubUserRepository = new StubUsersRepository();
@@ -14,59 +18,54 @@ describe("Header", () => {
   });
 
   describe("Login", () => {
-    it("shows 'login' button when the user isn't logged in", () => {
-      stubUserRepository.getMe.mockResolvedValue({
-        uname: null,
-        email: null,
+    it("shows 'Post' button when the user is logged in", async () => {
+      vi.mocked(useAuthRepository).mockReturnValue({
+        isAuthed: vi.fn().mockResolvedValue({ authed: true }),
       });
 
-      render(<Header userRepository={stubUserRepository} />, {
+      render(<Header />, {
         wrapper: MemoryRouter,
       });
 
-      const loginButton = screen.getByRole("button", {
-        name: "Login",
-      }) as HTMLAnchorElement;
-
-      expect(loginButton).toBeInTheDocument();
+      expect(
+        await screen.findByRole("button", { name: "Post" }),
+      ).toBeInTheDocument();
     });
 
-    it("shows a username when the user is logged in", async () => {
-      stubUserRepository.getMe.mockResolvedValue({
-        uname: "Yasunori MAHATA",
-        email: "mahata777@gmail.com",
+    it("shows 'Login' button when the user is NOT logged in", async () => {
+      vi.mocked(useAuthRepository).mockReturnValue({
+        isAuthed: vi.fn().mockResolvedValue({ authed: false }),
       });
-      render(<Header userRepository={stubUserRepository} />, {
+
+      render(<Header />, {
         wrapper: MemoryRouter,
       });
 
-      expect(await screen.findByText("Yasunori MAHATA")).toBeInTheDocument();
+      expect(
+        await screen.findByRole("button", { name: "Login" }),
+      ).toBeInTheDocument();
     });
   });
 
   describe("Service Logo", () => {
     it("is in the header", async () => {
-      await act(async () => {
-        render(<Header userRepository={stubUserRepository} />, {
-          wrapper: MemoryRouter,
-        });
+      render(<Header />, {
+        wrapper: MemoryRouter,
       });
 
-      const logo = screen.getByRole("img", { name: "Site Logo" });
+      const logo = await screen.findByRole("img", { name: "Site Logo" });
 
       expect(logo).toBeInTheDocument();
     });
 
     it("is linked to '/'", async () => {
-      await act(async () => {
-        render(<Header userRepository={stubUserRepository} />, {
-          wrapper: MemoryRouter,
-        });
+      render(<Header />, {
+        wrapper: MemoryRouter,
       });
 
-      const logoLink = screen.getByRole("link", {
+      const logoLink = (await screen.findByRole("link", {
         name: "Site Logo",
-      }) as HTMLAnchorElement;
+      })) as HTMLAnchorElement;
 
       expect(logoLink).toBeInTheDocument();
       expect(logoLink.href).toBe(window.location.origin + "/");
