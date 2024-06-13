@@ -1,22 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import Header from "./Header";
 import { MemoryRouter } from "react-router-dom";
-import { StubUsersRepository } from "../../StubRepos";
 import { useAuthRepository } from "../../repository/useAuthRepository";
 import { vi } from "vitest";
 
 vi.mock("../../repository/useAuthRepository");
 
 describe("Header", () => {
-  const stubUserRepository = new StubUsersRepository();
-
-  beforeEach(() => {
-    stubUserRepository.getMe.mockResolvedValue({
-      uname: "Yasunori MAHATA",
-      email: "mahata777@gmail.com",
-    });
-  });
-
   describe("Login", () => {
     it("shows 'Post' button when the user is logged in", async () => {
       vi.mocked(useAuthRepository).mockReturnValue({
