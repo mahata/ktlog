@@ -16,11 +16,9 @@ describe("getAll", () => {
   });
 
   it("fetches all articles", async () => {
-    const stubResponse = [article];
-
     globalThis.fetch = vi
       .fn()
-      .mockResolvedValue(new Response(JSON.stringify(stubResponse)));
+      .mockResolvedValueOnce(new Response(JSON.stringify([article])));
 
     const { result } = renderHook(useArticleRepository);
 
@@ -39,11 +37,9 @@ describe("get", () => {
   });
 
   it("fetches an article of a specified id", async () => {
-    const stubResponse = article;
-
     globalThis.fetch = vi
       .fn()
-      .mockResolvedValue(new Response(JSON.stringify(stubResponse)));
+      .mockResolvedValueOnce(new Response(JSON.stringify(article)));
 
     const { result } = renderHook(useArticleRepository);
 
