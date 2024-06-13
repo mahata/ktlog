@@ -1,16 +1,27 @@
-import { expect, it, describe, afterEach } from "vitest";
+import { expect, it, describe, afterEach, vi, beforeEach } from "vitest";
 import App from "./App";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import { StubUsersRepository } from "./StubRepos";
 import { MemoryRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
+import { useArticleRepository } from "./repository/useArticleRepository";
+import { makeArticleFixture } from "./fixture/makeArticleFixture";
 
 const originalTitle = document.title;
 const originalLocation = window.location;
 
+vi.mock("./repository/useArticleRepository");
+
 describe("App", () => {
   const stubUsersRepository = new StubUsersRepository();
   stubUsersRepository.getMe.mockResolvedValue({ uname: null, email: null });
+
+  beforeEach(() => {
+    vi.mocked(useArticleRepository).mockReturnValue({
+      getAll: vi.fn().mockResolvedValue([makeArticleFixture()]),
+      get: vi.fn().mockResolvedValue(makeArticleFixture()),
+    });
+  });
 
   it.each(["localhost", "127.0.0.1"])(
     'adds "dev|" to the title when it runs on `%s`',
