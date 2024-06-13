@@ -66,7 +66,11 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-    jvmArgs("--add-opens", "java.base/java.util=ALL-UNNAMED") // to mock static methods in the java.util.UUID class
+    jvmArgs(
+        "--add-opens",
+        "java.base/java.util=ALL-UNNAMED",
+        "-XX:+EnableDynamicAgentLoading",
+    )
 }
 
 ktlint {

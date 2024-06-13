@@ -212,6 +212,7 @@ class AuthControllerTest {
     @DisplayName("POST /api/v1/auth/status")
     inner class GetApiV1AuthStatus {
         private val email = "john-doe@example.com"
+        private val token = "myToken"
 
         @BeforeEach
         fun setUp() {
@@ -229,8 +230,6 @@ class AuthControllerTest {
 
         @Test
         fun `returns true when user is logged in`() {
-            val token = "validToken"
-
             every { tokenService.extractEmail(token) } returns email
             every { userDetailsService.loadUserByUsername(email) } returns User(email, "password", listOf())
             every { tokenService.isValid(token, any()) } returns true
@@ -245,8 +244,23 @@ class AuthControllerTest {
         }
 
         @Test
-        fun `returns false when not authed`() {
-            // TODO
+        fun `returns false when accessToken cookie is missing`() {
+            mockMvc.perform(get("/api/v1/auth/status"))
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$.authed").value(false))
+        }
+
+        @Test
+        fun `returns false when accessToken is invalid`() {
+            every { tokenService.extractEmail(token) } returns email
+            every { userDetailsService.loadUserByUsername(email) } returns User(email, "password", listOf())
+            every { tokenService.isValid(token, any()) } returns false
+
+            val cookie = Cookie("accessToken", token)
+
+            mockMvc.perform(get("/api/v1/auth/status").cookie(cookie))
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$.authed").value(false))
         }
     }
 
