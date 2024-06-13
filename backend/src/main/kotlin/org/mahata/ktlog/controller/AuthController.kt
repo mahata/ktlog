@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse
 import org.mahata.ktlog.config.JwtProperties
 import org.mahata.ktlog.data.AuthRequest
 import org.mahata.ktlog.data.AuthResponse
+import org.mahata.ktlog.data.AuthStatus
 import org.mahata.ktlog.data.RefreshTokenRequest
 import org.mahata.ktlog.data.TokenResponse
 import org.mahata.ktlog.service.AuthService
@@ -70,13 +71,16 @@ class AuthController(
     }
 
     @GetMapping("/status")
-    fun status(request: HttpServletRequest): Boolean {
-        return request.cookies?.firstOrNull {
-            it.name == "accessToken"
-        }?.let { jwtToken ->
-            val email = tokenService.extractEmail(jwtToken.value) ?: ""
-            tokenService.isValid(jwtToken.value, userDetailsService.loadUserByUsername(email))
-        } ?: false
+    fun status(request: HttpServletRequest): AuthStatus {
+        val isLoggedIn =
+            request.cookies?.firstOrNull {
+                it.name == "accessToken"
+            }?.let { jwtToken ->
+                val email = tokenService.extractEmail(jwtToken.value) ?: ""
+                tokenService.isValid(jwtToken.value, userDetailsService.loadUserByUsername(email))
+            } ?: false
+
+        return AuthStatus(isLoggedIn)
     }
 
     private fun String.mapToTokenResponse(): TokenResponse = TokenResponse(token = this)

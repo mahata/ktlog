@@ -1,9 +1,11 @@
 package org.mahata.ktlog.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
+import jakarta.servlet.http.Cookie
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.allOf
@@ -24,9 +26,11 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.http.MediaType
+import org.springframework.security.core.userdetails.User
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -40,10 +44,10 @@ class AuthControllerTest {
     @MockK
     private lateinit var stubJwtProperties: JwtProperties
 
-    @Autowired
+    @MockkBean
     private lateinit var userDetailsService: CustomUserDetailsService
 
-    @Autowired
+    @MockkBean
     private lateinit var tokenService: TokenService
 
     @Autowired
@@ -207,9 +211,37 @@ class AuthControllerTest {
     @Nested
     @DisplayName("POST /api/v1/auth/status")
     inner class GetApiV1AuthStatus {
+        private val email = "john-doe@example.com"
+
+        @BeforeEach
+        fun setUp() {
+            mockMvc =
+                MockMvcBuilders.standaloneSetup(
+                    AuthController(
+                        stubAuthService,
+                        userDetailsService,
+                        tokenService,
+                        stubJwtProperties,
+                        false,
+                    ),
+                ).build()
+        }
+
         @Test
-        fun `returns true when authed`() {
-            // TODO
+        fun `returns true when user is logged in`() {
+            val token = "validToken"
+
+            every { tokenService.extractEmail(token) } returns email
+            every { userDetailsService.loadUserByUsername(email) } returns User(email, "password", listOf())
+            every { tokenService.isValid(token, any()) } returns true
+
+            val cookie = Cookie("accessToken", token)
+
+            mockMvc.perform(
+                get("/api/v1/auth/status").cookie(cookie),
+            )
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$.authed").value(true))
         }
 
         @Test
