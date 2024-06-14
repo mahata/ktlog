@@ -11,7 +11,7 @@ describe("Header", () => {
     it("shows 'Post' button when the user is logged in", async () => {
       vi.mocked(useAuthRepository).mockReturnValue({
         isAuthed: vi.fn().mockResolvedValue({ authed: true }),
-      });
+      } satisfies ReturnType<typeof useAuthRepository>);
 
       render(<Header />, {
         wrapper: MemoryRouter,

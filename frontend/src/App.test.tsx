@@ -18,10 +18,10 @@ describe("App", () => {
     vi.mocked(useArticleRepository).mockReturnValue({
       getAll: vi.fn().mockResolvedValueOnce([makeArticleFixture()]),
       get: vi.fn().mockResolvedValueOnce(makeArticleFixture()),
-    });
+    } satisfies ReturnType<typeof useArticleRepository>);
     vi.mocked(useAuthRepository).mockReturnValue({
       isAuthed: vi.fn().mockResolvedValueOnce({ isAuthed: false }),
-    });
+    } satisfies ReturnType<typeof useAuthRepository>);
   });
 
   it.each(["localhost", "127.0.0.1"])(
