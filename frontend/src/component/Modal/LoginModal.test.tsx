@@ -60,6 +60,7 @@ describe("LoginModal", () => {
       await userEvent.type(screen.getByLabelText("password"), "my-password");
       await userEvent.click(screen.getByRole("button", { name: "Send" }));
 
+      // TODO: Change to verify if auth() in useAuthRepository is called
       expect(globalThis.fetch).toHaveBeenCalledWith(`/api/v1/auth`, {
         method: "POST",
         headers: {

@@ -10,7 +10,8 @@ describe("Header", () => {
   describe("Login", () => {
     it("shows 'Post' button when the user is logged in", async () => {
       vi.mocked(useAuthRepository).mockReturnValue({
-        isAuthed: vi.fn().mockResolvedValue({ authed: true }),
+        getAuthStatus: vi.fn().mockResolvedValue({ authed: true }),
+        auth: vi.fn().mockResolvedValueOnce({}),
       } satisfies ReturnType<typeof useAuthRepository>);
 
       render(<Header />, {
@@ -24,7 +25,8 @@ describe("Header", () => {
 
     it("shows 'Login' button when the user is NOT logged in", async () => {
       vi.mocked(useAuthRepository).mockReturnValue({
-        isAuthed: vi.fn().mockResolvedValue({ authed: false }),
+        getAuthStatus: vi.fn().mockResolvedValue({ authed: false }),
+        auth: vi.fn().mockResolvedValueOnce({}),
       });
 
       render(<Header />, {

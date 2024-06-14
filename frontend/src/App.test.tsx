@@ -20,7 +20,8 @@ describe("App", () => {
       get: vi.fn().mockResolvedValueOnce(makeArticleFixture()),
     } satisfies ReturnType<typeof useArticleRepository>);
     vi.mocked(useAuthRepository).mockReturnValue({
-      isAuthed: vi.fn().mockResolvedValueOnce({ isAuthed: false }),
+      getAuthStatus: vi.fn().mockResolvedValueOnce({ isAuthed: false }),
+      auth: vi.fn().mockResolvedValueOnce({}),
     } satisfies ReturnType<typeof useAuthRepository>);
   });
 

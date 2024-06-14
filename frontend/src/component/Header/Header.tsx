@@ -7,13 +7,13 @@ import { useAuthRepository } from "../../repository/useAuthRepository";
 export default function Header() {
   const [, setShowModal] = useAtom(loginModalAtom);
   const [authed, setAuthed] = useState<boolean>(false);
-  const { isAuthed } = useAuthRepository();
+  const { getAuthStatus } = useAuthRepository();
 
   useEffect(() => {
-    isAuthed().then((status) => {
+    getAuthStatus().then((status) => {
       setAuthed(status.authed);
     });
-  }, [isAuthed]);
+  }, [getAuthStatus]);
 
   return (
     <header className="w-full bg-blue-400 shadow shadow-blue-600">
