@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import { loginModalAtom } from "./LoginModal.atoms";
 import { X } from "lucide-react";
+import { useAuthRepository } from "../../repository/useAuthRepository";
 
 type Props = {
   title: string;
@@ -11,6 +12,7 @@ export default function LoginModal({ title }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [, setShowModal] = useAtom(loginModalAtom);
+  const { auth } = useAuthRepository();
 
   useEffect(() => {
     document.body.style.overflowY = "hidden";
@@ -68,17 +70,7 @@ export default function LoginModal({ title }: Props) {
             <button
               className="rounded bg-blue-800 px-1.5 py-1 text-white shadow-2xl hover:bg-blue-700 hover:shadow-xl"
               onClick={async () => {
-                // TODO: AuthRepository.authorize({email, password})
-                await fetch("/api/v1/auth", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    email: email,
-                    password: password,
-                  }),
-                });
+                await auth(email, password);
               }}
             >
               Send

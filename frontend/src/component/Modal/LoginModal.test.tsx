@@ -1,20 +1,17 @@
 import LoginModal from "./LoginModal";
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
+import { useAuthRepository } from "../../repository/useAuthRepository";
 
-const originalFetch = globalThis.fetch;
+vi.mock("../../repository/useAuthRepository");
 
 describe("LoginModal", () => {
-  const mockedFetch = vi.fn();
-
   beforeEach(() => {
-    mockedFetch.mockReset();
-    globalThis.fetch = mockedFetch;
-  });
-
-  afterEach(() => {
-    globalThis.fetch = originalFetch;
+    vi.mocked(useAuthRepository).mockReturnValue({
+      auth: vi.fn(),
+      getAuthStatus: vi.fn(),
+    } satisfies ReturnType<typeof useAuthRepository>);
   });
 
   it("restricts page scrolling when it's active", () => {
@@ -56,21 +53,17 @@ describe("LoginModal", () => {
     it("sends a request when clicked", async () => {
       render(<LoginModal title="DOES NOT MATTER" />);
 
-      await userEvent.type(screen.getByLabelText("email"), "my-email");
-      await userEvent.type(screen.getByLabelText("password"), "my-password");
+      await userEvent.type(
+        screen.getByLabelText("email"),
+        "john-doe@example.com",
+      );
+      await userEvent.type(screen.getByLabelText("password"), "password");
       await userEvent.click(screen.getByRole("button", { name: "Send" }));
 
-      // TODO: Change to verify if auth() in useAuthRepository is called
-      expect(globalThis.fetch).toHaveBeenCalledWith(`/api/v1/auth`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: "my-email",
-          password: "my-password",
-        }),
-      });
+      expect(useAuthRepository().auth).toHaveBeenCalledWith(
+        "john-doe@example.com",
+        "password",
+      );
     });
   });
 });
