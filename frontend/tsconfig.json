@@ -20,8 +20,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["jest", "node"],
-    // "types": ["node"]
+    "types": ["jest", "node", "vitest/globals"],
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

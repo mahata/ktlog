@@ -1,4 +1,3 @@
-import { afterEach, describe, it, vi } from "vitest";
 import { NetworkAuthRepository } from "./AuthRepository";
 
 const originalFetch = globalThis.fetch;

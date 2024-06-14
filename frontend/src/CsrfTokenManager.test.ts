@@ -1,5 +1,4 @@
 import { CsrfTokenManager } from "./CsrfTokenManager";
-import { vi, expect, it, describe, beforeEach } from "vitest";
 
 describe("CsrfTokenManager", () => {
   const mockedFetch = vi.fn();

@@ -1,4 +1,3 @@
-import { describe, it, expect } from "vitest";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import Post from "./Post";
 import userEvent from "@testing-library/user-event";

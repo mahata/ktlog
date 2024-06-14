@@ -1,6 +1,5 @@
 import { useArticleRepository } from "./useArticleRepository";
 import { renderHook } from "@testing-library/react";
-import { afterEach, expect, vi } from "vitest";
 
 const originalFetch = globalThis.fetch;
 

@@ -1,5 +1,4 @@
 import ArticlePage from "./ArticlePage";
-import { vi, expect, it, describe } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { useArticleRepository } from "../../repository/useArticleRepository";
 import { makeArticleFixture } from "../../fixture/makeArticleFixture";

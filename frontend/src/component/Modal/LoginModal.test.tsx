@@ -1,17 +1,20 @@
 import LoginModal from "./LoginModal";
 import { render, screen } from "@testing-library/react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
 import userEvent from "@testing-library/user-event";
 import { useAuthRepository } from "../../repository/useAuthRepository";
 
 vi.mock("../../repository/useAuthRepository");
 
 describe("LoginModal", () => {
+  let authRepoMock: ReturnType<typeof useAuthRepository>;
+
   beforeEach(() => {
-    vi.mocked(useAuthRepository).mockReturnValue({
+    authRepoMock = {
       auth: vi.fn(),
       getAuthStatus: vi.fn(),
-    } satisfies ReturnType<typeof useAuthRepository>);
+    };
+
+    vi.mocked(useAuthRepository).mockReturnValue(authRepoMock);
   });
 
   it("restricts page scrolling when it's active", () => {
@@ -50,7 +53,7 @@ describe("LoginModal", () => {
   });
 
   describe("Login Button", () => {
-    it("sends a request when clicked", async () => {
+    beforeEach(async () => {
       render(<LoginModal title="DOES NOT MATTER" />);
 
       await userEvent.type(
@@ -58,6 +61,9 @@ describe("LoginModal", () => {
         "john-doe@example.com",
       );
       await userEvent.type(screen.getByLabelText("password"), "password");
+    });
+
+    it("sends a request when clicked", async () => {
       await userEvent.click(screen.getByRole("button", { name: "Send" }));
 
       expect(useAuthRepository().auth).toHaveBeenCalledWith(
@@ -65,5 +71,27 @@ describe("LoginModal", () => {
         "password",
       );
     });
+
+    // describe("When login succeeds", () => {
+    //   it("modal is closed", async () => {
+    //     (authRepoMock.getAuthStatus as jest.Mock).mockReturnValue({
+    //       authed: true,
+    //     });
+    //
+    //     await waitFor(() => {
+    //       expect(screen.getByLabelText("login-modal-title")).not.toBeVisible();
+    //     });
+    //   });
+    // });
+
+    // it("shows an error message when login fails", async () => {
+    //   (authRepoMock.auth as jest.Mock).mockReturnValue({
+    //     authed: true,
+    //   });
+    //
+    //   await waitFor(() => {
+    //     expect(screen.getByText("Password is wrong")).toBeVisible();
+    //   });
+    // });
   });
 });
