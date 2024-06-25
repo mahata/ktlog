@@ -19,7 +19,8 @@ describe("useAuthRepository", () => {
       const { result } = renderHook(useAuthRepository);
 
       const response = await result.current.getAuthStatus();
-      expect(response.authed).toEqual(true);
+      expect(response.success).toBe(true);
+      expect(response.data.authed).toBe(true);
 
       expect(globalThis.fetch).toHaveBeenCalledWith("/api/v1/auth/status", {
         method: "GET",
@@ -36,7 +37,8 @@ describe("useAuthRepository", () => {
       const { result } = renderHook(useAuthRepository);
 
       const response = await result.current.getAuthStatus();
-      expect(response.authed).toEqual(false);
+      expect(response.success).toBe(true);
+      expect(response.data.authed).toBe(false);
 
       expect(globalThis.fetch).toHaveBeenCalledWith("/api/v1/auth/status", {
         method: "GET",
@@ -74,7 +76,9 @@ describe("useAuthRepository", () => {
         }),
       });
 
-      expect(response).toEqual(stubResponse);
+      expect(response.success).toBe(true);
+      expect(response.data.accessToken).toBe("accessToken");
+      expect(response.data.refreshToken).toBe("refreshToken");
     });
 
     it("returns an error message when user is not authed", async () => {
@@ -101,9 +105,11 @@ describe("useAuthRepository", () => {
         }),
       });
 
-      expect(response).toEqual({
-        message: `Invalid email or password: john-doe@example.com`,
-      });
+      expect(response.success).toBe(false);
+      expect(response.data).toBeUndefined();
+      expect(response.errorMessage).toBe(
+        `Invalid email or password: john-doe@example.com`,
+      );
     });
   });
 });

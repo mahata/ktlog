@@ -10,8 +10,8 @@ export default function Header() {
   const { getAuthStatus } = useAuthRepository();
 
   useEffect(() => {
-    getAuthStatus().then((status) => {
-      setAuthed(status.authed);
+    getAuthStatus().then((response) => {
+      setAuthed(response.success);
     });
   }, [getAuthStatus]);
 

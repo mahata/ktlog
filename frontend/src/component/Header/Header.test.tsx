@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import Header from "./Header";
 import { MemoryRouter } from "react-router-dom";
 import { useAuthRepository } from "../../repository/useAuthRepository";
+import { ApiResponse } from "../../type/ApiResponse";
 
 vi.mock("../../repository/useAuthRepository");
 
@@ -9,8 +10,15 @@ describe("Header", () => {
   describe("Login", () => {
     it("shows 'Post' button when the user is logged in", async () => {
       vi.mocked(useAuthRepository).mockReturnValue({
-        getAuthStatus: vi.fn().mockResolvedValue({ authed: true }),
-        auth: vi.fn().mockResolvedValueOnce({}),
+        getAuthStatus: vi.fn().mockResolvedValue({
+          success: true,
+          data: {
+            authed: true,
+          },
+        } satisfies ApiResponse),
+        auth: vi.fn().mockResolvedValueOnce({
+          success: true,
+        } satisfies ApiResponse),
       } satisfies ReturnType<typeof useAuthRepository>);
 
       render(<Header />, {
@@ -24,8 +32,15 @@ describe("Header", () => {
 
     it("shows 'Login' button when the user is NOT logged in", async () => {
       vi.mocked(useAuthRepository).mockReturnValue({
-        getAuthStatus: vi.fn().mockResolvedValue({ authed: false }),
-        auth: vi.fn().mockResolvedValueOnce({}),
+        getAuthStatus: vi.fn().mockResolvedValue({
+          success: true,
+          data: {
+            authed: false,
+          },
+        } satisfies ApiResponse),
+        auth: vi.fn().mockResolvedValueOnce({
+          success: true,
+        } satisfies ApiResponse),
       });
 
       render(<Header />, {

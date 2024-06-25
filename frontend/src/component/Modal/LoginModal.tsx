@@ -70,6 +70,7 @@ export default function LoginModal({ title }: Props) {
             <button
               className="rounded bg-blue-800 px-1.5 py-1 text-white shadow-2xl hover:bg-blue-700 hover:shadow-xl"
               onClick={async () => {
+                // TODO: if auth succeeds, put a toast message or something, then close the dialog
                 await auth(email, password);
               }}
             >

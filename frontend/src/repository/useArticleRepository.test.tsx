@@ -9,47 +9,45 @@ const article = {
   content: "my content",
 };
 
-describe("getAll", () => {
+describe("useArticleRepository", () => {
   afterEach(() => {
     globalThis.fetch = originalFetch;
   });
 
-  it("fetches all articles", async () => {
-    globalThis.fetch = vi
-      .fn()
-      .mockResolvedValueOnce(new Response(JSON.stringify([article])));
+  describe("getAll", () => {
+    it("fetches all articles", async () => {
+      globalThis.fetch = vi
+        .fn()
+        .mockReturnValueOnce(new Response(JSON.stringify([article])));
 
-    const { result } = renderHook(useArticleRepository);
+      const { result } = renderHook(useArticleRepository);
 
-    const response = await result.current.getAll();
-    expect(response).toEqual([article]);
+      const response = await result.current.getAll();
+      expect(response).toEqual([article]);
 
-    expect(globalThis.fetch).toHaveBeenCalledWith("/api/v1/articles", {
-      method: "GET",
+      expect(globalThis.fetch).toHaveBeenCalledWith("/api/v1/articles", {
+        method: "GET",
+      });
     });
   });
-});
 
-describe("get", () => {
-  afterEach(() => {
-    globalThis.fetch = originalFetch;
-  });
+  describe("get", () => {
+    it("fetches an article of a specified id", async () => {
+      globalThis.fetch = vi
+        .fn()
+        .mockReturnValueOnce(new Response(JSON.stringify(article)));
 
-  it("fetches an article of a specified id", async () => {
-    globalThis.fetch = vi
-      .fn()
-      .mockResolvedValueOnce(new Response(JSON.stringify(article)));
+      const { result } = renderHook(useArticleRepository);
 
-    const { result } = renderHook(useArticleRepository);
+      const response = await result.current.get(article.id);
+      expect(response).toEqual(article);
 
-    const response = await result.current.get(article.id);
-    expect(response).toEqual(article);
-
-    expect(globalThis.fetch).toHaveBeenCalledWith(
-      `/api/v1/articles/${article.id}`,
-      {
-        method: "GET",
-      },
-    );
+      expect(globalThis.fetch).toHaveBeenCalledWith(
+        `/api/v1/articles/${article.id}`,
+        {
+          method: "GET",
+        },
+      );
+    });
   });
 });
