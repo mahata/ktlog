@@ -5,13 +5,15 @@ import { loginModalAtom } from "../Modal/LoginModal.atoms";
 import { useAuthRepository } from "../../repository/useAuthRepository";
 
 export default function Header() {
-  const [, setShowModal] = useAtom(loginModalAtom);
+  const [, setShowLoginModal] = useAtom(loginModalAtom);
   const [authed, setAuthed] = useState<boolean>(false);
   const { getAuthStatus } = useAuthRepository();
 
   useEffect(() => {
     getAuthStatus().then((response) => {
-      setAuthed(response.success);
+      if (response.success) {
+        setAuthed(response.data.authed);
+      }
     });
   }, [getAuthStatus]);
 
@@ -38,7 +40,7 @@ export default function Header() {
           ) : (
             <button
               className="rounded bg-blue-800 px-1.5 py-1 text-white shadow-2xl hover:bg-blue-700 hover:shadow-xl"
-              onClick={() => setShowModal(true)}
+              onClick={() => setShowLoginModal(true)}
             >
               Login
             </button>

@@ -7,6 +7,7 @@ import LoginModal from "./component/Modal/LoginModal";
 import { useAtom } from "jotai";
 import { loginModalAtom } from "./component/Modal/LoginModal.atoms";
 import Post from "./Post";
+import Toast from "./component/Toast/Toast";
 
 export default function App() {
   const [showLoginModal] = useAtom(loginModalAtom);
@@ -27,6 +28,7 @@ export default function App() {
         <Route path="/articles/:id" element={<ArticlePage />} />
         <Route path="/post" element={<Post />} />
       </Routes>
+      <Toast />
       {showLoginModal && <LoginModal title="Login to ktlog" />}
     </div>
   );

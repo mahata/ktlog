@@ -3,6 +3,7 @@ import { useAtom } from "jotai";
 import { loginModalAtom } from "./LoginModal.atoms";
 import { X } from "lucide-react";
 import { useAuthRepository } from "../../repository/useAuthRepository";
+import { toastMessageAtom } from "../Toast/Toast.atoms";
 
 type Props = {
   title: string;
@@ -12,6 +13,7 @@ export default function LoginModal({ title }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [, setShowModal] = useAtom(loginModalAtom);
+  const [, setToastMessage] = useAtom(toastMessageAtom);
   const { auth } = useAuthRepository();
 
   useEffect(() => {
@@ -58,7 +60,7 @@ export default function LoginModal({ title }: Props) {
             <input
               className="rounded p-1"
               id="password"
-              type="text"
+              type="password"
               value={password}
               size={24}
               maxLength={256}
@@ -70,8 +72,10 @@ export default function LoginModal({ title }: Props) {
             <button
               className="rounded bg-blue-800 px-1.5 py-1 text-white shadow-2xl hover:bg-blue-700 hover:shadow-xl"
               onClick={async () => {
-                // TODO: if auth succeeds, put a toast message or something, then close the dialog
-                await auth(email, password);
+                const authResult = await auth(email, password);
+                if (authResult.success) {
+                  setToastMessage("Login successfully");
+                }
               }}
             >
               Send

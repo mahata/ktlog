@@ -1,0 +1,16 @@
+:root {
+    --animation-duration: 10000ms;
+}
+
+@keyframes toShort {
+    0% {
+        width: 100%;
+    }
+    100% {
+        width: 0;
+    }
+}
+
+.toShort {
+    animation: toShort var(--animation-duration, 10000ms) linear;
+}
