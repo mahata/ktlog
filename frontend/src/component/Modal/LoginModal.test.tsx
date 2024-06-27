@@ -2,19 +2,22 @@ import LoginModal from "./LoginModal";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useAuthRepository } from "../../repository/useAuthRepository";
+import { useAtom } from "jotai";
 
+vi.mock("jotai", () => ({
+  ...vi.importActual("jotai"),
+  atom: vi.fn(),
+  useAtom: vi.fn(),
+}));
 vi.mock("../../repository/useAuthRepository");
 
 describe("LoginModal", () => {
-  let authRepoMock: ReturnType<typeof useAuthRepository>;
-
   beforeEach(() => {
-    authRepoMock = {
+    vi.mocked(useAuthRepository).mockReturnValue({
       auth: vi.fn(),
       getAuthStatus: vi.fn(),
-    };
-
-    vi.mocked(useAuthRepository).mockReturnValue(authRepoMock);
+    });
+    vi.mocked(useAtom).mockReturnValue([true, vi.fn() as never]);
   });
 
   it("restricts page scrolling when it's active", () => {
