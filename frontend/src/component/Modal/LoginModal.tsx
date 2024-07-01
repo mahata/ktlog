@@ -76,6 +76,7 @@ export default function LoginModal({ title }: Props) {
                   const authResult = await auth(email, password);
                   if (authResult.success) {
                     setToastMessage("Login successfully");
+                    setShowLoginModal(false);
                   }
                 }}
               >

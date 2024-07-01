@@ -1,23 +1,54 @@
 import LoginModal from "./LoginModal";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useAuthRepository } from "../../repository/useAuthRepository";
 import { useAtom } from "jotai";
+import { ApiResponse } from "../../type/ApiResponse";
+import { loginModalAtom } from "./LoginModal.atoms";
+import { toastMessageAtom } from "../Toast/Toast.atoms";
 
 vi.mock("jotai", () => ({
   ...vi.importActual("jotai"),
   atom: vi.fn(),
   useAtom: vi.fn(),
 }));
+
 vi.mock("../../repository/useAuthRepository");
 
 describe("LoginModal", () => {
+  const mockedAuthResponse = vi
+    .fn()
+    .mockResolvedValue({ success: true } satisfies ApiResponse);
+  const mockedAuthStatusResponse = vi
+    .fn()
+    .mockResolvedValue({ success: true } satisfies ApiResponse);
+
+  const mockedAuthRepository = {
+    auth: mockedAuthResponse,
+    getAuthStatus: mockedAuthStatusResponse,
+  } satisfies ReturnType<typeof useAuthRepository>;
+
+  const mockedShowLoginModal = true;
+  const mockedSetShowLoginModal = vi.fn() as never;
+  const mockedLoginModalAtom: ReturnType<typeof useAtom> = [
+    mockedShowLoginModal,
+    mockedSetShowLoginModal,
+  ];
+
+  const mockedToastMessage = "";
+  const mockedSetToastMessage = vi.fn() as never;
+  const mockedToastMessageAtom: ReturnType<typeof useAtom> = [
+    mockedToastMessage,
+    mockedSetToastMessage,
+  ];
+
   beforeEach(() => {
-    vi.mocked(useAuthRepository).mockReturnValue({
-      auth: vi.fn(),
-      getAuthStatus: vi.fn(),
+    vi.mocked(useAuthRepository).mockReturnValue(mockedAuthRepository);
+    vi.mocked(useAtom).mockImplementation((atom) => {
+      if (atom === loginModalAtom) return mockedLoginModalAtom;
+      if (atom === toastMessageAtom) return mockedToastMessageAtom;
+      throw new Error("Unknown atom");
     });
-    vi.mocked(useAtom).mockReturnValue([true, vi.fn() as never]);
   });
 
   it("restricts page scrolling when it's active", () => {
@@ -66,30 +97,24 @@ describe("LoginModal", () => {
       await userEvent.type(screen.getByLabelText("password"), "password");
     });
 
-    it("", () => {
-      expect(1).toBe(1);
+    it("sends a request when clicked", async () => {
+      await userEvent.click(screen.getByRole("button", { name: "Send" }));
+
+      expect(useAuthRepository().auth).toHaveBeenCalledWith(
+        "john-doe@example.com",
+        "password",
+      );
     });
 
-    // it("sends a request when clicked", async () => {
-    //   await userEvent.click(screen.getByRole("button", { name: "Send" }));
-    //
-    //   expect(useAuthRepository().auth).toHaveBeenCalledWith(
-    //     "john-doe@example.com",
-    //     "password",
-    //   );
-    // });
+    describe("When login succeeds", () => {
+      it("setShowLoginModal(false) is closed", async () => {
+        await userEvent.click(screen.getByRole("button", { name: "Send" }));
 
-    // describe("When login succeeds", () => {
-    //   it("modal is closed", async () => {
-    //     (authRepoMock.getAuthStatus as jest.Mock).mockReturnValue({
-    //       authed: true,
-    //     });
-    //
-    //     await waitFor(() => {
-    //       expect(screen.getByLabelText("login-modal-title")).not.toBeVisible();
-    //     });
-    //   });
-    // });
+        await waitFor(() => {
+          expect(mockedSetShowLoginModal).toHaveBeenCalledWith(false);
+        });
+      });
+    });
 
     // it("shows an error message when login fails", async () => {
     //   (authRepoMock.auth as jest.Mock).mockReturnValue({
