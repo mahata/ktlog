@@ -2,7 +2,7 @@ import LoginModal from "./LoginModal";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useAuthRepository } from "../../repository/useAuthRepository";
-import { useAtom } from "jotai";
+import { Atom, useAtom } from "jotai";
 import { ApiResponse } from "../../type/ApiResponse";
 import { loginModalAtom } from "./LoginModal.atoms";
 import { toastMessageAtom } from "../Toast/Toast.atoms";
@@ -15,36 +15,43 @@ vi.mock("jotai", () => ({
 
 vi.mock("../../repository/useAuthRepository");
 
+type Setter<T> = (value: T) => void;
+
+function createMockAtom<T>(value: T, setter: Setter<T>): [T, Setter<T>] {
+  return [value, vi.fn().mockImplementation(setter)];
+}
+
+const createMockAuthRepository = (
+  authResponse: ApiResponse,
+  authStatusResponse: ApiResponse,
+) => ({
+  auth: vi.fn().mockResolvedValue(authResponse),
+  getAuthStatus: vi.fn().mockResolvedValue(authStatusResponse),
+});
+
 describe("LoginModal", () => {
-  const mockedAuthResponse = vi
-    .fn()
-    .mockResolvedValue({ success: true } satisfies ApiResponse);
-  const mockedAuthStatusResponse = vi
-    .fn()
-    .mockResolvedValue({ success: true } satisfies ApiResponse);
+  const authResponse = { success: true } satisfies ApiResponse;
+  const authStatusResponse = { success: true } satisfies ApiResponse;
+  const mockedAuthRepository = createMockAuthRepository(
+    authResponse,
+    authStatusResponse,
+  );
 
-  const mockedAuthRepository = {
-    auth: mockedAuthResponse,
-    getAuthStatus: mockedAuthStatusResponse,
-  } satisfies ReturnType<typeof useAuthRepository>;
+  const showLoginModal = true;
+  const setShowLoginModal: Setter<boolean> = vi.fn();
+  const mockedLoginModalAtom = createMockAtom(
+    showLoginModal,
+    setShowLoginModal,
+  );
 
-  const mockedShowLoginModal = true;
-  const mockedSetShowLoginModal = vi.fn() as never;
-  const mockedLoginModalAtom: ReturnType<typeof useAtom> = [
-    mockedShowLoginModal,
-    mockedSetShowLoginModal,
-  ];
-
-  const mockedToastMessage = "";
-  const mockedSetToastMessage = vi.fn() as never;
-  const mockedToastMessageAtom: ReturnType<typeof useAtom> = [
-    mockedToastMessage,
-    mockedSetToastMessage,
-  ];
+  const toastMessage = "";
+  const setToastMessage: Setter<string> = vi.fn();
+  const mockedToastMessageAtom = createMockAtom(toastMessage, setToastMessage);
 
   beforeEach(() => {
     vi.mocked(useAuthRepository).mockReturnValue(mockedAuthRepository);
-    vi.mocked(useAtom).mockImplementation((atom) => {
+    // @ts-expect-error Because TS doesn't like Atom<unknown>
+    vi.mocked(useAtom).mockImplementation((atom: Atom<unknown>) => {
       if (atom === loginModalAtom) return mockedLoginModalAtom;
       if (atom === toastMessageAtom) return mockedToastMessageAtom;
       throw new Error("Unknown atom");
@@ -111,7 +118,7 @@ describe("LoginModal", () => {
         await userEvent.click(screen.getByRole("button", { name: "Send" }));
 
         await waitFor(() => {
-          expect(mockedSetShowLoginModal).toHaveBeenCalledWith(false);
+          expect(setShowLoginModal).toHaveBeenCalledWith(false);
         });
       });
     });
