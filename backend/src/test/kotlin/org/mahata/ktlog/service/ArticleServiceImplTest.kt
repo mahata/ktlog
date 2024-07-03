@@ -1,6 +1,5 @@
 package org.mahata.ktlog.service
 
-import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
@@ -42,7 +41,7 @@ class ArticleServiceImplTest {
             val service = ArticleServiceImpl(stubArticleRepository)
             val result = service.getArticles()
 
-            result.size shouldBe 1
+            assertEquals(1, result.size)
 
             assertEquals(
                 Article(uuid, "title", "content"),
