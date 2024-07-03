@@ -1,7 +1,11 @@
 import LoginModal from "./LoginModal";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { useAuthRepository } from "../../repository/useAuthRepository";
+import {
+  AuthResponse,
+  GetAuthStatusResponse,
+  useAuthRepository,
+} from "../../repository/useAuthRepository";
 import { Atom, useAtom } from "jotai";
 import { ApiResponse } from "../../type/ApiResponse";
 import { loginModalAtom } from "./LoginModal.atoms";
@@ -30,8 +34,8 @@ const createMockAuthRepository = (
 });
 
 describe("LoginModal", () => {
-  const authResponse = { success: true } satisfies ApiResponse;
-  const authStatusResponse = { success: true } satisfies ApiResponse;
+  const authResponse = { success: true } satisfies AuthResponse;
+  const authStatusResponse = { success: true } satisfies GetAuthStatusResponse;
   const mockedAuthRepository = createMockAuthRepository(
     authResponse,
     authStatusResponse,
@@ -49,13 +53,17 @@ describe("LoginModal", () => {
   const mockedToastMessageAtom = createMockAtom(toastMessage, setToastMessage);
 
   beforeEach(() => {
-    vi.mocked(useAuthRepository).mockReturnValue(mockedAuthRepository);
     // @ts-expect-error Because TS doesn't like Atom<unknown>
     vi.mocked(useAtom).mockImplementation((atom: Atom<unknown>) => {
       if (atom === loginModalAtom) return mockedLoginModalAtom;
       if (atom === toastMessageAtom) return mockedToastMessageAtom;
       throw new Error("Unknown atom");
     });
+    vi.mocked(useAuthRepository).mockReturnValue(mockedAuthRepository);
+  });
+
+  afterEach(() => {
+    vi.resetAllMocks();
   });
 
   it("restricts page scrolling when it's active", () => {
@@ -94,7 +102,7 @@ describe("LoginModal", () => {
   });
 
   describe("Login Button", () => {
-    beforeEach(async () => {
+    it("sends a request when clicked", async () => {
       render(<LoginModal title="DOES NOT MATTER" />);
 
       await userEvent.type(
@@ -102,9 +110,6 @@ describe("LoginModal", () => {
         "john-doe@example.com",
       );
       await userEvent.type(screen.getByLabelText("password"), "password");
-    });
-
-    it("sends a request when clicked", async () => {
       await userEvent.click(screen.getByRole("button", { name: "Send" }));
 
       expect(useAuthRepository().auth).toHaveBeenCalledWith(
@@ -115,10 +120,25 @@ describe("LoginModal", () => {
 
     describe("When login succeeds", () => {
       it("setShowLoginModal(false) is closed", async () => {
+        const mySetShowLoginModal: Setter<boolean> = vi.fn();
+        const mockedLoginModalAtom = createMockAtom(
+          showLoginModal,
+          mySetShowLoginModal,
+        );
+
+        // @ts-expect-error Because TS doesn't like Atom<unknown>
+        vi.mocked(useAtom).mockImplementation((atom: Atom<unknown>) => {
+          if (atom === loginModalAtom) return mockedLoginModalAtom;
+          if (atom === toastMessageAtom) return mockedToastMessageAtom;
+          throw new Error("Unknown atom");
+        });
+
+        render(<LoginModal title="DOES NOT MATTER" />);
+
         await userEvent.click(screen.getByRole("button", { name: "Send" }));
 
         await waitFor(() => {
-          expect(setShowLoginModal).toHaveBeenCalledWith(false);
+          expect(mySetShowLoginModal).toHaveBeenCalledWith(false);
         });
       });
     });
