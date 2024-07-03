@@ -1,24 +1,28 @@
 import { useCallback } from "react";
 import { ApiResponse } from "../type/ApiResponse";
 
+export type GetAuthStatusResponse = ApiResponse;
+export type AuthResponse = ApiResponse;
+
 export const useAuthRepository = () => {
-  const getAuthStatus = useCallback(async (): Promise<ApiResponse> => {
-    const response = await fetch("/api/v1/auth/status", { method: "GET" });
-    if (!response.ok) {
-      const text = await response.text();
-      return {
-        success: false,
-        errorMessage: `HTTP error! status: ${response.status}, body: ${text}`,
-      };
-    }
-    const data = await response.json();
-    return { success: true, data };
-  }, []);
+  const getAuthStatus =
+    useCallback(async (): Promise<GetAuthStatusResponse> => {
+      const response = await fetch("/api/v1/auth/status", { method: "GET" });
+      if (!response.ok) {
+        const text = await response.text();
+        return {
+          success: false,
+          errorMessage: `HTTP error! status: ${response.status}, body: ${text}`,
+        };
+      }
+      const data = await response.json();
+      return { success: true, data };
+    }, []);
 
   const auth = async (
     email: string,
     password: string,
-  ): Promise<ApiResponse> => {
+  ): Promise<AuthResponse> => {
     try {
       const response = await fetch("/api/v1/auth", {
         method: "POST",
