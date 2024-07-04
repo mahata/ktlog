@@ -34,23 +34,21 @@ const createMockAuthRepository = (
 });
 
 describe("LoginModal", () => {
-  const authResponse = { success: true } satisfies AuthResponse;
-  const authStatusResponse = { success: true } satisfies GetAuthStatusResponse;
   const mockedAuthRepository = createMockAuthRepository(
-    authResponse,
-    authStatusResponse,
+    { success: true } satisfies AuthResponse,
+    { success: true } satisfies GetAuthStatusResponse,
   );
 
-  const showLoginModal = true;
-  const setShowLoginModal: Setter<boolean> = vi.fn();
   const mockedLoginModalAtom = createMockAtom(
-    showLoginModal,
-    setShowLoginModal,
+    true,
+    vi.fn() satisfies Setter<boolean>,
   );
 
-  const toastMessage = "";
-  const setToastMessage: Setter<string> = vi.fn();
-  const mockedToastMessageAtom = createMockAtom(toastMessage, setToastMessage);
+  const mockedToastMessageAtom = createMockAtom(
+    // @ts-expect-error TS is getting confused here somehow
+    "",
+    vi.fn satisfies Setter<string>,
+  );
 
   beforeEach(() => {
     // @ts-expect-error Because TS doesn't like Atom<unknown>
@@ -60,10 +58,6 @@ describe("LoginModal", () => {
       throw new Error("Unknown atom");
     });
     vi.mocked(useAuthRepository).mockReturnValue(mockedAuthRepository);
-  });
-
-  afterEach(() => {
-    vi.resetAllMocks();
   });
 
   it("restricts page scrolling when it's active", () => {
@@ -119,12 +113,9 @@ describe("LoginModal", () => {
     });
 
     describe("When login succeeds", () => {
-      it("setShowLoginModal(false) is closed", async () => {
-        const mySetShowLoginModal: Setter<boolean> = vi.fn();
-        const mockedLoginModalAtom = createMockAtom(
-          showLoginModal,
-          mySetShowLoginModal,
-        );
+      it("setShowLoginModal(false) is called", async () => {
+        const setShowLoginModal: Setter<boolean> = vi.fn();
+        const mockedLoginModalAtom = createMockAtom(true, setShowLoginModal);
 
         // @ts-expect-error Because TS doesn't like Atom<unknown>
         vi.mocked(useAtom).mockImplementation((atom: Atom<unknown>) => {
@@ -138,19 +129,28 @@ describe("LoginModal", () => {
         await userEvent.click(screen.getByRole("button", { name: "Send" }));
 
         await waitFor(() => {
-          expect(mySetShowLoginModal).toHaveBeenCalledWith(false);
+          expect(setShowLoginModal).toHaveBeenCalledWith(false);
         });
       });
     });
 
-    // it("shows an error message when login fails", async () => {
-    //   (authRepoMock.auth as jest.Mock).mockReturnValue({
-    //     authed: true,
-    //   });
-    //
-    //   await waitFor(() => {
-    //     expect(screen.getByText("Password is wrong")).toBeVisible();
-    //   });
-    // });
+    describe("When login fails", () => {
+      it("shows an error message", async () => {
+        vi.mocked(useAuthRepository).mockReturnValue(
+          createMockAuthRepository(
+            { success: false } satisfies AuthResponse,
+            { success: false } satisfies GetAuthStatusResponse,
+          ),
+        );
+
+        render(<LoginModal title="DOES NOT MATTER" />);
+
+        await userEvent.click(screen.getByRole("button", { name: "Send" }));
+
+        await waitFor(() => {
+          expect(screen.getByText("Password is wrong")).toBeVisible();
+        });
+      });
+    });
   });
 });

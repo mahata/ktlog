@@ -13,6 +13,7 @@ export default function LoginModal({ title }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showLoginModal, setShowLoginModal] = useAtom(loginModalAtom);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [, setToastMessage] = useAtom(toastMessageAtom);
   const { auth } = useAuthRepository();
 
@@ -77,12 +78,15 @@ export default function LoginModal({ title }: Props) {
                   if (authResult.success) {
                     setToastMessage("Login successfully");
                     setShowLoginModal(false);
+                  } else {
+                    setErrorMessage("Password is wrong");
                   }
                 }}
               >
                 Send
               </button>
             </div>
+            <div>{errorMessage}</div>
           </div>
         </div>
       </div>
