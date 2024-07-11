@@ -16,7 +16,7 @@ export default function Toast() {
     const timeoutId = setTimeout(() => setToastMessage(""), duration);
 
     return () => clearTimeout(timeoutId);
-  }, [setToastMessage]);
+  }, [toastMessage, setToastMessage]);
 
   return (
     0 < toastMessage.length && (
