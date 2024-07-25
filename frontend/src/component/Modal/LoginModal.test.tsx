@@ -45,9 +45,8 @@ describe("LoginModal", () => {
   );
 
   const mockedToastMessageAtom = createMockAtom(
-    // @ts-expect-error TS is getting confused here somehow
     "",
-    vi.fn satisfies Setter<string>,
+    vi.fn() satisfies Setter<string>,
   );
 
   beforeEach(() => {
@@ -105,6 +104,24 @@ describe("LoginModal", () => {
       );
       await userEvent.type(screen.getByLabelText("password"), "password");
       await userEvent.click(screen.getByRole("button", { name: "Send" }));
+
+      expect(useAuthRepository().auth).toHaveBeenCalledWith(
+        "john-doe@example.com",
+        "password",
+      );
+    });
+
+    it("sends a request when enter key is pressed", async () => {
+      render(<LoginModal title="DOES NOT MATTER" />);
+
+      await userEvent.type(
+        screen.getByLabelText("email"),
+        "john-doe@example.com",
+      );
+      await userEvent.type(
+        screen.getByLabelText("password"),
+        "password{enter}",
+      );
 
       expect(useAuthRepository().auth).toHaveBeenCalledWith(
         "john-doe@example.com",

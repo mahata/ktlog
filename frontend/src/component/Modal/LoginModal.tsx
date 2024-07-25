@@ -25,6 +25,16 @@ export default function LoginModal({ title }: Props) {
     };
   }, []);
 
+  const sendLoginRequest = async () => {
+    const authResult = await auth(email, password);
+    if (authResult.success) {
+      setToastMessage("Login successfully");
+      setShowLoginModal(false);
+    } else {
+      setErrorMessage("Password is wrong");
+    }
+  };
+
   return (
     showLoginModal && (
       <div className="fixed inset-0 z-10 flex items-center justify-center">
@@ -68,19 +78,18 @@ export default function LoginModal({ title }: Props) {
                 maxLength={256}
                 placeholder="Please type your password"
                 onChange={(event) => setPassword(event.currentTarget.value)}
+                onKeyDown={async (event) => {
+                  if (event.key === "Enter") {
+                    await sendLoginRequest();
+                  }
+                }}
               />
             </div>
             <div className="flex justify-end">
               <button
                 className="rounded bg-blue-800 px-1.5 py-1 text-white shadow-2xl hover:bg-blue-700 hover:shadow-xl"
                 onClick={async () => {
-                  const authResult = await auth(email, password);
-                  if (authResult.success) {
-                    setToastMessage("Login successfully");
-                    setShowLoginModal(false);
-                  } else {
-                    setErrorMessage("Password is wrong");
-                  }
+                  await sendLoginRequest();
                 }}
               >
                 Send

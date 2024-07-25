@@ -31,7 +31,7 @@ describe("App", () => {
     window.location = originalLocation;
   });
 
-  it.each(["localhost", "127.0.0.1"])(
+  it.each(["ktlog.local", "localhost", "127.0.0.1"])(
     'adds "dev|" to the title when it runs on `%s`',
     async () => {
       render(<App />, {
@@ -60,7 +60,6 @@ describe("App", () => {
   });
 
   describe("Login Action", () => {
-    beforeEach(() => {});
     it("A modal is shown when the 'login' button is clicked", async () => {
       await act(async () => {
         render(<App />, {
@@ -104,11 +103,58 @@ describe("App", () => {
     });
 
     it("A toast message is shown when 'Send' button is clicked", async () => {
-      // TODO
+      await act(async () => {
+        render(<App />, {
+          wrapper: MemoryRouter,
+        });
+      });
+
+      const loginButton = screen.getByRole("button", {
+        name: "Login",
+      }) as HTMLButtonElement;
+
+      await userEvent.click(loginButton);
+      expect(
+        await screen.findByLabelText("login-modal-title"),
+      ).toBeInTheDocument();
+      await userEvent.click(screen.getByRole("button", { name: "Send" }));
+
+      await waitFor(() => {
+        expect(screen.getByRole("alert", { busy: false })).toBeVisible();
+      });
     });
 
-    it("A toast message is closed after 6 seconds", async () => {
-      // TODO
+    it.skip("A toast message is closed after 6 seconds", async () => {
+      vi.useFakeTimers();
+      await act(async () => {
+        render(<App />, {
+          wrapper: MemoryRouter,
+        });
+      });
+
+      const loginButton = screen.getByRole("button", {
+        name: "Login",
+      }) as HTMLButtonElement;
+
+      await userEvent.click(loginButton);
+      expect(
+        await screen.findByLabelText("login-modal-title"),
+      ).toBeInTheDocument();
+      await userEvent.click(screen.getByRole("button", { name: "Send" }));
+
+      await waitFor(() => {
+        expect(screen.getByRole("alert", { busy: false })).toBeVisible();
+      });
+
+      act(() => {
+        vi.advanceTimersByTime(6_000);
+      });
+
+      await waitFor(() => {
+        expect(screen.queryByRole("alert", { busy: false })).not.toBeVisible();
+      });
+
+      vi.useRealTimers();
     });
   });
 });

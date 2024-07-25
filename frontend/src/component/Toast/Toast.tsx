@@ -13,14 +13,20 @@ export default function Toast() {
   const [toastMessage, setToastMessage] = useAtom(toastMessageAtom);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => setToastMessage(""), duration);
+    const timeoutId = setTimeout(() => {
+      setToastMessage("");
+    }, duration);
 
     return () => clearTimeout(timeoutId);
   }, [toastMessage, setToastMessage]);
 
   return (
     0 < toastMessage.length && (
-      <div className="absolute bottom-1 right-1 flex min-h-10 w-96 flex-col justify-between overflow-hidden rounded bg-cyan-400">
+      <div
+        role="alert"
+        aria-busy="false"
+        className="absolute bottom-1 right-1 flex min-h-10 w-96 flex-col justify-between overflow-hidden rounded bg-cyan-400"
+      >
         <div className="p-4 text-white">{toastMessage}</div>
         <div
           className="toShort h-1 bg-gray-400 opacity-90"
