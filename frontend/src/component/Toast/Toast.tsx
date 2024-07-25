@@ -1,7 +1,7 @@
 import "../../css/animation.css";
 import React, { useEffect } from "react";
 import { useAtom } from "jotai";
-import { toastMessageAtom } from "./Toast.atoms";
+import { toastMessageAtom } from "../../atoms";
 
 interface CustomCSSProperties extends React.CSSProperties {
   "--animation-duration"?: string | number;

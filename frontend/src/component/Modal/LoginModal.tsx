@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import { loginModalAtom } from "./LoginModal.atoms";
+import { showLoginModalAtom, toastMessageAtom } from "../../atoms";
 import { X } from "lucide-react";
 import { useAuthRepository } from "../../repository/useAuthRepository";
-import { toastMessageAtom } from "../Toast/Toast.atoms";
 
 type Props = {
   title: string;
@@ -12,7 +11,7 @@ type Props = {
 export default function LoginModal({ title }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showLoginModal, setShowLoginModal] = useAtom(loginModalAtom);
+  const [showLoginModal, setShowLoginModal] = useAtom(showLoginModalAtom);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [, setToastMessage] = useAtom(toastMessageAtom);
   const { auth } = useAuthRepository();

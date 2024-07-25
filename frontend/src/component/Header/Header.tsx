@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import { loginModalAtom } from "../Modal/LoginModal.atoms";
+import { showLoginModalAtom } from "../../atoms";
 import { useAuthRepository } from "../../repository/useAuthRepository";
 
 export default function Header() {
-  const [, setShowLoginModal] = useAtom(loginModalAtom);
+  const [, setShowLoginModal] = useAtom(showLoginModalAtom);
   const [authed, setAuthed] = useState<boolean>(false);
   const { getAuthStatus } = useAuthRepository();
 
