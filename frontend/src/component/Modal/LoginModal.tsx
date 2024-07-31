@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import { showLoginModalAtom, toastMessageAtom } from "../../atoms";
+import { authedAtom, showLoginModalAtom, toastMessageAtom } from "../../atoms";
 import { X } from "lucide-react";
 import { useAuthRepository } from "../../repository/useAuthRepository";
 
@@ -14,6 +14,7 @@ export default function LoginModal({ title }: Props) {
   const [showLoginModal, setShowLoginModal] = useAtom(showLoginModalAtom);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [, setToastMessage] = useAtom(toastMessageAtom);
+  const [, setAuthed] = useAtom(authedAtom);
   const { auth } = useAuthRepository();
 
   useEffect(() => {
@@ -29,6 +30,7 @@ export default function LoginModal({ title }: Props) {
     if (authResult.success) {
       setToastMessage("Login successfully");
       setShowLoginModal(false);
+      setAuthed(true);
     } else {
       setErrorMessage("Password is wrong");
     }
