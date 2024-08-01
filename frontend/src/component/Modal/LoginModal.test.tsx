@@ -8,11 +8,10 @@ import {
 } from "../../repository/useAuthRepository";
 import { Atom, useAtom } from "jotai";
 import { ApiResponse } from "../../type/ApiResponse";
-import { showLoginModalAtom, toastMessageAtom } from "../../atoms";
+import { authedAtom, showLoginModalAtom, toastMessageAtom } from "../../atoms";
 
-vi.mock("jotai", () => ({
-  ...vi.importActual("jotai"),
-  atom: vi.fn(),
+vi.mock("jotai", async () => ({
+  ...(await vi.importActual("jotai")),
   useAtom: vi.fn(),
 }));
 
@@ -38,7 +37,7 @@ describe("LoginModal", () => {
     { success: true } satisfies GetAuthStatusResponse,
   );
 
-  const mockedLoginModalAtom = createMockAtom(
+  const mockedShowLoginModalAtom = createMockAtom(
     true,
     vi.fn() satisfies Setter<boolean>,
   );
@@ -48,11 +47,17 @@ describe("LoginModal", () => {
     vi.fn() satisfies Setter<string>,
   );
 
+  const mockedAuthedAtom = createMockAtom(
+    false,
+    vi.fn() satisfies Setter<boolean>,
+  );
+
   beforeEach(() => {
     // @ts-expect-error Because TS doesn't like Atom<unknown>
     vi.mocked(useAtom).mockImplementation((atom: Atom<unknown>) => {
-      if (atom === showLoginModalAtom) return mockedLoginModalAtom;
+      if (atom === showLoginModalAtom) return mockedShowLoginModalAtom;
       if (atom === toastMessageAtom) return mockedToastMessageAtom;
+      if (atom === authedAtom) return mockedAuthedAtom;
       throw new Error("Unknown atom");
     });
     vi.mocked(useAuthRepository).mockReturnValue(mockedAuthRepository);
@@ -137,6 +142,7 @@ describe("LoginModal", () => {
         vi.mocked(useAtom).mockImplementation((atom: Atom<unknown>) => {
           if (atom === showLoginModalAtom) return mockedLoginModalAtom;
           if (atom === toastMessageAtom) return mockedToastMessageAtom;
+          if (atom === authedAtom) return mockedAuthedAtom;
           throw new Error("Unknown atom");
         });
 
