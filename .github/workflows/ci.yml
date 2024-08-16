@@ -9,20 +9,17 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Cache node modules
-        uses: actions/cache@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          path: frontend/node_modules
-          key: ${{ runner.OS }}-node-${{ hashFiles('frontend/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-node-
+          cache-dependency-path: frontend/package-lock.json
+          node-version: "20"
+          cache: npm
 
       - name: Test Frontend with Vitest
         run: |
-          cd frontend
-          npm install
-          npm run lint
-          npm run test
+          npm --prefix ./frontend install
+          make t_frontend
 
   backend:
     runs-on: ubuntu-latest
@@ -30,21 +27,12 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Cache Gradle packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.OS }}-gradle-${{ hashFiles('backend/**.gradle*', 'backend/**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.OS }}-gradle-
-
       - name: Install JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
+          cache: 'gradle'
 
       - name: Run Spring Boot tests
-        run: cd backend && ./gradlew test
+        run: make t_backend
