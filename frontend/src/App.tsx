@@ -1,33 +1,33 @@
-import TopPage from "./page/TopPage/TopPage";
-import Header from "./component/Header/Header";
-import EyeCatch from "./component/EyeCatch/EyeCatch";
 import { Route, Routes } from "react-router-dom";
-import ArticlePage from "./page/ArticlePage/ArticlePage";
-import LoginModal from "./component/Modal/LoginModal";
 import Post from "./Post";
+import EyeCatch from "./component/EyeCatch/EyeCatch";
+import Header from "./component/Header/Header";
+import LoginModal from "./component/Modal/LoginModal";
 import Toast from "./component/Toast/Toast";
+import ArticlePage from "./page/ArticlePage/ArticlePage";
+import TopPage from "./page/TopPage/TopPage";
 
 export default function App() {
-  if (
-    ["ktlog.local", "localhost", "127.0.0.1"].includes(
-      window.location.hostname,
-    ) &&
-    !document.title.startsWith("dev|")
-  ) {
-    document.title = `dev|${document.title}`;
-  }
+	if (
+		["ktlog.local", "localhost", "127.0.0.1"].includes(
+			window.location.hostname,
+		) &&
+		!document.title.startsWith("dev|")
+	) {
+		document.title = `dev|${document.title}`;
+	}
 
-  return (
-    <div>
-      <Header />
-      <EyeCatch />
-      <Routes>
-        <Route path="/" element={<TopPage />} />
-        <Route path="/articles/:id" element={<ArticlePage />} />
-        <Route path="/post" element={<Post />} />
-      </Routes>
-      <Toast />
-      <LoginModal title="Login to ktlog" />
-    </div>
-  );
+	return (
+		<div>
+			<Header />
+			<EyeCatch />
+			<Routes>
+				<Route path="/" element={<TopPage />} />
+				<Route path="/articles/:id" element={<ArticlePage />} />
+				<Route path="/post" element={<Post />} />
+			</Routes>
+			<Toast />
+			<LoginModal title="Login to ktlog" />
+		</div>
+	);
 }

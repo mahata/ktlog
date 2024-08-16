@@ -21,7 +21,8 @@ jobs:
         run: |
           cd frontend
           npm install
-          npx vitest run
+          npm run lint
+          npm run test
 
   backend:
     runs-on: ubuntu-latest
