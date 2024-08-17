@@ -4,6 +4,7 @@ on: push
 
 jobs:
   frontend:
+    if: contains(github.event.commits[*].modified, 'frontend/')
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -22,6 +23,7 @@ jobs:
           make t_frontend
 
   backend:
+    if: contains(github.event.commits[*].modified, 'backend/')
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
