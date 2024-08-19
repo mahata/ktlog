@@ -42,7 +42,7 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-jackson:0.12.6")
 
     runtimeOnly("org.postgresql:postgresql:42.7.3")
-    runtimeOnly("com.h2database:h2:2.3.230")
+    runtimeOnly("com.h2database:h2:2.3.232")
 
     testImplementation("io.mockk:mockk:1.13.12")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
