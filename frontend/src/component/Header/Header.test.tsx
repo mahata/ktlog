@@ -8,6 +8,7 @@ import {
 	type Setter,
 	createMockAtom,
 	mockedAuthedAtom,
+	mockedShowLoginModalAtom,
 	mockedToastMessageAtom,
 } from "../../test-helper/stub";
 import type { ApiResponse } from "../../type/ApiResponse";
@@ -23,6 +24,19 @@ vi.mock("../../repository/useAuthRepository");
 describe("Header", () => {
 	describe("Login", () => {
 		it("shows 'Post' button when the user is logged in", async () => {
+			const myMockedAuthedAtom = createMockAtom(
+				true,
+				vi.fn() satisfies Setter<boolean>,
+			);
+
+			// @ts-expect-error Because TS doesn't like Atom<unknown>
+			vi.mocked(useAtom).mockImplementation((atom: Atom<unknown>) => {
+				if (atom === showLoginModalAtom) return mockedShowLoginModalAtom;
+				if (atom === toastMessageAtom) return mockedToastMessageAtom;
+				if (atom === authedAtom) return myMockedAuthedAtom;
+				throw new Error("Unknown atom");
+			});
+
 			vi.mocked(useAuthRepository).mockReturnValue({
 				getAuthStatus: vi.fn().mockResolvedValue({
 					success: true,
