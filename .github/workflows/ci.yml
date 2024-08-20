@@ -4,7 +4,7 @@ on: push
 
 jobs:
   frontend:
-    if: contains(join(github.event.commits.*.added, ','), 'frontend/')
+    if: contains(github.event.pull_request.head.ref, 'frontend/')
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
