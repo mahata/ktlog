@@ -39,9 +39,8 @@ describe("Header", () => {
 				wrapper: MemoryRouter,
 			});
 
-			expect(
-				await screen.findByRole("button", { name: "Post" }),
-			).toBeInTheDocument();
+			const postButton = await screen.findByRole("button", { name: "Post" });
+			expect(postButton).toBeInTheDocument();
 		});
 
 		it("shows 'Login' button when the user is NOT logged in", async () => {
