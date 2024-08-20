@@ -17,7 +17,6 @@ export default function Header() {
 		});
 	}, [getAuthStatus, setAuthed]);
 
-	///
 	return (
 		<header className="w-full bg-blue-400 shadow shadow-blue-600">
 			<nav className="flex h-14 justify-between">
