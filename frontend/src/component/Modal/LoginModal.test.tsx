@@ -7,6 +7,13 @@ import {
 	type GetAuthStatusResponse,
 	useAuthRepository,
 } from "../../repository/useAuthRepository";
+import {
+	type Setter,
+	createMockAtom,
+	mockedAuthedAtom,
+	mockedShowLoginModalAtom,
+	mockedToastMessageAtom,
+} from "../../test-helper/stub";
 import type { ApiResponse } from "../../type/ApiResponse";
 import LoginModal from "./LoginModal";
 
@@ -16,12 +23,6 @@ vi.mock("jotai", async () => ({
 }));
 
 vi.mock("../../repository/useAuthRepository");
-
-type Setter<T> = (value: T) => void;
-
-function createMockAtom<T>(value: T, setter: Setter<T>): [T, Setter<T>] {
-	return [value, vi.fn().mockImplementation(setter)];
-}
 
 const createMockAuthRepository = (
 	authResponse: ApiResponse,
@@ -35,21 +36,6 @@ describe("LoginModal", () => {
 	const mockedAuthRepository = createMockAuthRepository(
 		{ success: true } satisfies AuthResponse,
 		{ success: true } satisfies GetAuthStatusResponse,
-	);
-
-	const mockedShowLoginModalAtom = createMockAtom(
-		true,
-		vi.fn() satisfies Setter<boolean>,
-	);
-
-	const mockedToastMessageAtom = createMockAtom(
-		"",
-		vi.fn() satisfies Setter<string>,
-	);
-
-	const mockedAuthedAtom = createMockAtom(
-		false,
-		vi.fn() satisfies Setter<boolean>,
 	);
 
 	beforeEach(() => {
@@ -136,11 +122,14 @@ describe("LoginModal", () => {
 		describe("When login succeeds", () => {
 			it("setShowLoginModal(false) is called", async () => {
 				const setShowLoginModal: Setter<boolean> = vi.fn();
-				const mockedLoginModalAtom = createMockAtom(true, setShowLoginModal);
+				const _mockedSetShowLoginModalAtom = createMockAtom(
+					true,
+					setShowLoginModal,
+				);
 
 				// @ts-expect-error Because TS doesn't like Atom<unknown>
 				vi.mocked(useAtom).mockImplementation((atom: Atom<unknown>) => {
-					if (atom === showLoginModalAtom) return mockedLoginModalAtom;
+					if (atom === showLoginModalAtom) return _mockedSetShowLoginModalAtom;
 					if (atom === toastMessageAtom) return mockedToastMessageAtom;
 					if (atom === authedAtom) return mockedAuthedAtom;
 					throw new Error("Unknown atom");
