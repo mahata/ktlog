@@ -1,27 +1,32 @@
 {
-  "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
+	"compilerOptions": {
+		"target": "ES2020",
+		"useDefineForClassFields": true,
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"skipLibCheck": true,
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": false,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
+		/* Bundler mode */
+		"moduleResolution": "bundler",
+		"allowImportingTsExtensions": false,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"jsx": "react-jsx",
 
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true,
-    "types": ["jest", "node", "vitest/globals"],
-  },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+		/* Linting */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"allowSyntheticDefaultImports": true,
+		"types": ["jest", "node", "vitest/globals"],
+
+		/* Paths */
+		"paths": {
+			"@/*": ["src/*"]
+		}
+	},
+	"include": ["src"],
+	"references": [{ "path": "./tsconfig.node.json" }]
 }

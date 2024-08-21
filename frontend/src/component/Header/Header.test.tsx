@@ -1,17 +1,17 @@
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { type Atom, useAtom } from "jotai";
-import { MemoryRouter } from "react-router-dom";
-import { authedAtom, showLoginModalAtom, toastMessageAtom } from "../../atoms";
-import { useAuthRepository } from "../../repository/useAuthRepository";
+import { authedAtom, showLoginModalAtom, toastMessageAtom } from "@/atoms";
+import { useAuthRepository } from "@/repository/useAuthRepository";
 import {
 	type Setter,
 	createMockAtom,
 	mockedAuthedAtom,
 	mockedShowLoginModalAtom,
 	mockedToastMessageAtom,
-} from "../../test-helper/stub";
-import type { ApiResponse } from "../../type/ApiResponse";
+} from "@/test-helper/stub";
+import type { ApiResponse } from "@/type/ApiResponse";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { type Atom, useAtom } from "jotai";
+import { MemoryRouter } from "react-router-dom";
 import Header from "./Header";
 
 vi.mock("jotai", async () => ({
