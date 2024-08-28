@@ -1,3 +1,5 @@
+import type { Article } from "@/type/Article";
+
 export type Setter<T> = (value: T) => void;
 
 export function createMockAtom<T>(value: T, setter: Setter<T>): [T, Setter<T>] {
@@ -18,3 +20,13 @@ export const mockedAuthedAtom = createMockAtom(
 	false,
 	vi.fn() satisfies Setter<boolean>,
 );
+
+export const getSampleArticleList = () => {
+	return [
+		{
+			id: "myId",
+			title: "myTitle",
+			content: "myContent",
+		} as Article,
+	];
+};

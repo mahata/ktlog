@@ -1,5 +1,5 @@
+import type { Article } from "@/type/Article";
 import { useCallback } from "react";
-import type { Article } from "../type/Article";
 
 export const useArticleRepository = () => {
 	const getAll = useCallback(async (): Promise<Article[]> => {
