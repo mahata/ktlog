@@ -3,7 +3,7 @@ import { getSampleArticleList } from "@/test-helper/stub";
 
 const testDoubles = {
 	get: vi.fn(() => Promise.resolve(getSampleArticleList()[0])),
-	getAllMock: vi.fn(() => Promise.resolve([])),
+	getAllMock: vi.fn(() => Promise.resolve(getSampleArticleList())),
 };
 
 const useArticleRepositoryMock: () => ReturnType<typeof useArticleRepository> =

@@ -1,5 +1,5 @@
+import type { ApiResponse } from "@/type/ApiResponse";
 import { useCallback } from "react";
-import type { ApiResponse } from "../type/ApiResponse";
 
 export type GetAuthStatusResponse = ApiResponse;
 export type AuthResponse = ApiResponse;

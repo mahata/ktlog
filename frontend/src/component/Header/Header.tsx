@@ -1,8 +1,8 @@
+import { authedAtom, showLoginModalAtom } from "@/atoms";
+import { useAuthRepository } from "@/repository/useAuthRepository";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { authedAtom, showLoginModalAtom } from "../../atoms";
-import { useAuthRepository } from "../../repository/useAuthRepository";
 
 export default function Header() {
 	const [, setShowLoginModal] = useAtom(showLoginModalAtom);

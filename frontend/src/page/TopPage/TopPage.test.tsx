@@ -1,18 +1,25 @@
+import { makeArticleFixture } from "@/fixture/makeArticleFixture";
+import { _useArticleRepository } from "@/test-helper/__mocks__/useArticleRepository";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { makeArticleFixture } from "../../fixture/makeArticleFixture";
-import { useArticleRepository } from "../../repository/useArticleRepository";
 import TopPage from "./TopPage";
 
-vi.mock("../../repository/useArticleRepository");
+vi.mock(
+	"@/repository/useArticleRepository",
+	() => import("@/test-helper/__mocks__/useArticleRepository"),
+);
 
 describe("TopPage", () => {
+	const originalGetAllMock = _useArticleRepository.getAllMock;
+
+	afterEach(() => {
+		_useArticleRepository.getAllMock = originalGetAllMock;
+	});
+
 	it("shows 'TopPage' header", async () => {
-		vi.mocked(useArticleRepository).mockReturnValue({
-			getAll: vi.fn().mockResolvedValue([]),
-			get: vi.fn(),
+		render(<TopPage />, {
+			wrapper: MemoryRouter,
 		});
-		render(<TopPage />);
 
 		expect(await screen.findByText("Articles")).toBeVisible();
 	});
@@ -23,10 +30,9 @@ describe("TopPage", () => {
 			id: articleId,
 		});
 
-		vi.mocked(useArticleRepository).mockReturnValue({
-			getAll: vi.fn().mockResolvedValue([stubArticle]),
-			get: vi.fn(),
-		});
+		_useArticleRepository.getAllMock = vi
+			.fn()
+			.mockResolvedValueOnce([stubArticle]);
 
 		render(<TopPage />, {
 			wrapper: MemoryRouter,
@@ -45,19 +51,16 @@ describe("TopPage", () => {
 	});
 
 	it("strips article contents when it's more than 200 chars", async () => {
-		vi.mocked(useArticleRepository).mockReturnValue({
-			getAll: vi.fn().mockResolvedValue([
-				makeArticleFixture({
-					id: "00000000-0000-0000-0000-000000000000",
-					content: "x".repeat(200),
-				}),
-				makeArticleFixture({
-					id: "00000000-0000-0000-0000-000000000001",
-					content: "y".repeat(201),
-				}),
-			]),
-			get: vi.fn(),
-		});
+		_useArticleRepository.getAllMock = vi.fn().mockResolvedValueOnce([
+			makeArticleFixture({
+				id: "00000000-0000-0000-0000-000000000000",
+				content: "x".repeat(200),
+			}),
+			makeArticleFixture({
+				id: "00000000-0000-0000-0000-000000000001",
+				content: "y".repeat(201),
+			}),
+		]);
 
 		render(<TopPage />, {
 			wrapper: MemoryRouter,
