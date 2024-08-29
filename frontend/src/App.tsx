@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import Post from "./Post";
 import EyeCatch from "./component/EyeCatch/EyeCatch";
 import Header from "./component/Header/Header";
-import LoginModal from "./component/Modal/LoginModal";
 import Toast from "./component/Toast/Toast";
 import ArticlePage from "./page/ArticlePage/ArticlePage";
 import TopPage from "./page/TopPage/TopPage";
@@ -27,7 +26,6 @@ export default function App() {
 				<Route path="/post" element={<Post />} />
 			</Routes>
 			<Toast />
-			<LoginModal title="Login to ktlog" />
 		</div>
 	);
 }

@@ -1,11 +1,13 @@
-import { authedAtom, showLoginModalAtom } from "@/atoms";
+import { authedAtom } from "@/atoms";
+import { LoginForm } from "@/component/LoginForm";
+import { Modal, type ModalRef } from "@/component/Modal/Modal";
 import { useAuthRepository } from "@/repository/useAuthRepository";
 import { useAtom } from "jotai";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 export default function Header() {
-	const [, setShowLoginModal] = useAtom(showLoginModalAtom);
+	const modalRef = useRef<ModalRef>(null);
 	const [authed, setAuthed] = useAtom(authedAtom);
 	const { getAuthStatus } = useAuthRepository();
 
@@ -42,12 +44,15 @@ export default function Header() {
 						<button
 							type="button"
 							className="rounded bg-blue-800 px-1.5 py-1 text-white shadow-2xl hover:bg-blue-700 hover:shadow-xl"
-							onClick={() => setShowLoginModal(true)}
+							onClick={() => modalRef.current?.showModal()}
 						>
 							Login
 						</button>
 					)}
 				</div>
+				<Modal ref={modalRef}>
+					<LoginForm closeModal={() => modalRef.current?.close()} />
+				</Modal>
 			</nav>
 		</header>
 	);

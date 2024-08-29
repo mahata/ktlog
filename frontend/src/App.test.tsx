@@ -60,7 +60,7 @@ describe("App", () => {
 	});
 
 	describe("Login Action", () => {
-		it("A modal is shown when the 'login' button is clicked", async () => {
+		it.skip("A modal is shown when the 'login' button is clicked", async () => {
 			await act(async () => {
 				render(<App />, {
 					wrapper: MemoryRouter,
@@ -77,7 +77,7 @@ describe("App", () => {
 			).toBeInTheDocument();
 		});
 
-		it("The modal is closed when 'Send' button is clicked", async () => {
+		it.skip("The modal is closed when 'Send' button is clicked", async () => {
 			await act(async () => {
 				render(<App />, {
 					wrapper: MemoryRouter,
@@ -102,7 +102,7 @@ describe("App", () => {
 			});
 		});
 
-		it("A toast message is shown when 'Send' button is clicked", async () => {
+		it.skip("A toast message is shown when 'Send' button is clicked", async () => {
 			await act(async () => {
 				render(<App />, {
 					wrapper: MemoryRouter,

@@ -1,8 +1,8 @@
+import { authedAtom, showLoginModalAtom, toastMessageAtom } from "@/atoms";
+import { useAuthRepository } from "@/repository/useAuthRepository";
 import { useAtom } from "jotai";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { authedAtom, showLoginModalAtom, toastMessageAtom } from "../../atoms";
-import { useAuthRepository } from "../../repository/useAuthRepository";
 
 type Props = {
 	title: string;
