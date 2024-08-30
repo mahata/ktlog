@@ -1,10 +1,10 @@
+import App from "@/App";
+import { makeArticleFixture } from "@/fixture/makeArticleFixture";
+import { useArticleRepository } from "@/repository/useArticleRepository";
+import { useAuthRepository } from "@/repository/useAuthRepository";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
-import App from "./App";
-import { makeArticleFixture } from "./fixture/makeArticleFixture";
-import { useArticleRepository } from "./repository/useArticleRepository";
-import { useAuthRepository } from "./repository/useAuthRepository";
 
 const originalTitle = document.title;
 const originalLocation = window.location;
@@ -59,8 +59,9 @@ describe("App", () => {
 		expect(document.title).toBe(originalTitle);
 	});
 
+	// Skipping this section since JSDOM can't handle <dialog />
 	describe("Login Action", () => {
-		it.skip("A modal is shown when the 'login' button is clicked", async () => {
+		it.skip("A LoginForm is shown when the 'login' button is clicked", async () => {
 			await act(async () => {
 				render(<App />, {
 					wrapper: MemoryRouter,
@@ -72,12 +73,10 @@ describe("App", () => {
 			}) as HTMLButtonElement;
 
 			await userEvent.click(loginButton);
-			expect(
-				await screen.findByLabelText("login-modal-title"),
-			).toBeInTheDocument();
+			expect(await screen.findByRole("form")).toBeVisible();
 		});
 
-		it.skip("The modal is closed when 'Send' button is clicked", async () => {
+		it.skip("A LoginForm is closed when 'Send' button is clicked", async () => {
 			await act(async () => {
 				render(<App />, {
 					wrapper: MemoryRouter,

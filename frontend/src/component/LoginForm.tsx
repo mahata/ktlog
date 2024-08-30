@@ -27,7 +27,7 @@ export const LoginForm = ({ closeModal }: Props) => {
 	};
 
 	return (
-		<div className="flex flex-col gap-2">
+		<form className="flex flex-col gap-2">
 			<div className="flex justify-between">
 				<label className="content-center" htmlFor="email">
 					email
@@ -35,7 +35,7 @@ export const LoginForm = ({ closeModal }: Props) => {
 				<input
 					className="rounded p-1"
 					id="email"
-					type="text"
+					type="email"
 					value={email}
 					size={24}
 					maxLength={256}
@@ -75,6 +75,6 @@ export const LoginForm = ({ closeModal }: Props) => {
 				</button>
 			</div>
 			<div>{errorMessage}</div>
-		</div>
+		</form>
 	);
 };
