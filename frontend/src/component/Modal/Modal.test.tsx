@@ -1,17 +1,20 @@
 import { Modal, type ModalRef } from "@/component/Modal/Modal";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { useRef } from "react";
 
 describe("Modal", () => {
 	const originalShowModal = HTMLDialogElement.prototype.showModal;
+	const originalClose = HTMLDialogElement.prototype.close;
 
 	beforeEach(() => {
 		HTMLDialogElement.prototype.showModal = vi.fn();
+		HTMLDialogElement.prototype.close = vi.fn();
 	});
 
 	afterEach(() => {
 		HTMLDialogElement.prototype.showModal = originalShowModal;
+		HTMLDialogElement.prototype.close = originalClose;
 	});
 
 	it("Modal is not visible by default", () => {
@@ -31,6 +34,16 @@ describe("Modal", () => {
 		await userEvent.click(screen.getByTestId("show-button"));
 
 		expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledTimes(1);
+	});
+
+	it("close modal", async () => {
+		render(<ParentComponent />);
+
+		await userEvent.click(screen.getByTestId("close-button"));
+
+		await waitFor(() =>
+			expect(HTMLDialogElement.prototype.close).toHaveBeenCalledTimes(1),
+		);
 	});
 });
 
