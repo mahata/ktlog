@@ -1,6 +1,6 @@
+import EyeCatch from "@/component/EyeCatch/EyeCatch";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import EyeCatch from "./EyeCatch";
 
 describe("EyeCatch", () => {
 	it("shows an eye-catch logo", () => {
@@ -9,7 +9,7 @@ describe("EyeCatch", () => {
 		const eyeCatchImage = screen.getByRole("img", {
 			name: "Eye Catch Cat Logo",
 		});
-		expect(eyeCatchImage).toBeInTheDocument();
+		expect(eyeCatchImage).toBeVisible();
 	});
 
 	it("is linked to '/'", () => {
@@ -19,7 +19,7 @@ describe("EyeCatch", () => {
 			name: "Eye Catch Cat Logo",
 		}) as HTMLAnchorElement;
 
-		expect(eyeCatchLogoLink).toBeInTheDocument();
+		expect(eyeCatchLogoLink).toBeVisible();
 		expect(eyeCatchLogoLink.href).toBe(`${window.location.origin}/`);
 	});
 });

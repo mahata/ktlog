@@ -32,7 +32,7 @@ describe("Article", () => {
 		render(<ArticlePage />);
 
 		expect(await screen.findByText(stubArticle.title)).toBeVisible();
-		expect(screen.getByText(stubArticle.content)).toBeInTheDocument();
+		expect(screen.getByText(stubArticle.content)).toBeVisible();
 		expect(useArticleRepository().get).toBeCalledWith(
 			"00000000-0000-0000-0000-000000000000",
 		);

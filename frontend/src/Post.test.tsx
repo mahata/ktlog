@@ -6,8 +6,8 @@ describe("Post", () => {
 	it("shows HTML form to submit a new article", () => {
 		render(<Post />);
 
-		expect(screen.getByLabelText("title")).toBeInTheDocument();
-		expect(screen.getByLabelText("content")).toBeInTheDocument();
+		expect(screen.getByLabelText("title")).toBeVisible();
+		expect(screen.getByLabelText("content")).toBeVisible();
 
 		const postButton: HTMLButtonElement = screen.getByRole("button", {
 			name: "Post!",

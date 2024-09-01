@@ -30,7 +30,7 @@ describe("Header", () => {
 			});
 
 			const postButton = await screen.findByRole("button", { name: "Post" });
-			expect(postButton).toBeInTheDocument();
+			expect(postButton).toBeVisible();
 		});
 
 		it("shows 'Login' button when the user is NOT logged in", async () => {
@@ -46,7 +46,7 @@ describe("Header", () => {
 			});
 
 			const loginButton = await screen.findByRole("button", { name: "Login" });
-			expect(loginButton).toBeInTheDocument();
+			expect(loginButton).toBeVisible();
 		});
 	});
 
@@ -58,7 +58,7 @@ describe("Header", () => {
 
 			const logo = await screen.findByRole("img", { name: "Site Logo" });
 
-			expect(logo).toBeInTheDocument();
+			expect(logo).toBeVisible();
 		});
 
 		it("is linked to '/'", async () => {
@@ -70,7 +70,7 @@ describe("Header", () => {
 				name: "Site Logo",
 			})) as HTMLAnchorElement;
 
-			expect(logoLink).toBeInTheDocument();
+			expect(logoLink).toBeVisible();
 			expect(logoLink.href).toBe(`${window.location.origin}/`);
 		});
 	});

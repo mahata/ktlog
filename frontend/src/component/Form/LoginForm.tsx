@@ -41,6 +41,9 @@ export const LoginForm = ({ closeModal }: Props) => {
 					maxLength={256}
 					placeholder="Please type your email"
 					onChange={(event) => setEmail(event.currentTarget.value)}
+					aria-required="true"
+					aria-invalid={0 < errorMessage.length}
+					aria-describedby="email-error"
 				/>
 			</div>
 			<div className="flex justify-between">
@@ -61,6 +64,9 @@ export const LoginForm = ({ closeModal }: Props) => {
 							await sendLoginRequest();
 						}
 					}}
+					aria-required="true"
+					aria-invalid={0 < errorMessage.length}
+					aria-describedby="password-error"
 				/>
 			</div>
 			<div className="flex justify-end">
@@ -70,11 +76,16 @@ export const LoginForm = ({ closeModal }: Props) => {
 					onClick={async () => {
 						await sendLoginRequest();
 					}}
+					aria-label="Send login request"
 				>
 					Send
 				</button>
 			</div>
-			<div>{errorMessage}</div>
+			{errorMessage && (
+				<div id="email-error" role="alert" className="text-red-500">
+					{errorMessage}
+				</div>
+			)}
 		</form>
 	);
 };

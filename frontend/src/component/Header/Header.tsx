@@ -1,5 +1,5 @@
 import { authedAtom } from "@/atoms";
-import { LoginForm } from "@/component/LoginForm";
+import { LoginForm } from "@/component/Form/LoginForm";
 import { Modal, type ModalRef } from "@/component/Modal/Modal";
 import { useAuthRepository } from "@/repository/useAuthRepository";
 import { useAtom } from "jotai";
