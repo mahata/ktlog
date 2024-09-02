@@ -30,7 +30,7 @@ export const LoginForm = ({ closeModal }: Props) => {
 		<form className="flex flex-col gap-2">
 			<div className="flex justify-between">
 				<label className="content-center" htmlFor="email">
-					email
+					Email
 				</label>
 				<input
 					className="rounded p-1"
@@ -48,7 +48,7 @@ export const LoginForm = ({ closeModal }: Props) => {
 			</div>
 			<div className="flex justify-between">
 				<label className="content-center" htmlFor="password">
-					password
+					Password
 				</label>
 				<input
 					className="rounded p-1"
@@ -77,6 +77,7 @@ export const LoginForm = ({ closeModal }: Props) => {
 						await sendLoginRequest();
 					}}
 					aria-label="Send login request"
+					disabled={!email || !password}
 				>
 					Send
 				</button>
