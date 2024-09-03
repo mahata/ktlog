@@ -24,6 +24,8 @@ export const ArticleForm = () => {
 					aria-invalid={0 < errorMessage.length}
 					aria-describedby="title-error"
 				/>
+			</div>
+			<div className="flex justify-between">
 				<label className="content-center" htmlFor="content">
 					Content
 				</label>
