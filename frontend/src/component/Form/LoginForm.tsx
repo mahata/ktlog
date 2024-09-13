@@ -28,47 +28,46 @@ export const LoginForm = ({ closeModal }: Props) => {
 
 	return (
 		<form className="flex flex-col gap-2">
-			<div className="flex justify-between">
-				<label className="content-center" htmlFor="email">
-					Email
-				</label>
-				<input
-					className="rounded p-1"
-					id="email"
-					type="email"
-					value={email}
-					size={24}
-					maxLength={256}
-					placeholder="Please type your email"
-					onChange={(event) => setEmail(event.currentTarget.value)}
-					aria-required="true"
-					aria-invalid={0 < errorMessage.length}
-					aria-describedby="email-error"
-				/>
-			</div>
-			<div className="flex justify-between">
-				<label className="content-center" htmlFor="password">
-					Password
-				</label>
-				<input
-					className="rounded p-1"
-					id="password"
-					type="password"
-					value={password}
-					size={24}
-					maxLength={256}
-					placeholder="Please type your password"
-					onChange={(event) => setPassword(event.currentTarget.value)}
-					onKeyDown={async (event) => {
-						if (event.key === "Enter") {
-							await sendLoginRequest();
-						}
-					}}
-					aria-required="true"
-					aria-invalid={0 < errorMessage.length}
-					aria-describedby="password-error"
-				/>
-			</div>
+			<label className="content-center font-semibold text-lg" htmlFor="email">
+				Email
+			</label>
+			<input
+				className="rounded p-1 border-blue-400 border-2"
+				id="email"
+				type="email"
+				value={email}
+				size={24}
+				maxLength={256}
+				placeholder="Please type your email"
+				onChange={(event) => setEmail(event.currentTarget.value)}
+				aria-required="true"
+				aria-invalid={0 < errorMessage.length}
+				aria-describedby="email-error"
+			/>
+			<label
+				className="content-center font-semibold text-lg"
+				htmlFor="password"
+			>
+				Password
+			</label>
+			<input
+				className="rounded p-1 border-blue-400 border-2"
+				id="password"
+				type="password"
+				value={password}
+				size={24}
+				maxLength={256}
+				placeholder="Please type your password"
+				onChange={(event) => setPassword(event.currentTarget.value)}
+				onKeyDown={async (event) => {
+					if (event.key === "Enter") {
+						await sendLoginRequest();
+					}
+				}}
+				aria-required="true"
+				aria-invalid={0 < errorMessage.length}
+				aria-describedby="password-error"
+			/>
 			<div className="flex justify-end">
 				<button
 					type="button"
@@ -79,7 +78,7 @@ export const LoginForm = ({ closeModal }: Props) => {
 					aria-label="Send login request"
 					disabled={!email || !password}
 				>
-					Send
+					Login
 				</button>
 			</div>
 			{errorMessage && (

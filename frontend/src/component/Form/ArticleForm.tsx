@@ -7,39 +7,34 @@ export const ArticleForm = () => {
 
 	return (
 		<form className="flex flex-col gap-2">
-			<div className="flex justify-between">
-				<label className="content-center" htmlFor="title">
-					Title
-				</label>
-				<input
-					className="rounded p-1"
-					id="title"
-					type="text"
-					value={title}
-					size={24}
-					maxLength={256}
-					placeholder="Please type your email"
-					onChange={(event) => setTitle(event.currentTarget.value)}
-					aria-required="true"
-					aria-invalid={0 < errorMessage.length}
-					aria-describedby="title-error"
-				/>
-			</div>
-			<div className="flex justify-between">
-				<label className="content-center" htmlFor="content">
-					Content
-				</label>
-				<textarea
-					className="rounded p-1"
-					id="content"
-					value={content}
-					placeholder="Please type your article content"
-					onChange={(event) => setContent(event.currentTarget.value)}
-					aria-required="true"
-					aria-invalid={0 < errorMessage.length}
-					aria-describedby="title-error"
-				/>
-			</div>
+			<label className="content-center font-semibold text-lg" htmlFor="title">
+				Title
+			</label>
+			<input
+				className="rounded p-1 border-blue-400 border-2"
+				id="title"
+				type="text"
+				value={title}
+				size={24}
+				maxLength={256}
+				placeholder="Please type your email"
+				onChange={(event) => setTitle(event.currentTarget.value)}
+				aria-required="true"
+				aria-invalid={0 < errorMessage.length}
+				aria-describedby="title-error"
+			/>
+			<label id="editor-label" className="content-center font-semibold text-lg">
+				Content
+			</label>
+			<div
+				id="editor"
+				contentEditable={true}
+				onInput={(e) => {
+					setContent(e.currentTarget.textContent as string);
+				}}
+				className="rounded border-blue-400 border-2 h-48"
+				aria-labelledby="editor-label"
+			/>
 			<div className="flex justify-end">
 				<button
 					type="button"

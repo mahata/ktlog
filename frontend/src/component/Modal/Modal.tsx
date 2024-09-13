@@ -27,7 +27,10 @@ export const Modal = forwardRef<ModalRef, Props>(({ children }, modalRef) => {
 	);
 
 	return (
-		<dialog ref={dialogRef} className="rounded border-blue-200 border-2 p-2">
+		<dialog
+			ref={dialogRef}
+			className="rounded border-blue-200 border-2 p-2 w-4/5"
+		>
 			<header className="flex justify-end">
 				<button
 					type="button"
