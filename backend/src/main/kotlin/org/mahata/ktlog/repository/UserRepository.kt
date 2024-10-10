@@ -8,7 +8,7 @@ import java.util.UUID
 
 @Repository
 class UserRepository(
-    private val encoder: PasswordEncoder,
+    encoder: PasswordEncoder,
 ) {
     private val users =
         setOf(

@@ -1,9 +1,15 @@
+import { useArticleRepository } from "@/repository/useArticleRepository";
 import { useState } from "react";
 
 export const ArticleForm = () => {
 	const [title, setTitle] = useState("");
 	const [content, setContent] = useState("");
 	const [errorMessage, _] = useState("");
+	const { post } = useArticleRepository();
+
+	const sendArticle = async () => {
+		await post(title, content);
+	};
 
 	return (
 		<form className="flex flex-col gap-2">
@@ -17,7 +23,7 @@ export const ArticleForm = () => {
 				value={title}
 				size={24}
 				maxLength={256}
-				placeholder="Please type your email"
+				placeholder="Please type your article title"
 				onChange={(event) => setTitle(event.currentTarget.value)}
 				aria-required="true"
 				aria-invalid={0 < errorMessage.length}
@@ -39,8 +45,9 @@ export const ArticleForm = () => {
 				<button
 					type="button"
 					className="rounded bg-blue-800 px-1.5 py-1 text-white shadow-2xl hover:bg-blue-700 hover:shadow-xl"
-					onClick={() => {}}
-					aria-label="Post this article"
+					onClick={async () => {
+						await sendArticle();
+					}}
 					disabled={!title || !content}
 				>
 					Post

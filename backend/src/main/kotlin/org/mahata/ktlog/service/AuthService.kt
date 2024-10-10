@@ -60,6 +60,7 @@ class AuthService(
         tokenService.generate(
             userDetails = user,
             expirationDate = getAccessTokenExpiration(),
+            additionalClaims = mapOf("roles" to user.authorities.map { it.authority }),
         )
 
     private fun createRefreshToken(user: UserDetails) =
