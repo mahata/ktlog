@@ -29,6 +29,7 @@ export const ArticleForm = () => {
 				aria-invalid={0 < errorMessage.length}
 				aria-describedby="title-error"
 			/>
+			{/* biome-ignore lint/a11y/noLabelWithoutControl: It's for contentEditable */}
 			<label id="editor-label" className="content-center font-semibold text-lg">
 				Content
 			</label>
