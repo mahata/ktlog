@@ -16,13 +16,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 @EnableWebSecurity
 class SecurityConfig(
+    private val jwtAuthenticationFilter: JwtAuthenticationFilter,
     private val authenticationProvider: AuthenticationProvider,
 ) {
     @Bean
     @Throws(Exception::class)
     fun filterChain(
         http: HttpSecurity,
-        jwtAuthenticationFilter: JwtAuthenticationFilter,
+        // jwtAuthenticationFilter: JwtAuthenticationFilter,
     ): SecurityFilterChain {
         http
             .csrf { it.disable() }

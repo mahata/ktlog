@@ -3,54 +3,53 @@ package org.mahata.ktlog.jwt
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import org.mahata.ktlog.service.CustomUserDetailsService
 import org.mahata.ktlog.service.TokenService
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 
 @Component
 class JwtAuthenticationFilter(
-    private val userDetailsService: CustomUserDetailsService,
     private val tokenService: TokenService,
+    private val userDetailsService: UserDetailsService,
 ) : OncePerRequestFilter() {
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
         filterChain: FilterChain,
     ) {
-        val authHeader: String? = request.getHeader("Authorization")
+        val jwtToken = getJwtFromCookies(request)
 
-        if (authHeader.doesNotContainBearerToken()) {
+        if (jwtToken == null || SecurityContextHolder.getContext().authentication != null) {
             filterChain.doFilter(request, response)
             return
         }
 
-        val jwtToken = authHeader!!.extractTokenValue()
-        val email = tokenService.extractEmail(jwtToken)
+        val username = tokenService.extractEmail(jwtToken)
+        if (username != null && SecurityContextHolder.getContext().authentication == null) {
+            val userDetails = userDetailsService.loadUserByUsername(username)
 
-        if (email != null && SecurityContextHolder.getContext().authentication == null) {
-            val foundUser = userDetailsService.loadUserByUsername(email)
-
-            if (tokenService.isValid(jwtToken, foundUser)) updateContext(foundUser, request)
-
-            filterChain.doFilter(request, response)
+            if (tokenService.isValid(jwtToken, userDetails)) {
+                val authToken =
+                    UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.authorities,
+                    )
+                authToken.details = WebAuthenticationDetailsSource().buildDetails(request)
+                SecurityContextHolder.getContext().authentication = authToken
+            }
         }
+
+        filterChain.doFilter(request, response)
     }
 
-    private fun String?.doesNotContainBearerToken() = this == null || !this.contains("Bearer ")
+    private fun getJwtFromCookies(request: HttpServletRequest): String? {
+        val cookies = request.cookies ?: return null
 
-    private fun String.extractTokenValue() = this.substringAfter("Bearer ")
-
-    private fun updateContext(
-        foundUser: UserDetails,
-        request: HttpServletRequest,
-    ) {
-        val authToken = UsernamePasswordAuthenticationToken(foundUser, null, foundUser.authorities)
-        authToken.details = WebAuthenticationDetailsSource().buildDetails(request)
-        SecurityContextHolder.getContext().authentication = authToken
+        return cookies.firstOrNull { it.name == "accessToken" }?.value
     }
 }
