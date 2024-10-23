@@ -6,6 +6,7 @@ import io.mockk.junit5.MockKExtension
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -20,6 +21,9 @@ import java.util.UUID
 class ArticleServiceImplTest {
     @MockK
     lateinit var stubArticleRepository: ArticleRepository
+
+    @MockK
+    lateinit var stubCacheService: CacheService
 
     @Nested
     @DisplayName("getArticles()")
@@ -38,7 +42,8 @@ class ArticleServiceImplTest {
                     ),
                 )
 
-            val service = ArticleServiceImpl(stubArticleRepository)
+            val service = ArticleServiceImpl(stubArticleRepository, stubCacheService)
+
             val result = service.getArticles()
 
             assertEquals(1, result.size)
@@ -67,7 +72,7 @@ class ArticleServiceImplTest {
                     ),
                 )
 
-            val articleService = ArticleServiceImpl(stubArticleRepository)
+            val articleService = ArticleServiceImpl(stubArticleRepository, stubCacheService)
             val result = articleService.getArticle(uuid)
 
             assertEquals(
@@ -83,7 +88,7 @@ class ArticleServiceImplTest {
                 stubArticleRepository.findById(uuid)
             } returns Optional.empty()
 
-            val service = ArticleServiceImpl(stubArticleRepository)
+            val service = ArticleServiceImpl(stubArticleRepository, stubCacheService)
             val result = service.getArticle(uuid)
 
             assertNull(result)
@@ -93,21 +98,33 @@ class ArticleServiceImplTest {
     @Nested
     @DisplayName("saveArticle(request)")
     inner class SaveArticleRequest {
+        @BeforeEach
+        fun beforeEach() {
+            val articlesRequest = ArticleRequest("my title", "my content")
+
+            every { stubArticleRepository.save(any()) } answers { callOriginal() }
+            every { stubCacheService.invalidateCache(any()) } answers { }
+
+            val service = ArticleServiceImpl(stubArticleRepository, stubCacheService)
+            service.saveArticle(articlesRequest)
+        }
+
         @Test
         fun `saveArticle(request) saves an article`() {
-            val articlesRequest = ArticleRequest("my title", "my content")
-            every { stubArticleRepository.save(any()) } answers { callOriginal() }
-
-            val service = ArticleServiceImpl(stubArticleRepository)
-            service.saveArticle(articlesRequest)
-
-            verify {
+            verify(exactly = 1) {
                 stubArticleRepository.save(
                     withArg {
                         assertEquals("my title", it.title)
                         assertEquals("my content", it.content)
                     },
                 )
+            }
+        }
+
+        @Test
+        fun `saveArticle(request) invalidates getArticles cache`() {
+            verify(exactly = 1) {
+                stubCacheService.invalidateCache("getArticles")
             }
         }
     }

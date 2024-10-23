@@ -24,6 +24,7 @@ interface ArticleService {
 @Service
 class ArticleServiceImpl(
     private val articleRepository: ArticleRepository,
+    private val cacheService: CacheService,
 ) : ArticleService {
     @Cacheable("getArticles")
     override fun getArticles(): List<Article> {
@@ -55,5 +56,7 @@ class ArticleServiceImpl(
                 content = article.content,
             ),
         )
+
+        cacheService.invalidateCache("getArticles")
     }
 }
