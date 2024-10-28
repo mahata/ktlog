@@ -35,7 +35,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:2.0.21")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.0")
     implementation("org.flywaydb:flyway-core:10.20.0")
-    implementation("org.flywaydb:flyway-database-postgresql:10.20.0")
+    implementation("org.flywaydb:flyway-database-postgresql:10.20.1")
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
     implementation("io.jsonwebtoken:jjwt-api:0.12.6")
     implementation("io.jsonwebtoken:jjwt-impl:0.12.6")
