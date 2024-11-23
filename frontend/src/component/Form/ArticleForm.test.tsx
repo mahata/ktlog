@@ -2,6 +2,7 @@ import { ArticleForm } from "@/component/Form/ArticleForm";
 import { _useArticleRepository } from "@/test-helper/__mocks__/useArticleRepository";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { vi } from "vitest";
 
 vi.mock(
 	"@/repository/useArticleRepository",
@@ -16,7 +17,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-	vi.resetAllMocks();
+	vi.clearAllMocks();
 });
 
 it("shows fields and submit button", () => {
