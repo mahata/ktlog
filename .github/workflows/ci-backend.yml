@@ -23,4 +23,4 @@ jobs:
           cache: 'gradle'
 
       - name: Run Spring Boot tests
-        run: make t_backend
+        run: make t_be

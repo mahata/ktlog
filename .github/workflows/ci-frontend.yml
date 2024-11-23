@@ -24,4 +24,4 @@ jobs:
       - name: Test Frontend with Vitest
         run: |
           npm --prefix ./frontend install
-          make t_frontend
+          make t_fe
