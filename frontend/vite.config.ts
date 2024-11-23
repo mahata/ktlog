@@ -19,6 +19,7 @@ export default defineConfig({
 	},
 	server: {
 		open: true,
+		port: 15173,
 		proxy: {
 			"/api": "http://localhost:18080",
 		},

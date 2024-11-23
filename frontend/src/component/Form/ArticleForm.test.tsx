@@ -8,31 +8,50 @@ vi.mock(
 	() => import("@/test-helper/__mocks__/useArticleRepository"),
 );
 
-describe("ArticleForm", () => {
-	it("shows fields and submit button", () => {
-		render(<ArticleForm />);
-
-		expect(screen.getByLabelText("Title")).toBeVisible();
-		expect(screen.getByLabelText("Content")).toBeVisible();
-		expect(screen.getByRole("button", { name: "Post" })).toBeVisible();
+beforeEach(() => {
+	Object.defineProperty(window, "location", {
+		writable: true,
+		value: { reload: vi.fn() },
 	});
+});
 
-	it.skip("make post button active only when title or content is not empty", () => {});
+afterEach(() => {
+	vi.resetAllMocks();
+});
 
-	it("sends an HTTP request when post button is clicked with title and/or content", async () => {
-		render(<ArticleForm />);
+it("shows fields and submit button", () => {
+	render(<ArticleForm />);
 
-		await userEvent.type(screen.getByLabelText("Title"), "my title");
-		await userEvent.type(screen.getByLabelText("Content"), "my content");
-		await userEvent.click(screen.getByRole("button", { name: "Post" }));
+	expect(screen.getByLabelText("Title")).toBeVisible();
+	expect(screen.getByLabelText("Content")).toBeVisible();
+	expect(screen.getByRole("button", { name: "Post" })).toBeVisible();
+});
 
-		expect(_useArticleRepository.postMock).toHaveBeenCalledWith(
-			"my title",
-			"my content",
-		);
-	});
+it.skip("makes post button active only when title or content is not empty", () => {});
 
-	it.skip("shows error message when article API returns error message", () => {
-		render(<ArticleForm />);
-	});
+it("sends an HTTP request when post button is clicked with title and/or content", async () => {
+	render(<ArticleForm />);
+
+	await userEvent.type(screen.getByLabelText("Title"), "my title");
+	await userEvent.type(screen.getByLabelText("Content"), "my content");
+	await userEvent.click(screen.getByRole("button", { name: "Post" }));
+
+	expect(_useArticleRepository.postMock).toHaveBeenCalledWith(
+		"my title",
+		"my content",
+	);
+});
+
+it("refreshes the page after calling POST API with article data", async () => {
+	render(<ArticleForm />);
+
+	await userEvent.type(screen.getByLabelText("Title"), "my title");
+	await userEvent.type(screen.getByLabelText("Content"), "my content");
+	await userEvent.click(screen.getByRole("button", { name: "Post" }));
+
+	expect(window.location.reload).toHaveBeenCalled();
+});
+
+it.skip("shows error message when article API returns error message", () => {
+	render(<ArticleForm />);
 });

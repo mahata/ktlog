@@ -37,7 +37,7 @@ export const useArticleRepository = () => {
 			});
 
 			if (response.ok) {
-				return { success: true, data: await response.json() };
+				return { success: true };
 			}
 
 			return {

@@ -8,7 +8,10 @@ export const ArticleForm = () => {
 	const { post } = useArticleRepository();
 
 	const sendArticle = async () => {
-		await post(title, content);
+		const postResponse = await post(title, content);
+		postResponse.success
+			? window.location.reload()
+			: console.error(postResponse.errorMessage);
 	};
 
 	return (
