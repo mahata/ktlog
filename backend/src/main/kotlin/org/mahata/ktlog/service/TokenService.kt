@@ -1,6 +1,7 @@
 package org.mahata.ktlog.service
 
 import io.jsonwebtoken.Claims
+import io.jsonwebtoken.ExpiredJwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.mahata.ktlog.config.JwtProperties
@@ -41,7 +42,13 @@ class TokenService(
         return userDetails.username == email && !isExpired(token)
     }
 
-    fun extractEmail(token: String): String? = getAllClaims(token).subject
+    fun extractEmail(token: String): String? {
+        return try {
+            getAllClaims(token).subject
+        } catch (exception: ExpiredJwtException) {
+            throw exception
+        }
+    }
 
     fun isExpired(token: String): Boolean =
         getAllClaims(token)
