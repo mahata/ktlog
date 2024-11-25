@@ -50,7 +50,13 @@ class JwtAuthenticationFilter(
             filterChain.doFilter(request, response)
         } catch (ex: ExpiredJwtException) {
             response.status = HttpStatus.UNAUTHORIZED.value()
-            response.writer.write("Expired JWT token")
+            response.contentType = "application/json"
+            response.writer.write(
+                """{
+                    |"success": false,
+                    |"errorMessage": "Expired JWT token"}
+                """.trimMargin(),
+            )
         }
     }
 
