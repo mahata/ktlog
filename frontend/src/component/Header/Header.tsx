@@ -4,6 +4,7 @@ import { LoginForm } from "@/component/Form/LoginForm";
 import { Modal, type ModalRef } from "@/component/Modal/Modal";
 import { useAuthRepository } from "@/repository/useAuthRepository";
 import { useAtom } from "jotai";
+import { PenToolIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
@@ -37,9 +38,10 @@ export default function Header() {
 					{authed ? (
 						<button
 							type="button"
-							className="rounded bg-blue-800 px-1.5 py-1 text-white shadow-2xl hover:bg-blue-700 hover:shadow-xl"
+							className=" rounded bg-blue-800 p-2 text-white shadow-2xl hover:bg-blue-700 hover:shadow-xl flex gap-2"
 							onClick={() => articleModalRef.current?.showModal()}
 						>
+							<PenToolIcon />
 							Post
 						</button>
 					) : (

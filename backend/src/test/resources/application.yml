@@ -18,8 +18,8 @@ spring:
 
 jwt:
   key: 0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
-  access-token-expiration: 360000 # 100 hours
-  refresh-token-expiration: 8640000 # 100 days
+  access-token-expiration: 3600000 # 1000 hours
+  refresh-token-expiration: 86400000 # 1000 days
 
 application:
   cookie:
