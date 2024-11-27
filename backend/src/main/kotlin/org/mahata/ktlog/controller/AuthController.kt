@@ -50,10 +50,17 @@ class AuthController(
     @PostMapping("/refresh")
     fun refreshAccessToken(
         @RequestBody request: RefreshTokenRequest,
-    ): TokenResponse =
-        authService.refreshAccessToken(request.token)
-            ?.mapToTokenResponse()
-            ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid refresh token.")
+        response: HttpServletResponse,
+    ): TokenResponse {
+        val accessToken = authService.refreshAccessToken(request.token)
+
+        accessToken?.let { token ->
+            val accessTokenCookie = createHttpOnlyCookie("accessToken", token, "/", jwtProperties.accessTokenExpiration)
+            response.addHeader("Set-Cookie", accessTokenCookie.toString())
+
+            return token.mapToTokenResponse()
+        } ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "Invalid refresh token.")
+    }
 
     private fun createHttpOnlyCookie(
         name: String,
@@ -83,5 +90,5 @@ class AuthController(
         return AuthStatus(isLoggedIn)
     }
 
-    private fun String.mapToTokenResponse(): TokenResponse = TokenResponse(token = this)
+    private fun String.mapToTokenResponse(): TokenResponse = TokenResponse(accessToken = this)
 }
