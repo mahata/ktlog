@@ -23,6 +23,11 @@ class JwtAuthenticationFilter(
         response: HttpServletResponse,
         filterChain: FilterChain,
     ) {
+        if (!request.requestURI.startsWith("/api/v1/articles") || request.method == "GET") {
+            filterChain.doFilter(request, response)
+            return
+        }
+
         try {
             val jwtToken = getJwtFromCookies(request)
 

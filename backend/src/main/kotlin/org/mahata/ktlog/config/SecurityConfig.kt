@@ -21,10 +21,7 @@ class SecurityConfig(
 ) {
     @Bean
     @Throws(Exception::class)
-    fun filterChain(
-        http: HttpSecurity,
-        // jwtAuthenticationFilter: JwtAuthenticationFilter,
-    ): SecurityFilterChain {
+    fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
             .csrf { it.disable() }
             .authorizeHttpRequests {

@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Post from "./Post";
 import EyeCatch from "./component/EyeCatch/EyeCatch";
-import Header from "./component/Header/Header";
 import Toast from "./component/Toast/Toast";
 import ArticlePage from "./page/ArticlePage/ArticlePage";
 import TopPage from "./page/TopPage/TopPage";
@@ -18,7 +17,6 @@ export default function App() {
 
 	return (
 		<div>
-			<Header />
 			<EyeCatch />
 			<Routes>
 				<Route path="/" element={<TopPage />} />
