@@ -37,11 +37,9 @@ class AuthController(
     ): AuthResponse {
         val authResponse = authService.authentication(authRequest)
 
-        val accessTokenCookie = createHttpOnlyCookie("accessToken", authResponse.accessToken, "/", jwtProperties.accessTokenExpiration)
         val refreshTokenCookie =
             createHttpOnlyCookie("refreshToken", authResponse.refreshToken, "/api/v1/refresh", jwtProperties.refreshTokenExpiration)
 
-        response.addHeader("Set-Cookie", accessTokenCookie.toString())
         response.addHeader("Set-Cookie", refreshTokenCookie.toString())
 
         return authResponse

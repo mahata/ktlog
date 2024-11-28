@@ -1,7 +1,8 @@
+import EyeCatch from "@/component/EyeCatch/EyeCatch";
+import { useArticleRepository } from "@/repository/useArticleRepository";
+import type { Article } from "@/type/Article";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useArticleRepository } from "../../repository/useArticleRepository";
-import type { Article } from "../../type/Article";
 
 export default function ArticlePage() {
 	const [article, setArticle] = useState<Article>();
@@ -19,12 +20,15 @@ export default function ArticlePage() {
 
 	return (
 		article && (
-			<div className="flex flex-col items-center">
-				<div className="w-4/5">
-					<h2 className="my-2 text-4xl font-semibold">{article.title}</h2>
-					<div className="my-2 leading-4">{article.content}</div>
+			<>
+				<EyeCatch />
+				<div className="flex flex-col items-center">
+					<div className="w-4/5">
+						<h2 className="my-2 text-4xl font-semibold">{article.title}</h2>
+						<div className="my-2 leading-4">{article.content}</div>
+					</div>
 				</div>
-			</div>
+			</>
 		)
 	);
 }
