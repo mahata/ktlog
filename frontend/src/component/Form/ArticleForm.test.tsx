@@ -1,58 +1,52 @@
-import { ArticleForm } from "@/component/Form/ArticleForm";
-import { _useArticleRepository } from "@/test-helper/__mocks__/useArticleRepository";
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { vi } from "vitest";
+import { ArticleForm } from "@/component/Form/ArticleForm"
+import { _useArticleRepository } from "@/test-helper/__mocks__/useArticleRepository"
+import { render, screen } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
+import { vi } from "vitest"
 
-vi.mock(
-	"@/repository/useArticleRepository",
-	() => import("@/test-helper/__mocks__/useArticleRepository"),
-);
+vi.mock("@/repository/useArticleRepository", () => import("@/test-helper/__mocks__/useArticleRepository"))
 
 beforeEach(() => {
-	Object.defineProperty(window, "location", {
-		writable: true,
-		value: { reload: vi.fn() },
-	});
-});
+  Object.defineProperty(window, "location", {
+    writable: true,
+    value: { reload: vi.fn() },
+  })
+})
 
 afterEach(() => {
-	vi.clearAllMocks();
-});
+  vi.clearAllMocks()
+})
 
 it("shows fields and submit button", () => {
-	render(<ArticleForm />);
+  render(<ArticleForm />)
 
-	expect(screen.getByLabelText("Title")).toBeVisible();
-	expect(screen.getByLabelText("Content")).toBeVisible();
-	expect(screen.getByRole("button", { name: "Post" })).toBeVisible();
-});
+  expect(screen.getByLabelText("Title")).toBeVisible()
+  expect(screen.getByLabelText("Content")).toBeVisible()
+  expect(screen.getByRole("button", { name: "Post" })).toBeVisible()
+})
 
-it.skip("makes post button active only when title or content is not empty", () => {});
+it.skip("makes post button active only when title or content is not empty", () => {})
 
 it("sends an HTTP request when post button is clicked with title and/or content", async () => {
-	render(<ArticleForm />);
+  render(<ArticleForm />)
 
-	await userEvent.type(screen.getByLabelText("Title"), "my title");
-	await userEvent.type(screen.getByLabelText("Content"), "my content");
-	await userEvent.click(screen.getByRole("button", { name: "Post" }));
+  await userEvent.type(screen.getByLabelText("Title"), "my title")
+  await userEvent.type(screen.getByLabelText("Content"), "my content")
+  await userEvent.click(screen.getByRole("button", { name: "Post" }))
 
-	expect(_useArticleRepository.postMock).toHaveBeenCalledWith(
-		"my title",
-		"my content",
-	);
-});
+  expect(_useArticleRepository.postMock).toHaveBeenCalledWith("my title", "my content")
+})
 
 it("refreshes the page after calling POST API with article data", async () => {
-	render(<ArticleForm />);
+  render(<ArticleForm />)
 
-	await userEvent.type(screen.getByLabelText("Title"), "my title");
-	await userEvent.type(screen.getByLabelText("Content"), "my content");
-	await userEvent.click(screen.getByRole("button", { name: "Post" }));
+  await userEvent.type(screen.getByLabelText("Title"), "my title")
+  await userEvent.type(screen.getByLabelText("Content"), "my content")
+  await userEvent.click(screen.getByRole("button", { name: "Post" }))
 
-	expect(window.location.reload).toHaveBeenCalled();
-});
+  expect(window.location.reload).toHaveBeenCalled()
+})
 
 it.skip("shows error message when article API returns error message", () => {
-	render(<ArticleForm />);
-});
+  render(<ArticleForm />)
+})
