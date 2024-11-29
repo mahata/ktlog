@@ -16,11 +16,21 @@ vi.mock(
 	() => import("@/test-helper/__mocks__/useArticleRepository"),
 );
 
+vi.mock("@/component/EyeCatch/EyeCatch", () => ({
+	default: () => <div data-testid="EyeCatch" />,
+}));
+
 describe("Article", () => {
 	const originalGetMock = _useArticleRepository.getMock;
 
 	afterEach(() => {
 		_useArticleRepository.getMock = originalGetMock;
+	});
+
+	it("shows EyeCatch", async () => {
+		render(<ArticlePage />);
+
+		expect(await screen.findByTestId("EyeCatch")).toBeVisible();
 	});
 
 	it("shows an article", async () => {

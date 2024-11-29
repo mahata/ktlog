@@ -1,4 +1,5 @@
 import { makeArticleFixture } from "@/fixture/makeArticleFixture";
+import ArticlePage from "@/page/ArticlePage/ArticlePage";
 import { _useArticleRepository } from "@/test-helper/__mocks__/useArticleRepository";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -9,11 +10,21 @@ vi.mock(
 	() => import("@/test-helper/__mocks__/useArticleRepository"),
 );
 
+vi.mock("@/component/EyeCatch/EyeCatch", () => ({
+	default: () => <div data-testid="EyeCatch" />,
+}));
+
 describe("TopPage", () => {
 	const originalGetAllMock = _useArticleRepository.getAllMock;
 
 	afterEach(() => {
 		_useArticleRepository.getAllMock = originalGetAllMock;
+	});
+
+	it("shows EyeCatch", async () => {
+		render(<ArticlePage />);
+
+		expect(await screen.findByTestId("EyeCatch")).toBeVisible();
 	});
 
 	it("shows 'TopPage' header", async () => {
