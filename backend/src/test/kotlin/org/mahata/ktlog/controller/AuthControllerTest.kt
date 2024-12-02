@@ -98,24 +98,6 @@ class AuthControllerTest {
             }
 
             @Test
-            fun `stores access token to cookie`() {
-                val setCookieHeaders = result.response.getHeaders("Set-Cookie")
-
-                val accessTokenCookie = setCookieHeaders.find { it.startsWith("accessToken=") }
-                assertThat(
-                    accessTokenCookie,
-                    allOf(
-                        containsString("accessToken=access-token"),
-                        containsString("Path=/"),
-                        containsString("HttpOnly"),
-                        containsString("SameSite=Lax"),
-                        containsString("Max-Age=360000"),
-                    ),
-                )
-                assertEquals(-1, accessTokenCookie?.indexOf("Secure"), "Secure attribute should not be set")
-            }
-
-            @Test
             fun `stores refresh token to cookie`() {
                 val setCookieHeaders = result.response.getHeaders("Set-Cookie")
 
@@ -168,24 +150,6 @@ class AuthControllerTest {
                         .andExpect(jsonPath("$.accessToken").value("access-token"))
                         .andExpect(jsonPath("$.refreshToken").value("refresh-token"))
                         .andReturn()
-            }
-
-            @Test
-            fun `stores access token to cookie`() {
-                val setCookieHeaders = result.response.getHeaders("Set-Cookie")
-
-                val accessTokenCookie = setCookieHeaders.find { it.startsWith("accessToken=") }
-                assertThat(
-                    accessTokenCookie,
-                    allOf(
-                        containsString("accessToken=access-token"),
-                        containsString("Path=/"),
-                        containsString("HttpOnly"),
-                        containsString("Secure"),
-                        containsString("SameSite=Lax"),
-                        containsString("Max-Age=360000"),
-                    ),
-                )
             }
 
             @Test

@@ -14,7 +14,7 @@ export default function LoginPage() {
     if (authResult.success) {
       window.location.href = "/"
     } else {
-      setErrorMessage("Password is wrong")
+      setErrorMessage("Email or Password does not match")
     }
   }
 
@@ -36,7 +36,7 @@ export default function LoginPage() {
         </button>
       </div>
       {errorMessage && (
-        <div id="email-error" role="alert" className="text-red-500">
+        <div role="alert" className="text-red-500">
           {errorMessage}
         </div>
       )}
