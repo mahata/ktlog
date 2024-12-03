@@ -1,8 +1,8 @@
 import { makeArticleFixture } from "@/fixture/makeArticleFixture"
+import { ArticlePage } from "@/page/ArticlePage/ArticlePage"
 import { useArticleRepository } from "@/repository/useArticleRepository"
 import { _useArticleRepository } from "@/test-helper/__mocks__/useArticleRepository"
 import { render, screen } from "@testing-library/react"
-import ArticlePage from "./ArticlePage"
 
 vi.mock("react-router-dom", async () => ({
   ...(await vi.importActual("react-router-dom")),
@@ -10,10 +10,7 @@ vi.mock("react-router-dom", async () => ({
 }))
 
 vi.mock("@/repository/useArticleRepository", () => import("@/test-helper/__mocks__/useArticleRepository"))
-
-vi.mock("@/component/EyeCatch/EyeCatch", () => ({
-  default: () => <div data-testid="EyeCatch" />,
-}))
+vi.mock("@/component/EyeCatch/EyeCatch", () => import("@/test-helper/__mocks__/EyeCatch"))
 
 describe("Article", () => {
   const originalGetMock = _useArticleRepository.getMock

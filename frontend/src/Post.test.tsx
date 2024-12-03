@@ -1,6 +1,6 @@
 import { act, render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import Post from "./Post"
+import { Post } from "./Post"
 
 describe("Post", () => {
   it("shows HTML form to submit a new article", () => {

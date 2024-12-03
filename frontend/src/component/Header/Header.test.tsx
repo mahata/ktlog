@@ -1,10 +1,10 @@
+import { Header } from "@/component/Header/Header"
 import { _jotai } from "@/test-helper/__mocks__/jotai"
 import { _useAuthRepository } from "@/test-helper/__mocks__/useAuthRepository"
 import { createMockAtom } from "@/test-helper/stub"
 import type { ApiResponse } from "@/type/ApiResponse"
 import { render, screen } from "@testing-library/react"
 import { MemoryRouter } from "react-router-dom"
-import Header from "./Header"
 
 vi.mock("jotai", () => import("@/test-helper/__mocks__/jotai"))
 vi.mock("@/repository/useAuthRepository", () => import("@/test-helper/__mocks__/useAuthRepository"))
