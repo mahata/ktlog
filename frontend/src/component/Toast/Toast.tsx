@@ -10,7 +10,7 @@ interface CustomCSSProperties extends React.CSSProperties {
 
 const duration = 6_000
 
-export default function Toast() {
+export const Toast = () => {
   const [toastMessage, setToastMessage] = useAtom(toastMessageAtom)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: toastMessage actually needs to be specified

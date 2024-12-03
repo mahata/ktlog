@@ -1,5 +1,5 @@
-import EmailInput from "@/component/Input/EmailInput/EmailInput"
-import PasswordInput from "@/component/Input/PasswordInput/PasswordInput"
+import { EmailInput } from "@/component/Input/EmailInput/EmailInput"
+import { PasswordInput } from "@/component/Input/PasswordInput/PasswordInput"
 import { useAuthRepository } from "@/repository/useAuthRepository"
 import { useState } from "react"
 

@@ -27,5 +27,3 @@ export const PasswordInput = ({ password, setPassword }: Props) => {
     </>
   )
 }
-
-export default PasswordInput

@@ -29,5 +29,3 @@ export const EmailInput = ({ email, setEmail }: Props) => {
     </>
   )
 }
-
-export default EmailInput

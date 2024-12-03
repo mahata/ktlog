@@ -1,15 +1,12 @@
 import { makeArticleFixture } from "@/fixture/makeArticleFixture"
-import ArticlePage from "@/page/ArticlePage/ArticlePage"
 import { _useArticleRepository } from "@/test-helper/__mocks__/useArticleRepository"
 import { render, screen } from "@testing-library/react"
 import { MemoryRouter } from "react-router-dom"
-import TopPage from "./TopPage"
+import { ArticlePage } from "../ArticlePage/ArticlePage"
+import { TopPage } from "./TopPage"
 
 vi.mock("@/repository/useArticleRepository", () => import("@/test-helper/__mocks__/useArticleRepository"))
-
-vi.mock("@/component/EyeCatch/EyeCatch", () => ({
-  default: () => <div data-testid="EyeCatch" />,
-}))
+vi.mock("@/component/EyeCatch/EyeCatch", () => import("@/test-helper/__mocks__/EyeCatch"))
 
 describe("TopPage", () => {
   const originalGetAllMock = _useArticleRepository.getAllMock

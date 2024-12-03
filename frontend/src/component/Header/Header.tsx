@@ -8,7 +8,7 @@ import { PenToolIcon } from "lucide-react"
 import { useEffect, useRef } from "react"
 import { Link } from "react-router-dom"
 
-export default function Header() {
+export const Header = () => {
   const loginModalRef = useRef<ModalRef>(null)
   const articleModalRef = useRef<ModalRef>(null)
   const [authed, setAuthed] = useAtom(authedAtom)

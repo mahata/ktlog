@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export default function Post() {
+export const Post = () => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [buttonDisabled, setButtonDisabled] = useState(true)

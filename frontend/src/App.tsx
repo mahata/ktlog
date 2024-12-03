@@ -1,11 +1,10 @@
+import { Post } from "@/Post"
+import { Toast } from "@/component/Toast/Toast"
+import { ArticlePage } from "@/page/ArticlePage/ArticlePage"
 import { NewArticlePage } from "@/page/NewArticlePage/NewArticlePage"
 import { Route, Routes } from "react-router-dom"
-import Post from "./Post"
-import Toast from "./component/Toast/Toast"
-import ArticlePage from "./page/ArticlePage/ArticlePage"
-
 import { LoginPage } from "./page/LoginPage/LoginPage"
-import TopPage from "./page/TopPage/TopPage"
+import { TopPage } from "./page/TopPage/TopPage"
 
 export const App = () => {
   if (["ktlog.local", "localhost", "127.0.0.1"].includes(window.location.hostname) && !document.title.startsWith("dev|")) {
