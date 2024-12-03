@@ -1,4 +1,4 @@
-import App from "@/App"
+import { App } from "@/App"
 import { makeArticleFixture } from "@/fixture/makeArticleFixture"
 import { useArticleRepository } from "@/repository/useArticleRepository"
 import { useAuthRepository } from "@/repository/useAuthRepository"
@@ -17,6 +17,7 @@ describe("App", () => {
     vi.mocked(useArticleRepository).mockReturnValue({
       getAll: vi.fn().mockResolvedValueOnce([makeArticleFixture()]),
       get: vi.fn().mockResolvedValueOnce(makeArticleFixture()),
+      post: vi.fn(),
     } satisfies ReturnType<typeof useArticleRepository>)
     vi.mocked(useAuthRepository).mockReturnValue({
       getAuthStatus: vi.fn().mockResolvedValueOnce({ success: true, data: { authed: false } }), // TODO: Put this into helper

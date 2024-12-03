@@ -1,12 +1,17 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
-import App from "./App"
 import "./index.css"
+import { App } from "@/App"
 import { Provider } from "jotai"
 import { BrowserRouter } from "react-router-dom"
 
-// biome-ignore lint/style/noNonNullAssertion: "root" always exists
-ReactDOM.createRoot(document.getElementById("root")!).render(
+const rootElement = document.getElementById("root")
+
+if (!rootElement) {
+  throw new Error("Failed to find the root element.")
+}
+
+ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider>

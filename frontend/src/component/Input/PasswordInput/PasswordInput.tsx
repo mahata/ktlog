@@ -9,7 +9,7 @@ export const PasswordInput = ({ password, setPassword }: Props) => {
   return (
     <>
       <label className="content-center font-semibold text-lg" htmlFor="password">
-        Email
+        Password
       </label>
       <input
         className="rounded p-1 border-blue-400 border-2"

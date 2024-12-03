@@ -3,7 +3,7 @@ import PasswordInput from "@/component/Input/PasswordInput/PasswordInput"
 import { useAuthRepository } from "@/repository/useAuthRepository"
 import { useState } from "react"
 
-export default function LoginPage() {
+export const LoginPage = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
@@ -12,6 +12,7 @@ export default function LoginPage() {
   const sendLoginRequest = async () => {
     const authResult = await auth(email, password)
     if (authResult.success) {
+      localStorage.setItem("accessToken", authResult.data.accessToken)
       window.location.href = "/"
     } else {
       setErrorMessage("Email or Password does not match")
