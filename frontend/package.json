@@ -9,7 +9,7 @@
     "lint": "biome check ./src",
     "lint-fix": "biome check --write ./src --diagnostic-level=error",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run --logHeapUsage"
   },
   "dependencies": {
     "jotai": "^2.10.3",
