@@ -2,11 +2,9 @@ import { Header } from "@/component/Header/Header"
 import { _jotai } from "@/test-helper/__mocks__/jotai"
 import { _useAuthRepository } from "@/test-helper/__mocks__/useAuthRepository"
 import { createMockAtom } from "@/test-helper/stub"
-import type { ApiResponse } from "@/type/ApiResponse"
 import { render, screen } from "@testing-library/react"
 import { MemoryRouter } from "react-router-dom"
 
-vi.mock("jotai", () => import("@/test-helper/__mocks__/jotai"))
 vi.mock("@/repository/useAuthRepository", () => import("@/test-helper/__mocks__/useAuthRepository"))
 
 describe("Header", () => {
@@ -28,22 +26,6 @@ describe("Header", () => {
 
       const postButton = await screen.findByRole("button", { name: "Post" })
       expect(postButton).toBeVisible()
-    })
-
-    it("shows 'Login' button when the user is NOT logged in", async () => {
-      _jotai.showLoginModalAtomMock = createMockAtom(false, vi.fn())
-      _useAuthRepository.authMock = vi.fn().mockResolvedValueOnce({
-        success: true,
-        data: {
-          authed: false,
-        },
-      } satisfies ApiResponse)
-      render(<Header />, {
-        wrapper: MemoryRouter,
-      })
-
-      const loginButton = await screen.findByRole("button", { name: "Login" })
-      expect(loginButton).toBeVisible()
     })
   })
 

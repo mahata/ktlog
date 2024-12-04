@@ -44,3 +44,6 @@ src/main/resources/static/ktlog.webp
 src/main/resources/static/cat.webp
 src/main/resources/static/assets/index-*.js
 src/main/resources/static/assets/index-*.css
+
+### Kotlin ###
+.kotlin/
