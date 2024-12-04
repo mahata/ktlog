@@ -1,7 +1,7 @@
 import { makeArticleFixture } from "@/fixture/makeArticleFixture"
 import { _useArticleRepository } from "@/test-helper/__mocks__/useArticleRepository"
 import { render, screen } from "@testing-library/react"
-import { MemoryRouter } from "react-router-dom"
+import { MemoryRouter } from "react-router"
 import { ArticlePage } from "../ArticlePage/ArticlePage"
 import { TopPage } from "./TopPage"
 

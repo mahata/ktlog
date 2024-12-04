@@ -6,7 +6,7 @@ import { useAuthRepository } from "@/repository/useAuthRepository"
 import { useAtom } from "jotai"
 import { PenToolIcon } from "lucide-react"
 import { useEffect, useRef } from "react"
-import { Link } from "react-router-dom"
+import { Link } from "react-router"
 
 export const Header = () => {
   const loginModalRef = useRef<ModalRef>(null)

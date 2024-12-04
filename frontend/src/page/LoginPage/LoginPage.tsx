@@ -2,18 +2,20 @@ import { EmailInput } from "@/component/Input/EmailInput/EmailInput"
 import { PasswordInput } from "@/component/Input/PasswordInput/PasswordInput"
 import { useAuthRepository } from "@/repository/useAuthRepository"
 import { useState } from "react"
+import { useNavigate } from "react-router"
 
 export const LoginPage = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errorMessage, setErrorMessage] = useState("")
   const { auth } = useAuthRepository()
+  const navigate = useNavigate()
 
   const sendLoginRequest = async () => {
     const authResult = await auth(email, password)
     if (authResult.success) {
       localStorage.setItem("accessToken", authResult.data.accessToken)
-      window.location.href = "/"
+      navigate("/")
     } else {
       setErrorMessage("Email or Password does not match")
     }

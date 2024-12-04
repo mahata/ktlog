@@ -2,7 +2,7 @@ import { EyeCatch } from "@/component/EyeCatch/EyeCatch"
 import { useArticleRepository } from "@/repository/useArticleRepository"
 import type { Article } from "@/type/Article"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useParams } from "react-router"
 
 export const ArticlePage = () => {
   const [article, setArticle] = useState<Article>()

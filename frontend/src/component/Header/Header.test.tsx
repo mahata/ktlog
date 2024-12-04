@@ -3,7 +3,7 @@ import { _jotai } from "@/test-helper/__mocks__/jotai"
 import { _useAuthRepository } from "@/test-helper/__mocks__/useAuthRepository"
 import { createMockAtom } from "@/test-helper/stub"
 import { render, screen } from "@testing-library/react"
-import { MemoryRouter } from "react-router-dom"
+import { MemoryRouter } from "react-router"
 
 vi.mock("@/repository/useAuthRepository", () => import("@/test-helper/__mocks__/useAuthRepository"))
 

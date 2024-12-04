@@ -1,8 +1,15 @@
 import { LoginPage } from "@/page/LoginPage/LoginPage"
 import { _useAuthRepository } from "@/test-helper/__mocks__/useAuthRepository"
 import type { ApiResponse } from "@/type/ApiResponse"
-import { render, screen } from "@testing-library/react"
+import { render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
+import { MemoryRouter } from "react-router"
+
+const navigateSpy = vi.fn()
+vi.mock("react-router", async () => ({
+  ...(await vi.importActual("react-router")),
+  useNavigate: () => navigateSpy,
+}))
 
 vi.mock("@/repository/useAuthRepository", () => import("@/test-helper/__mocks__/useAuthRepository"))
 
@@ -14,7 +21,11 @@ it("shows 'Login' text", () => {
 })
 
 it("saves accessToken to localStorage when login is successful", async () => {
-  render(<LoginPage />)
+  render(
+    <MemoryRouter>
+      <LoginPage />
+    </MemoryRouter>,
+  )
 
   _useAuthRepository.authMock = vi.fn().mockResolvedValueOnce({
     success: true,
@@ -28,6 +39,27 @@ it("saves accessToken to localStorage when login is successful", async () => {
   await userEvent.click(screen.getByRole("button", { name: "Send login request" }))
 
   expect(localStorage.getItem("accessToken")).toBe("token")
+})
+
+it("redirects to '/' when login is successful", async () => {
+  render(
+    <MemoryRouter>
+      <LoginPage />
+    </MemoryRouter>,
+  )
+
+  _useAuthRepository.authMock = vi.fn().mockResolvedValueOnce({
+    success: true,
+    data: {
+      accessToken: "token",
+    },
+  } satisfies ApiResponse)
+
+  await userEvent.type(screen.getByLabelText("Email"), "email")
+  await userEvent.type(screen.getByLabelText("Password"), "password")
+  await userEvent.click(screen.getByRole("button", { name: "Send login request" }))
+
+  await waitFor(() => expect(navigateSpy).toHaveBeenCalledWith("/"))
 })
 
 afterEach(() => {

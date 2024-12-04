@@ -2,7 +2,7 @@ import { Post } from "@/Post"
 import { Toast } from "@/component/Toast/Toast"
 import { ArticlePage } from "@/page/ArticlePage/ArticlePage"
 import { NewArticlePage } from "@/page/NewArticlePage/NewArticlePage"
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes } from "react-router"
 import { LoginPage } from "./page/LoginPage/LoginPage"
 import { TopPage } from "./page/TopPage/TopPage"
 

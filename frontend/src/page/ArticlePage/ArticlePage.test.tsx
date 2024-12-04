@@ -4,8 +4,8 @@ import { useArticleRepository } from "@/repository/useArticleRepository"
 import { _useArticleRepository } from "@/test-helper/__mocks__/useArticleRepository"
 import { render, screen } from "@testing-library/react"
 
-vi.mock("react-router-dom", async () => ({
-  ...(await vi.importActual("react-router-dom")),
+vi.mock("react-router", async () => ({
+  ...(await vi.importActual("react-router")),
   useParams: vi.fn().mockReturnValue({ id: "00000000-0000-0000-0000-000000000000" }),
 }))
 

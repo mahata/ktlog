@@ -4,7 +4,7 @@ import { useArticleRepository } from "@/repository/useArticleRepository"
 import { useAuthRepository } from "@/repository/useAuthRepository"
 import { act, render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import { MemoryRouter } from "react-router-dom"
+import { MemoryRouter } from "react-router"
 
 const originalTitle = document.title
 const originalLocation = window.location

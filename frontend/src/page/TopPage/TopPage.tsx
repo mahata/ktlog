@@ -2,7 +2,7 @@ import { EyeCatch } from "@/component/EyeCatch/EyeCatch"
 import { useArticleRepository } from "@/repository/useArticleRepository"
 import type { Article } from "@/type/Article"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link } from "react-router"
 
 export const TopPage = () => {
   const [articles, setArticles] = useState<Article[]>([])
