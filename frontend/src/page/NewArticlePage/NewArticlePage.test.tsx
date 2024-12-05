@@ -1,6 +1,7 @@
 import { NewArticlePage } from "@/page/NewArticlePage/NewArticlePage"
 import { render } from "@testing-library/react"
 import { MemoryRouter } from "react-router"
+import { vi } from "vitest";
 
 const navigateSpy = vi.fn()
 vi.mock("react-router", async () => ({
@@ -8,7 +9,12 @@ vi.mock("react-router", async () => ({
   useNavigate: () => navigateSpy,
 }))
 
-it.skip("redirects to login page when not logged in", () => {
+afterEach(() => {
+  localStorage.clear()
+  vi.clearAllMocks()
+})
+
+it("redirects to login page when not logged in", () => {
   render(
     <MemoryRouter>
       <NewArticlePage />
@@ -18,6 +24,14 @@ it.skip("redirects to login page when not logged in", () => {
   expect(navigateSpy).toHaveBeenCalledWith("/")
 })
 
-afterEach(() => {
-  localStorage.clear()
+it("shows a form to write an article when logged in", () => {
+  localStorage.setItem("accessToken", "whatever")
+
+  render(
+    <MemoryRouter>
+      <NewArticlePage />
+    </MemoryRouter>,
+  )
+
+  expect(navigateSpy).not.toHaveBeenCalledWith("/")
 })
