@@ -29,6 +29,15 @@ Also, the app requires service domain except localhost so that login cookie work
 127.0.0.1	ktlog.local
 ```
 
+It's recommended to set up a pre-commit hook to ensure code quality. Run the following commands to set up the pre-commit hook:
+
+```shell
+mkdir -p .git/hooks
+echo "make -j 4 pre-commit" > .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
+
 ### Backend Instructions
 
 Execute the following commands to boot up the Spring Boot process.

@@ -1,6 +1,6 @@
 import { useArticleRepository } from "@/repository/useArticleRepository"
 import { useState } from "react"
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router"
 
 export const ArticleForm = () => {
   const [title, setTitle] = useState("")

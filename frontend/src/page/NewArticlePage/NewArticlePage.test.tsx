@@ -1,7 +1,7 @@
 import { NewArticlePage } from "@/page/NewArticlePage/NewArticlePage"
 import { render } from "@testing-library/react"
 import { MemoryRouter } from "react-router"
-import { vi } from "vitest";
+import { vi } from "vitest"
 
 const navigateSpy = vi.fn()
 vi.mock("react-router", async () => ({

@@ -19,3 +19,5 @@ t_all: t_fe t_be
 
 l: l_all
 l_all: l_fe l_be
+
+pre-commit: l_fe l_be t_fe t_be
