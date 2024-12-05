@@ -27,7 +27,7 @@ export const LoginPage = () => {
       <PasswordInput password={password} setPassword={setPassword} />
       <div className="flex justify-end">
         <button
-          type="button"
+          type="submit"
           className="rounded bg-blue-800 px-1.5 py-1 text-white shadow-2xl hover:bg-blue-700 hover:shadow-xl"
           onClick={async () => {
             await sendLoginRequest()
