@@ -1,11 +1,14 @@
+import { useEffect } from "react"
 import { useNavigate } from "react-router"
 
 export const NewArticlePage = () => {
   const navigate = useNavigate()
 
-  if (!localStorage.getItem("accessToken")) {
-    navigate("/")
-  }
+  useEffect(() => {
+    if (!localStorage.getItem("accessToken")) {
+      navigate("/")
+    }
+  }, [navigate])
 
   return (
     <div>
