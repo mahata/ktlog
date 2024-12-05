@@ -1,15 +1,17 @@
 import { useArticleRepository } from "@/repository/useArticleRepository"
 import { useState } from "react"
+import { useNavigate } from "react-router";
 
 export const ArticleForm = () => {
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [errorMessage, _] = useState("")
   const { post } = useArticleRepository()
+  const navigate = useNavigate()
 
   const sendArticle = async () => {
     const postResponse = await post(title, content)
-    postResponse.success ? window.location.reload() : console.error(postResponse.errorMessage)
+    postResponse.success ? navigate(0) : console.error(postResponse.errorMessage)
   }
 
   return (

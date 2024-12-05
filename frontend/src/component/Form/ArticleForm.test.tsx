@@ -6,12 +6,11 @@ import { vi } from "vitest"
 
 vi.mock("@/repository/useArticleRepository", () => import("@/test-helper/__mocks__/useArticleRepository"))
 
-beforeEach(() => {
-  Object.defineProperty(window, "location", {
-    writable: true,
-    value: { reload: vi.fn() },
-  })
-})
+const navigateSpy = vi.fn()
+vi.mock("react-router", async () => ({
+  ...(await vi.importActual("react-router")),
+  useNavigate: () => navigateSpy,
+}))
 
 afterEach(() => {
   vi.clearAllMocks()
@@ -44,7 +43,7 @@ it("refreshes the page after calling POST API with article data", async () => {
   await userEvent.type(screen.getByLabelText("Content"), "my content")
   await userEvent.click(screen.getByRole("button", { name: "Post" }))
 
-  expect(window.location.reload).toHaveBeenCalled()
+  expect(navigateSpy).toHaveBeenCalledWith(0)
 })
 
 it.skip("shows error message when article API returns error message", () => {
